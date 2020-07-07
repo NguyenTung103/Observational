@@ -1,0 +1,19 @@
+﻿@if (ViewBag.Message != null)
+{
+    if (ViewBag.MessageStatus == true)
+    {
+    <div class="alert alert-success">
+        <button class="close" data-dismiss="alert">× </button>
+        <i class="fa fa-check-circle"></i>
+        <strong>@ViewBag.Message!</strong>
+    </div>
+    }
+    else if (ViewBag.MessageStatus == false)
+    {
+    <div class="alert alert-danger">
+        <button class="close" data-dismiss="alert">× </button>
+        <i class="fa fa-times-circle"></i> 
+        <strong>@ViewBag.Message!</strong> 
+    </div>
+    }
+}  

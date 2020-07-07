@@ -1,0 +1,6 @@
+﻿@model IEnumerable<ES_CapDien.Area>
+<option value="0">--Chọn khu vực--</option>
+@foreach (var item in Model)
+{
+    <option value="@item.Id">@item.Name</option>
+}

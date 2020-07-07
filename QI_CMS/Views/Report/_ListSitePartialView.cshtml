@@ -1,0 +1,14 @@
+﻿@model IEnumerable<ES_CapDien.Site>
+<label class="col-sm-4 col-md-4 col-lg-4 col-xs-12 control-label" for="form-field-1">Tên trạm<span class="symbol required"></span></label>
+<div class="col-sm-8 col-md-8 col-lg-8 col-xs-12" style="color:black">
+    <select id="DeviceId" class="form-control search-select" name="DeviceId">
+        <option value="0">---Chọn trạm --</option>
+        @foreach (var item in Model)
+        {
+            <option value="@item.Id">@item.Name</option>
+        }
+    </select>
+</div>
+
+
+

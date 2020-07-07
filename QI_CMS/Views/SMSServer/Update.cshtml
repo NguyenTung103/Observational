@@ -1,0 +1,31 @@
+﻿@model ES_CapDien.Models.RegisterSMSModel
+@{
+    ViewBag.Title = "Cập nhật thông tin đăng ký";
+}
+@section PageScripts{
+    <script>
+        var runSelect2 = function () {
+            $(".search-select").select2({
+                allowClear: true
+            });
+        };
+        runSelect2();        
+    </script>
+}
+<div class="col-md-12">
+    @Html.Partial("~/Views/Shared/_MessagePartial.cshtml")
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i><b>@ViewBag.Title</b>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("Update", "SMSServer", new { page = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"] }, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                @Html.Partial("_SMSServerPartialView")
+            }
+        </div>
+        }
+    </div>
+</div>

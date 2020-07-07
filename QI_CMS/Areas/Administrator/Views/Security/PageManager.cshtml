@@ -1,0 +1,97 @@
+﻿@model Administrator.Library.ViewModels.PageViewModel
+@{
+    ViewBag.Title = "PageManager";
+}
+@using PagedList.Mvc;
+@using PagedList;
+@section PageScripts{
+    <script type="text/javascript">
+        function deletePage(e) {
+            var r = confirm("Bạn chắc chắn xóa trang này?");
+            if (r == true) {
+                var id = "Page_" + e;
+                var button = $("#" + id);
+                button.click();
+            }
+        }
+    </script>
+}
+
+<div class="col-md-12">
+    <div class="page-header">
+        <h1>Page management</h1>
+    </div>
+    @Html.Partial("_MessagePartial")
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i>
+            <strong>List pages </strong>
+            <div class="panel-tools">
+                <a class="btn btn-primary btn-xs" href="@Url.Action("AddPage")" >
+                    <i class="fa fa-plus"></i>
+                    Create 
+                </a>
+                <p class="btn btn-xs btn-link panel-expand1">
+                    <i class="fa fa-resize-full"></i>
+                </p>
+            </div>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("PageManager", "Security",FormMethod.Get))
+            {  
+                <div class="chat-form">
+                    <div class="input-group">
+
+                        <input name="search" value="@Request.Params["search"]" class="form-control input-mask-date" placeholder="Tìm kiếm tiêu đề trang..." type="text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-teal" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+
+                    </div>
+                </div>
+            }
+
+            <table class="table table-striped table-bordered table-hover table-full-width" id="sample_1">
+                <thead>
+                    <tr>
+                        <th>Tiêu đề trang</th>
+                        <th class="hidden-xs">Đường dẫn</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Pages)
+                    {
+                        <tr>
+                            <td>@item.PageTitle</td>
+                            <td class="hidden-xs">@item.Url</td>
+                            <td class="center">
+                                <div>
+                                    <a href="@Url.Action("EditPage", new { editing = item.PageId })" class="btn btn-xs btn-teal tooltips" data-placement="top" data-original-title="Sửa"><i class="fa fa-edit"></i></a>
+                                    <a onclick="deletePage('@item.PageId.ToString().Replace("-","")')" class="btn btn-xs btn-bricky tooltips" data-placement="top" data-original-title="Xóa"><i class="fa fa-times fa fa-white"></i></a>
+                                    <div style="display: none;">
+                                        @using (Html.BeginForm("DeletePage", "Security", new { deleting = item.PageId }))
+                                        {                                            
+                                            @Html.AntiForgeryToken()
+                                            <input id="Page_@item.PageId.ToString().Replace("-","")"  type="submit" value="Delete" />
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-5">
+                    <div id="sample_1_info" class="dataTables_info">Trang @Model.PagingInfo.CurrentPage  trên tổng số @Model.PagingInfo.TotalPages trang</div>
+                </div>
+                <div class="col-md-7">
+                    @Html.PagedListPager((IPagedList)Model.Pages, page => Url.Action("PageManager", new { page , Search = Request.Params["Search"] }) )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

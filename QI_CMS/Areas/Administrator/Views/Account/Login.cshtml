@@ -1,0 +1,69 @@
+﻿@model Administrator.Library.Models.LoginModel
+@using CaptchaMvc.HtmlHelpers;
+@using CaptchaMvc;
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<!-- start: LOGIN BOX -->
+<div class="box-login">
+    <div class="logo" style="font-family: 'Times New Roman'">
+        <img src="~/Style/images/logo-aks.png" width="134" />
+    </div>
+    <h3 style="font-family: Tahoma; text-align:center; font-size: 22px; color:#343434; margin-top:0px;">Đăng nhập với tài khoản của bạn</h3>
+    <p style="text-align:center; margin-bottom:30px;">
+        Yêu cầu bạn nhập đầy đủ thông tin đăng nhập.
+    </p>
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            <span class="input-icon">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Tài khoản", @autofocus = "autofocus" })
+                @Html.ValidationMessageFor(m => m.UserName)
+                <i class="fa fa-user"></i>
+            </span>
+        </div>
+        <div class="form-group form-actions">
+            <span class="input-icon">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control password", @placeholder = "Mật khẩu" })
+                @Html.ValidationMessageFor(m => m.Password)
+                <i class="fa fa-lock"></i>
+            </span>
+        </div>
+        <div class="form-group">
+            @Html.Captcha("Sử dụng mã khác", "Nhập mã xác nhận", 5, "", false)
+        </div>
+        <div class="form-actions">
+            <label for="remember" class="checkbox-inline">
+                @Html.CheckBoxFor(m => m.RememberMe, new { @class = "grey remember" })
+                Ghi nhớ mật khẩu?
+            </label>
+            <a class="quenpass pull-right" href="#">Quên mật khẩu?</a>
+        </div>
+        <div class="sub-log">
+            <button type="submit" class="btn btn-primary clickdangnhap">
+                Đăng nhập <i class="fa fa-arrow-circle-right"></i>
+            </button>
+        </div>
+        <div class="new-account">
+            @if (Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["EnableRegister"]))
+            {
+                <p>
+                    Bạn chưa có tài khoản?
+                    @Html.ActionLink("Đăng ký tài khoản", "Register")
+                </p>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#CaptchaInputText').addClass("form-control");
+        });
+    </script>
+}

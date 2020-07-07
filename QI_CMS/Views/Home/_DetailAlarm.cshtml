@@ -1,0 +1,543 @@
+﻿@model ES_CapDien.MongoDb.Entity.DataAlarm 
+<div class="form-group panel-heading">
+    <b> Thông tin cảnh báo </b>
+</div>
+<div class='panel panel-default'>
+    <div class='panel-body'>
+        <table class="table table-striped table-bordered table-hover table-full-width" id="areas-list">
+            <thead>
+                <tr>
+                    <td class="center">Thông số</td>
+                    <td class="center">Thông tin</td>                                                                                                                                                                                               
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nhiệt độ phòng cao</td>
+                    <td class="hidden-xs">
+                        @if (Model.AMATI.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMATI.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMATI.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMATI.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Độ ẩm cao</td>
+                    <td>
+                        @if (Model.AMIHU.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIHU.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIHU.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIHU.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Có đột nhập</td>
+                    <td>
+                        @if (Model.AMADR.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMADR.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMADR.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMADR.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Có ngập nước</td>
+                    <td>
+                        @if (Model.AMAFL.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMAFL.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMAFL.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMAFL.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Có cháy khói</td>
+                    <td>
+                        @if (Model.AMAFR.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMAFR.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMAFR.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMAFR.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Chập nguồn sensor</td>
+                    <td>
+                        @if (Model.AMIPS.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIPS.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIPS.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIPS.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Điện áp AC thấp</td>
+                    <td>
+                        @if (Model.AMIAL.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAL.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAL.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAL.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Điện áp AC cao</td>
+                    <td>
+                        @if (Model.AMIAH.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAH.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAH.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAH.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tần số không ổn định</td>
+                    <td>
+                        @if (Model.AMIAP.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAP.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAP.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAP.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mất điện AC</td>
+                    <td>
+                        @if (Model.AMIAC.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAC.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAC.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAC.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Chạy máy phát</td>
+                    <td>
+                        @if (Model.AMIGN.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIGN.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIGN.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIGN.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Điều hòa gặp sự cố</td>
+                    <td>
+                        @if (Model.AMIAR.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAR.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAR.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIAR.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Điện áp acquy 1 thấp
+                    </td>
+                    <td>
+                        @if (Model.AMIL1.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger hidden-xs" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIL1.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIL1.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIL1.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Điện áp acquy 1 cao</td>
+                    <td>
+                        @if (Model.AMIH1.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIH1.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIH1.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIH1.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nhiệt độ acquy 1 cao</td>
+                    <td>
+                        @if (Model.AMIT1.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIT1.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIT1.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIT1.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nhiệt độ acquy 2 cao</td>
+                    <td>
+                        @if (Model.AMIT2.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIT2.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIT2.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIT2.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Điện áp acquy 2 thấp</td>
+                    <td>
+                        @if (Model.AMIL2.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIL2.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIL2.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIL2.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Điện áp acquy 2 cao</td>
+                    <td>
+                        @if (Model.AMIH2.Contains("1-1") == true)
+                        {
+                            <span class="btn btn-danger" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIH2.Contains("0-1") == true)
+                        {
+                            <span class="btn btn-info" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIH2.Contains("1-0") == true)
+                        {
+                            <span class="btn btn-yellow" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else if (Model.AMIH2.Contains("0-0") == true)
+                        {
+                            <span class="btn btn-success" style=" width: 100%; height: 27px;"></span>
+                            <br />
+                        }
+                        else
+                        {
+                            <span>Không có dữ liệu</span>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

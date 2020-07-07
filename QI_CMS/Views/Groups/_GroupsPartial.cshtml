@@ -1,0 +1,69 @@
+﻿@using ES_CapDien.Models
+@using ES_CapDien
+@model GroupModel
+<style type="text/css">
+    select option {
+        color: #01054f;
+    }
+
+    select.form-control {
+        color: #01054f;
+    }
+</style>
+<div class="form-group">
+    <div class="col-sm-1"></div>
+    <label class="col-sm-2 control-label" for="form-field-1">Tên nhóm<span class="symbol required"></span></label>
+    <div class="col-sm-8">
+        @Html.TextBoxFor(item => item.Name, new { @class = "form-control", @placeholder = "Nhập tên nhóm" })
+        @Html.ValidationMessageFor(item => item.Name)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-1"></div>
+    <label class="col-sm-2 control-label" for="form-field-1">Liên hệ</label>
+    <div class="col-sm-8">
+        @Html.TextBoxFor(item => item.Contact, new { @class = "form-control", @placeholder = "Khi cần liên hệ với ai" })
+        @Html.ValidationMessageFor(item => item.Contact)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-1"></div>
+    <label class="col-sm-2 control-label" for="form-field-1">Số điện thoại liên hệ</label>
+    <div class="col-sm-8">
+        @Html.TextBoxFor(item => item.Mobile, new { @class = "form-control", @placeholder = "Nhập số điện thoại" })
+        @Html.ValidationMessageFor(item => item.Mobile)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-1"></div>
+    <label class="col-sm-2 control-label" for="form-field-1">Địa chỉ Email</label>
+    <div class="col-sm-8">
+        @Html.TextBoxFor(item => item.Email, new { @class = "form-control", @placeholder = "Nhập địa chỉ Email" })
+        @Html.ValidationMessageFor(item => item.Email)
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+        <div class="form-group">
+            <div class="col-sm-3 control-label" for="form-field-1">
+                <label class="checkbox-inline">
+                    @Html.EditorFor(q => q.IsActive)
+                    Hoạt động
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-8">
+
+</div>
+<div class="col-md-4">
+    <input class="btn btn-primary" type="submit" value="Lưu" id="btnAdd" style="width:100px;" />
+    <a class="btn btn-dark-grey" href="@Url.Action("GroupsManagement",new { page  = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"]})" style="width: 100px;">
+        Thoát
+        <i class="fa fa-arrow-circle-right"></i>
+    </a>
+</div>

@@ -1,0 +1,72 @@
+﻿@using ES_CapDien.Models
+@using ES_CapDien
+@model PointModel
+<style type="text/css">
+    select option {
+        color: #01054f;
+    }
+
+    select.form-control {
+        color: #01054f;
+    }
+</style>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Site name<span class="symbol required"></span></label>
+    <div class="col-sm-9">
+        @Html.TextBoxFor(item => item.SiteName, new { @class = "form-control", @placeholder = "enter site name" })
+        @Html.ValidationMessageFor(item => item.SiteName)
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Address</label>
+    <div class="col-sm-9">
+        @Html.TextBoxFor(item => item.Address, new { @class = "form-control", @placeholder = "enter address" })
+        @Html.ValidationMessageFor(item => item.Address)
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Communication type</label>
+    <div class="col-sm-9">
+        @Html.TextBoxFor(item => item.CommunicationType, new { @class = "form-control", @placeholder = "enter communication type" })
+        @Html.ValidationMessageFor(item => item.CommunicationType)
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Phone number</label>
+    <div class="col-sm-9">
+        @Html.TextBoxFor(item => item.PhoneNumber, new { @class = "form-control", @placeholder = "enter phone number" })
+        @Html.ValidationMessageFor(item => item.PhoneNumber)
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Liên hệ</label>
+    <div class="col-sm-9">
+        @Html.TextBoxFor(item => item.Contact, new { @class = "form-control", @placeholder = "enter contact" })
+        @Html.ValidationMessageFor(item => item.Contact)
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+
+    </div>
+    <div class="col-sm-10">
+        <div class="form-group">
+            <div class="col-sm-3 control-label" for="form-field-1">
+                <label class="checkbox-inline">
+                    @Html.EditorFor(q => q.Display)
+                    Display
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-8">
+
+</div>
+<div class="col-md-4">
+    <input class="btn btn-primary" type="submit" value="Lưu" id="btnAdd" style="width:100px;" />
+    <a class="btn btn-dark-grey" href="@Url.Action("Management",new { page  = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"]})" style="width: 100px;">
+        Exit
+        <i class="fa fa-arrow-circle-right"></i>
+    </a>
+</div>

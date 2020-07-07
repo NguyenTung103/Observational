@@ -1,0 +1,58 @@
+﻿@model Administrator.Library.Models.PageModel
+
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Tiêu đề trang <span class="symbol required"></span></label>
+    <div class="col-sm-9">
+        @Html.TextBoxFor(item => item.PageTitle, new { @class = "form-control", @id = "txtPageTitle", @placeholder = "Tiêu đề trang", @autofocus = "autofocus" })
+        @Html.ValidationMessageFor(item => item.PageTitle)
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Đường dẫn <span class="symbol required"></span></label>
+    <div class="col-sm-9">
+        @Html.TextBoxFor(item => item.Url, new { @class = "form-control", @id = "txtUrl", @placeholder = "Đường dẫn" })
+        @Html.ValidationMessageFor(item => item.Url)
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Quyền </label>
+    <div class="col-sm-9">
+        <select multiple="multiple" id="drlRoleId" name="RoleId" class="form-control search-select">
+            @foreach (var item in @ViewBag.listRole)
+            {
+                if (Model != null)
+                {
+                    if (Model.RoleId != null && Model.RoleId.Contains(item.RoleId))
+                    {
+                <option value="@item.RoleId"  selected="selected">@item.RoleName</option>
+                    }
+                    else
+                    {
+                <option value="@item.RoleId" >@item.RoleName</option>
+                    }
+                }
+                else
+                {
+                <option value="@item.RoleId">@item.RoleName</option>
+                }
+            }
+        </select>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <hr>
+    </div>
+    <div class="col-md-8">
+    </div>
+    <div class="col-md-4">
+        <input class="btn btn-primary" type="submit" value="Lưu" id="btnAdd" style="width: 100px;" />
+        <a class="btn btn-dark-grey" href="@Url.Action("PageManager")" style="width: 100px;">Thoát
+                            <i class="fa fa-arrow-circle-right"></i>
+        </a>
+    </div>
+</div>

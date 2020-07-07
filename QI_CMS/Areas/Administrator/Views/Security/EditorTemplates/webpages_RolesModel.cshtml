@@ -1,0 +1,9 @@
+﻿@model Administrator.Library.Models.webpages_RolesModel
+<tr>
+    <td>@Html.HiddenFor(item => item.RoleId)@Html.DisplayFor(item => item.RoleName)</td>
+    <td>@Html.DisplayFor(item => item.Description)</td>
+    <td class="center">
+        <div class="checkbox-table">
+            <label>@Html.CheckBoxFor(item => item.IsChecked, new { @class = "flat-grey" })</label></div>
+    </td>
+</tr>

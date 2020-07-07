@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://10.9.0.41/ServiceTienIch/Service_TienIch.asmx?wsdl" docRef="http://10.9.0.41/ServiceTienIch/Service_TienIch.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://10.9.0.41/ServiceTienIch/Service_TienIch.asmx" xmlns:q1="http://tempuri.org/" binding="q1:Service_TienIchSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://10.9.0.41/ServiceTienIch/Service_TienIch.asmx" xmlns:q2="http://tempuri.org/" binding="q2:Service_TienIchSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

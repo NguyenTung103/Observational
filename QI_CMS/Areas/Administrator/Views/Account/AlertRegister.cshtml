@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "AlertRegister";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<div class="box-login">
+    @Html.Partial("_MessagePartial")
+    @*<strong>Lưu ý rằng bạn cần phải nhập vào một địa chỉ email đã tồn tại để có thể kích hoạt tài khoản</strong>*@
+    <div class="form-actions">
+        <a class="btn btn-light-grey go-back" href="@Url.Action("Index", "Home")">
+            <i class="fa fa-circle-arrow-left"></i>Về trang chủ
+        </a>
+        <a type="submit" class="btn btn-bricky pull-right" href="@Url.Action("Login")">
+            Đăng Nhập <i class="fa fa-arrow-circle-right"></i>
+        </a>
+    </div>
+</div>
+

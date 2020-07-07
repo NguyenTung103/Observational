@@ -1,0 +1,18 @@
+﻿@model IEnumerable<ES_CapDien.Models.SiteModel>
+<div class="row">
+    <div class="col-md-2">Địa điểm:</div>
+    <div class="col-md-10">
+        <select id="listAddsSite" class="form-control search-select" name="addsSite">
+            @if (Model != null)
+            {
+                <option value="0" selected="selected">--Chọn địa điểm--</option>
+                foreach (var item in Model)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            }
+        </select>
+    </div>
+</div>
+
+

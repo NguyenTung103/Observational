@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="46cea8c4dfb4437c8cacf27d1e9fbb6a" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="ObservationModel.C__MigrationHistory" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ObservationModel.Administrator_Menu" Width="1.5" PointX="5.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ObservationModel.Administrator_Notifications" Width="1.5" PointX="3" PointY="5.25" />
+        <EntityTypeShape EntityType="ObservationModel.Administrator_Pages" Width="1.5" PointX="1.5" PointY="10" />
+        <EntityTypeShape EntityType="ObservationModel.Administrator_RoleGroups" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ObservationModel.Alarm" Width="1.5" PointX="7.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ObservationModel.Area" Width="1.5" PointX="5.75" PointY="7.75" />
+        <EntityTypeShape EntityType="ObservationModel.Command" Width="1.5" PointX="7.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ObservationModel.Data" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ObservationModel.DataAlarm" Width="1.5" PointX="9.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ObservationModel.Device" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ObservationModel.Group" Width="1.5" PointX="3.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ObservationModel.Observation" Width="1.5" PointX="11.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ObservationModel.RegisterSMS" Width="1.5" PointX="5.75" PointY="11.75" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyApSuat" Width="1.5" PointX="11.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyDoAm" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyHuongGio" Width="1.5" PointX="13.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyLuongMua" Width="1.5" PointX="13.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyMucNuoc" Width="1.5" PointX="15.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyNhietDo" Width="1.5" PointX="2.75" PointY="15.75" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyTocDoGio" Width="1.5" PointX="4.75" PointY="15.75" />
+        <EntityTypeShape EntityType="ObservationModel.ReportType" Width="1.5" PointX="6.75" PointY="15.75" />
+        <EntityTypeShape EntityType="ObservationModel.Site" Width="1.5" PointX="8.75" PointY="15.75" />
+        <EntityTypeShape EntityType="ObservationModel.SiteAdminLog" Width="1.5" PointX="15.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ObservationModel.SmsServer" Width="1.5" PointX="15.75" PointY="13.75" />
+        <EntityTypeShape EntityType="ObservationModel.UserProfile" Width="1.5" PointX="0.75" PointY="2.125" />
+        <EntityTypeShape EntityType="ObservationModel.UserWebsite_Category" Width="1.5" PointX="15.75" PointY="16.75" />
+        <EntityTypeShape EntityType="ObservationModel.webpages_Membership" Width="1.5" PointX="17.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ObservationModel.webpages_OAuthMembership" Width="2.5" PointX="17.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ObservationModel.webpages_Roles" Width="1.5" PointX="0.75" PointY="6.875" />
+        <EntityTypeShape EntityType="ObservationModel.webpages_UsersInRoles" Width="1.5" PointX="3" PointY="1.875" />
+        <EntityTypeShape EntityType="ObservationModel.WT_SystemRules" Width="1.5" PointX="17.75" PointY="7.75" />
+        <AssociationConnector Association="ObservationModel.FK_dbo_Administrator_Notifications_dbo_UserProfile_UserId" />
+        <AssociationConnector Association="ObservationModel.fk_UserId" />
+        <AssociationConnector Association="ObservationModel.fk_RoleId" />
+        <AssociationConnector Association="ObservationModel.Administrator_PageInRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

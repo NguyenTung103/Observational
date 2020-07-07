@@ -1,0 +1,20 @@
+﻿@using ES_CapDien
+@using ES_CapDien.Helpers
+@using ES_CapDien.Models
+@model SitesViewModel
+@RenderCategorySelectItem(Model.SiteTree, 0, Model.CurrentCode)
+@helper RenderCategorySelectItem(IEnumerable<TreeItem<Site>> donVis, int deep = 0, string currentCode = "")
+{
+    foreach (var donVi in donVis)
+    {
+        if (currentCode == donVi.Item.Code)
+        {
+            <option value="@donVi.Item.Code" selected="selected">@Html.Raw(new string('-', deep) + " " + donVi.Item.Name)</option>
+        }
+        else
+        {
+            <option value="@donVi.Item.Code">@Html.Raw(new string('-', deep) + " " + donVi.Item.Name)</option>
+        }
+        @RenderCategorySelectItem(donVi.Children, deep + 5, Model.CurrentCode)
+    }
+}

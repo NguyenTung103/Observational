@@ -1,0 +1,45 @@
+﻿@model ES_CapDien.Models.RegisterSMSModel
+@{
+    ViewBag.Title = "Thêm mới đăng ký SMS";
+}
+@section PageScripts{
+    <script>
+        var runSelect2 = function () {
+            $(".search-select").select2({
+                allowClear: true
+            });
+        };
+        runSelect2();       
+        function LoadArea(groupId) {
+            var groupID = groupId.value;            
+             $.ajax({
+                    type: "GET",
+                    url: '/Sites/GetAreasByGroupId',
+                    data: { idGroup: groupID },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (resuilt) {                       
+                        $("#listAddsPosstions").html(resuilt);                      
+                    },
+                    error: function () {
+                    }
+                });
+        }
+    </script>    
+}
+<div class="col-md-12">
+    @Html.Partial("~/Views/Shared/_MessagePartial.cshtml")
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i><b>@ViewBag.Title</b>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("Create", "SMSServer", new { page = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"] }, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                @Html.Partial("_SMSServerPartialView")
+            }
+        </div>        
+    </div>
+</div>

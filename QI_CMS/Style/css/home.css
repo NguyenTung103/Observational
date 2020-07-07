@@ -1,0 +1,91 @@
+body{
+	position: relative;
+
+}
+header{
+	position: relative;
+}
+.header-1{
+
+}
+.header-1 img.img-header-1{
+	float: left;
+    position: absolute;
+    top: 12px;
+}
+.header-1 p.text-header-1{
+   position: absolute;
+    top: 32px;
+    left: 264px;
+    text-transform: uppercase;
+}
+.header-1 p.text-header-1 span.text-header-2{
+    font-size: 16px;
+}
+.header-1 p.text-header-1 span.text-header-3{
+	    font-size: 24px;
+    font-weight: 600;
+
+}
+.form-header-1{
+   background: #1f3a93;
+    height: 41px;
+    width: 147px;
+    border: 1px solid #1f3a93;
+    color: white;
+    position: absolute;
+    right: 0px;
+    top: 24px;
+    border-radius: 4px;
+       padding: 8px 0 0 14px;
+}
+.form-header-1 img.img-header-2{
+   border-radius: 5px;
+    padding: 0 0 0 6px;
+}
+nav{
+	background-color: #1f3a93;
+	height: 40px;
+}
+.navbar{
+	min-height: 41px;
+	background: none;
+}
+.navbar-default{
+	border-color: none;
+}
+
+.collapse ul li a.has-submenu-1{
+   padding: 0;
+}
+.collapse ul li a.has-submenu-2{
+   padding: 10px 20px 10px 20px;
+   color: white;
+}
+
+
+.divider{
+  
+}
+
+
+.collapse ul li a.has-submenu-3{
+padding: 0;
+}
+
+
+.content{
+  position: relative;
+    margin: 0 162px 0 383px;
+}
+
+.content-1{
+ border: 2px solid;
+    width: 808px;
+}
+
+
+.content-2{
+   border: 2px solid;
+   
+}

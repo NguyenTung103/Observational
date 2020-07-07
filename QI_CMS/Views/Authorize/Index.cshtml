@@ -1,0 +1,148 @@
+﻿@model List<Administrator.Library.Models.webpages_RolesModel>
+@{
+    ViewBag.Title = "Phân quyền";
+}
+@section PageScripts{
+    <script type="text/javascript">
+        function DeleteSelect(userId) {           
+            var selectedIds = new Array();
+              $('#cates-list input[type="checkbox"]:checked').each(function () {
+                selectedIds.push($(this).attr('value'));
+            });
+            var notSelectedIds = new Array();
+            $('#cates-list input[type=checkbox]:not(:checked)').each(function () {
+                notSelectedIds.push($(this).attr('value'));
+            });           
+            if (selectedIds.length > 0) {
+                swal({
+                    title: 'Bạn muốn thêm các quyền cho tài khoản này ?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đồng ý',
+                    cancelButtonText: 'Hủy bỏ',
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@Html.Raw(Url.Action("AddRoles"))",
+                            data: { idselects: selectedIds, userId: userId, idNotSelect: notSelectedIds },
+                            complete: function (data) {
+                                var url = window.location.origin + '/Accounts/Management';                   
+                                $(location).prop('href', url);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                console.log(thrownError);
+                            },
+                            traditional: true
+                        });
+                    }
+                })
+            }
+            else {
+                swal({
+                    title: 'Bạn muốn thêm các quyền cho tài khoản này ?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đồng ý',
+                    cancelButtonText: 'Hủy bỏ',
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@Html.Raw(Url.Action("EditRoles"))",
+                            data: { ids: notSelectedIds, userId: userId },
+                            complete: function (data) {
+                               var url = window.location.origin + '/Accounts/Management';   
+                                $(location).prop('href', url);
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                console.log(thrownError);
+                            },
+                            traditional: true
+                        });
+                    }
+                })
+            }
+              
+        };
+    </script>
+}
+@using (Html.BeginForm("Index", "Authorize", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>Quản trị người dùng</h1>
+        </div>
+        @Html.Partial("_MessagePartial")
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-external-link-square"></i>
+                <strong>Danh sách quyền </strong>
+                <div class="panel-tools">
+                    <p class="btn btn-xs btn-link panel-expand1">
+                        <i class="fa fa-resize-full"></i>
+                    </p>
+                </div>
+            </div>
+            <div class="panel-body">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                @*@Html.Hidden("UserId", (int)ViewBag.editing)*@
+                <table class="table table-striped table-bordered table-hover table-full-width" id="cates-list" >
+                    <thead>
+                        <tr>
+                            <th>Tên quyền</th>
+                            <th class="hidden-xs">Mô tả</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.RoleName</td>
+                                <td class="hidden-xs">@item.Description</td>
+                                <td class="center">
+                                    <div>
+                                        @{
+                                            if (((IList<int>)ViewBag.IsCheck).Contains(item.RoleId))
+                                            {
+                                                <label>
+                                                    <input type="checkbox" value='@item.RoleId' checked="checked" class="flat-grey checkboxGroups">
+                                                </label>
+                                            }
+                                            else
+                                            {
+                                                <label>
+                                                    <input type="checkbox" value='@item.RoleId' class="flat-grey checkboxGroups">
+                                                </label>
+                                            }
+
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4">
+            <input class="btn btn-primary" type="button" value="Lưu" id="btnAdd" style="width: 100px;" onclick="DeleteSelect(@ViewBag.editing)" />
+            <a class="btn btn-dark-grey" href="~/Accounts/Management" style="width: 100px;">
+                Thoát
+                <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+}

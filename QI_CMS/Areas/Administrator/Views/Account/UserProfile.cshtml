@@ -1,0 +1,90 @@
+﻿@model Administrator.Library.Models.UserPorfileModel
+@{
+    ViewBag.Title = "UserProfile";
+}
+
+<div class="col-md-12">
+    <div class="page-header">
+        <h1>Hồ sơ cá nhân</h1>
+    </div>
+    @Html.Partial("_MessagePartial")
+    <div class="panel panel-default">
+        <div class="tabbable">
+            <div class="panel-heading">
+                <i class="fa fa-external-link-square"></i>
+                <strong>Lưu thông tin tài khoản</strong>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("UserProfile", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Họ tên				
+                                </label>
+                                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @placeholder = "Họ tên" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Địa chỉ	
+                                </label>
+                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Địa chỉ" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Số điện thoại				
+                                </label>
+                                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Số điện thoại" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Email Address				
+                                </label>
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "es@example.com" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                    SkypeID		
+                                </label>
+                                @Html.TextBoxFor(m => m.SkypeID, new { @class = "form-control", @placeholder = "SkypeID" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Giới tính
+													
+                                </label>
+                                <div>
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(item => item.GenderId, 1, new { @class = "grey", @checked = "checked" })
+                                        Nam
+                                    </label>
+                                    <label class="radio-inline">
+                                        @Html.RadioButtonFor(item => item.GenderId, 0, new { @class = "grey" })
+                                        Nữ
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                        <div class="col-md-8">
+                        </div>
+                        <div class="col-md-4">
+                            <input class="btn btn-primary" type="submit" value="Lưu" id="btnAdd" style="width: 100px;" />
+                            <a class="btn btn-dark-grey" href="/Home/Index" style="width: 100px;">Thoát
+                            <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

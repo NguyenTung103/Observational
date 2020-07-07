@@ -1,0 +1,19 @@
+﻿@model Administrator.Library.Models.LocalPasswordModel
+@{
+    ViewBag.Title = "Manage Account";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@if (ViewBag.HasLocalPassword)
+{
+    @Html.Partial("_ChangePasswordPartial")
+}
+@*
+else
+{ 
+    @Html.Partial("_SetPasswordPartial")
+}
+*@
+
+

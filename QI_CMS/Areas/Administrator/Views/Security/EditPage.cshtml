@@ -1,0 +1,35 @@
+﻿@model Administrator.Library.Models.PageModel
+@{
+    ViewBag.Title = "EditPage";
+}
+@section PageScripts{
+    <script type="text/javascript">
+        var runSelect2 = function () {
+            $(".search-select").select2({
+                placeholder: "Chọn quyền",
+                allowClear: true
+            });
+        };
+        runSelect2();
+    </script>
+}
+<div class="col-md-12">
+    <div class="page-header">
+        <h1>Quản trị trang</h1>
+    </div>
+    @Html.Partial("_MessagePartial")
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i><b>Lưu trang</b>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("EditPage", "Security", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                @Html.Partial("_PagePartial")
+                @Html.HiddenFor(item => item.PageId)
+            }
+        </div>
+    </div>
+</div>

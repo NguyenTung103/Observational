@@ -1,0 +1,670 @@
+﻿@model ES_CapDien.Models.HomeModel
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+@section PageScripts{
+    <script>
+        var runSelect2 = function () {
+            $(".search-select").select2({
+                allowClear: true
+            });
+        };
+
+        $(document).ready(function () {
+            var myVar;
+            $("#ViewBieuDo").click(function () {
+                $(".main-container").css("opacity", "0.4");
+                var take = document.getElementById("takeNumber").value;
+                var setTime = document.getElementById("setTimeNumber").value;
+                DataBieuDo(take);
+                myVar=setInterval(function () {
+                    DataBieuDo(take) // this will run after every 5 seconds
+                }, setTime*1000);
+            })
+            $(".close").click(function () {
+                $(".main-container").css("opacity", "");
+	            clearInterval(myVar);
+            });
+            $("#addsArea").change(function () {
+                var key = document.getElementById("addsArea").value;
+                $.ajax({
+                    type: "GET",
+                    url: '/Home/GetSite',
+                    data: { idArea: key },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (resuilt) {
+                        $("#getListSite").css("display", "block")
+                        $("#listAddsSite").html(resuilt);                       
+                    },
+                    error: function () {
+                    }
+                });
+
+            });
+            $("#listAddsSite").change(function () {                
+                var siteID = document.getElementById("listAddsSite").value;
+                $.ajax({
+                    type: "GET",
+                    url: '/Home/GetInfoSite',
+                    data: { siteId: siteID },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (resuilt) {
+                        var json = JSON.parse(resuilt);                        
+                        $("#clickInfoBieuDo").css("display", "block");                                               
+                        var map;
+                        /* Set các thuộc tính của map bao gồm tọa độ và view trung tâm bản đồ */
+                        map = new google.maps.Map(document.getElementById('map'));
+                        map.setZoom(12);      // This will trigger a zoom_changed on the map
+                        map.setCenter(new google.maps.LatLng(json.listData.Latitude, json.listData.Longtitude));
+                        map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+                        var image = '/Images/place_green.png';
+                        var marker = new google.maps.Marker({
+                            position: { lat: parseFloat(json.listData.Latitude), lng: parseFloat(json.listData.Longtitude) },
+                            map: map,
+                            map: map,
+                            draggable: true,
+                            icon: image,
+                            id: json.listData.Device_Id,
+                            title: json.listData.Address,
+                        });
+                        var contentString = '<div><strong>' + json.listData.Name + '</strong><p style="margin:6px 0">Địa chỉ: ' + json.listData.Address + '</p><button onclick="GetDataTable(' + json.listData.DeviceId + ')" class="btn-detail btn btn-xs btn-primary">Xem chi tiết</button></div>';                        
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+                        google.maps.event.addListener(marker, 'click', function () {
+                            infowindow.open(map, marker);
+                        });
+                    },
+                    error: function () {
+                    }
+                });
+                $.ajax({
+                    type: "GET",
+                    url: '/Home/GetDataAlarm',
+                    data: { siteId: siteID },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (resuilt) {
+                        $("#canhBaoDiaDiem").css("display", "block")
+                        $("#canhBaoDiaDiem").html(resuilt);
+                    },
+                    error: function () {
+                    }
+                });
+            });
+        });
+        runSelect2();
+        var dateFormat = function () {
+            var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+                timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+                timezoneClip = /[^-+\dA-Z]/g,
+                pad = function (val, len) {
+                    val = String(val);
+                    len = len || 2;
+                    while (val.length < len) val = "0" + val;
+                    return val;
+                };
+
+            // Regexes and supporting functions are cached through closure
+            return function (date, mask, utc) {
+                var dF = dateFormat;
+
+                // You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+                if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+                    mask = date;
+                    date = undefined;
+                }
+
+                // Passing date through Date applies Date.parse, if necessary
+                date = date ? new Date(date) : new Date;
+                if (isNaN(date)) throw SyntaxError("invalid date");
+
+                mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+                // Allow setting the utc argument via the mask
+                if (mask.slice(0, 4) == "UTC:") {
+                    mask = mask.slice(4);
+                    utc = true;
+                }
+
+                var _ = utc ? "getUTC" : "get",
+                    d = date[_ + "Date"](),
+                    D = date[_ + "Day"](),
+                    m = date[_ + "Month"](),
+                    y = date[_ + "FullYear"](),
+                    H = date[_ + "Hours"](),
+                    M = date[_ + "Minutes"](),
+                    s = date[_ + "Seconds"](),
+                    L = date[_ + "Milliseconds"](),
+                    o = utc ? 0 : date.getTimezoneOffset(),
+                    flags = {
+                        d: d,
+                        dd: pad(d),
+                        ddd: dF.i18n.dayNames[D],
+                        dddd: dF.i18n.dayNames[D + 7],
+                        m: m + 1,
+                        mm: pad(m + 1),
+                        mmm: dF.i18n.monthNames[m],
+                        mmmm: dF.i18n.monthNames[m + 12],
+                        yy: String(y).slice(2),
+                        yyyy: y,
+                        h: H % 12 || 12,
+                        hh: pad(H % 12 || 12),
+                        H: H,
+                        HH: pad(H),
+                        M: M,
+                        MM: pad(M),
+                        s: s,
+                        ss: pad(s),
+                        l: pad(L, 3),
+                        L: pad(L > 99 ? Math.round(L / 10) : L),
+                        t: H < 12 ? "a" : "p",
+                        tt: H < 12 ? "am" : "pm",
+                        T: H < 12 ? "A" : "P",
+                        TT: H < 12 ? "AM" : "PM",
+                        Z: utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+                        o: (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+                        S: ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+                    };
+
+                return mask.replace(token, function ($0) {
+                    return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+                });
+            };
+        }();
+
+        // Some common format strings
+        dateFormat.masks = {
+            "default": "ddd mmm dd yyyy HH:MM:ss",
+            shortDate: "m/d/yy",
+            mediumDate: "mmm d, yyyy",
+            longDate: "mmmm d, yyyy",
+            fullDate: "dddd, mmmm d, yyyy",
+            shortTime: "h:MM TT",
+            mediumTime: "h:MM:ss TT",
+            longTime: "h:MM:ss TT Z",
+            isoDate: "yyyy-mm-dd",
+            isoTime: "HH:MM:ss",
+            isoDateTime: "yyyy-mm-dd'T'HH:MM:ss",
+            isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+        };
+
+        // Internationalization strings
+        dateFormat.i18n = {
+            dayNames: [
+                "Chủ nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7",
+                "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+            ],
+            monthNames: [
+                "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 6", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12",
+                "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+            ]
+        };
+
+        // For convenience...
+        Date.prototype.format = function (mask, utc) {
+            return dateFormat(this, mask, utc);
+        };
+        function DataBieuDo(take) {
+            var e = document.getElementById("listAddsSite");
+            var nameSite = e.options[e.selectedIndex].text;
+            var key = document.getElementById("listAddsSite").value;
+            $.ajax({
+                type: "GET",
+                url: '/Home/GetDataObservationBieuDo',
+                data: { siteId: key, take: take },
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (resuilt) {
+                    var jsonData = JSON.parse(resuilt);
+                    var category = [], bti = [], bhu = [], bto = [], bdr = [], bfl = [], bfr = [], bps = [], bav = [], bap = [], bac = [], baf = [], bv1 = [],
+                        bc1 = [], bt1 = [], bv2 = [], bc2 = [], bt2 = [], bse = [], ba1 = [], bb1 = [], ba2 = [], bb2 = [], ba3 = [], bb3 = [], ba4 = [], bb4 = [], bfa = [], bfd = [], bpw = [], bws = [];
+                    var k = "";
+                    for (var k in jsonData.listData) {
+                        var date = jsonData.listData[k].DateCreate;
+                        var nowDate = new Date(parseInt(date.substr(6)));
+                        var result = "";
+                        result += nowDate.format("dd mm yyyy HH:MM:ss");                        
+                        category.push(result);
+                        bti.push(parseFloat(jsonData.listData[k].BTI));
+                        bhu.push(parseFloat(jsonData.listData[k].BHU));
+                        bto.push(parseFloat(jsonData.listData[k].BTO));
+                        bdr.push(parseFloat(jsonData.listData[k].BDR));
+                        bfl.push(parseFloat(jsonData.listData[k].BFL));
+                        bfr.push(parseFloat(jsonData.listData[k].BFR));
+                        bps.push(parseFloat(jsonData.listData[k].BPS));
+                        bav.push(parseFloat(jsonData.listData[k].BAV));
+                        bap.push(parseFloat(jsonData.listData[k].BAP));
+                        bac.push(parseFloat(jsonData.listData[k].BAC));
+                        baf.push(parseFloat(jsonData.listData[k].BAF));
+                        bv1.push(parseFloat(jsonData.listData[k].BV1));
+                        bc1.push(parseFloat(jsonData.listData[k].BC1));
+                        bt1.push(parseFloat(jsonData.listData[k].BT1));
+                        bv2.push(parseFloat(jsonData.listData[k].BV2));
+                        bc2.push(parseFloat(jsonData.listData[k].BC2));
+                        bt2.push(parseFloat(jsonData.listData[k].BT2));
+                        bse.push(parseFloat(jsonData.listData[k].BSE));
+                        ba1.push(parseFloat(jsonData.listData[k].BA1));
+                        bb1.push(parseFloat(jsonData.listData[k].BB1));
+                        ba2.push(parseFloat(jsonData.listData[k].BA2));
+                        bb2.push(parseFloat(jsonData.listData[k].BB2));
+                        ba3.push(parseFloat(jsonData.listData[k].BA3));
+                        bb3.push(parseFloat(jsonData.listData[k].BB3));
+                        ba4.push(parseFloat(jsonData.listData[k].BA4));
+                        bb4.push(parseFloat(jsonData.listData[k].BB4));
+                        bfa.push(parseFloat(jsonData.listData[k].BFA));
+                        bfd.push(parseFloat(jsonData.listData[k].BFD));
+                        bpw.push(parseFloat(jsonData.listData[k].BPW));
+                        bws.push(parseFloat(jsonData.listData[k].BWS));
+                    }
+                    var array = @Html.Raw(
+                        Json.Encode(
+                            ((IEnumerable<ES_CapDien.Observation >)ViewBag.lstBieuDo).Select(item => new
+                            {
+                                Id= item.Id,
+                                Code = item.Code.Trim(),
+                                IsBieuDo = item.IsBieuDo,
+                            })
+                        )
+                    );
+                    array.forEach(function (element) {
+                        switch (element.Code) {
+                            case 'BTI':
+                                if (element.IsBieuDo == true)
+                                     RenderBieuDo('container1', bti, ' °C', 'Biểu đồ nhiệt độ môi trường', category, nameSite);
+                                break;
+                            case 'BTO':
+                                if (element.IsBieuDo == true)
+                                     RenderBieuDo('container2', bto, ' °C', 'Biểu đồ nhiệt độ trong', category, nameSite);
+                                break;
+                            case 'BHU':
+                                if (element.IsBieuDo == true)
+                                     RenderBieuDo('container3', bhu, ' %', 'Biểu đồ độ ẩm', category, nameSite);
+                                break;
+                            case 'BWS':
+                                if (element.IsBieuDo == true)
+                                    RenderBieuDo('container4', bws, ' m/s', 'Biểu đồ tốc độ gió', category, nameSite);
+                                break;
+                            case 'BAV':
+                                if (element.IsBieuDo == true)
+                                     RenderBieuDo('container5', bav, ' kPa', 'Biểu đồ khí áp', category, nameSite);
+                                break;
+                            case 'BAP':
+                                if (element.IsBieuDo == true)
+                                     RenderBieuDo('container6', bap, ' Hz', 'Biểu đồ tần số', category, nameSite);
+                                break;
+                            case 'BAC':
+                                if (element.IsBieuDo == true)
+                                     RenderBieuDo('container7', bac, ' A', 'Biểu đồ dòng điện', category, nameSite);
+                                break;
+                            case 'BAF':
+                                if (element.IsBieuDo == true)
+                                     RenderBieuDo('container8', baf, ' m', 'Biểu đồ mực nước', category, nameSite);
+                                break;
+                            case 'BPW':
+                                if (element.IsBieuDo == true)
+                                     RenderBieuDo('container9', bpw, ' KWh', 'Biểu đồ công suất tiêu thụ', category, nameSite);
+                                break;
+                             case 'BDR':
+                                if (element.IsBieuDo == true)
+                                     RenderBieuDo('container10', bdr, ' ', 'Biểu đồ cảnh báo đột nhập', category, nameSite);
+                                break;
+                             case 'BFL':
+                                if (element.IsBieuDo == true)
+                                     RenderBieuDo('container11', bfl, ' ', 'Biểu đồ ngập nước', category, nameSite);
+                                break;
+                            case 'BFR':
+                                if (element.IsBieuDo == true)
+                                     RenderBieuDo('container12', bfr, ' ', 'Biểu đồ cháy khói', category, nameSite);
+                            break;
+                          default:
+                            // code block
+                        }
+                    });
+                },
+                error: function () {
+                }
+            });
+        }
+        function RenderBieuDo(idBieuDo, data, donviDo,tenBieuDo,category,nameSite) {
+              Highcharts.chart(idBieuDo, {
+              chart: {
+                            type: 'spline'
+                        },
+              title: {
+                            text: tenBieuDo
+                        },
+              subtitle: {
+                            text: 'Nguồn: wsm.aks.vn'
+                        },
+              xAxis: {
+                            categories: category,
+                        },
+              yAxis: {
+                            title: {
+                                text: tenBieuDo
+                            },
+                            labels: {
+                                formatter: function () {
+                                    return this.value + donviDo;
+                                }
+                            }
+                        },
+              tooltip: {
+                            crosshairs: true,
+                            shared: true
+                        },
+              plotOptions: {
+                            spline: {
+                                marker: {
+                                    radius: 4,
+                                    lineColor: '#666666',
+                                    lineWidth: 1
+                                }
+                            }
+                        },
+              series: [{
+                            name: nameSite,
+                            marker: {
+                                symbol: 'diamond'
+                            },
+                            data: data,
+                        }]
+          });
+        }
+        function GetDataTable(id) {
+            $('#clickInfo').trigger('click');
+            $(".main-container").css("opacity", "0.4");              
+            $.ajax({
+                type: "GET",
+                url: '/Home/GetDataObservation',
+                data: { deviceId: id },
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (resuilt) {
+                    $("#inFoDevice").html(resuilt);
+                },
+                error: function () {
+                }
+            });
+        }
+        var map;
+        function initMap() {
+
+            /* Set các thuộc tính của map bao gồm tọa độ và view trung tâm bản đồ */
+            map = new google.maps.Map(document.getElementById('map'));
+            map.setZoom(7);      // This will trigger a zoom_changed on the map
+            map.setCenter(new google.maps.LatLng(20.00725216541522, 104.7710132814941));
+            map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+
+            var array = @Html.Raw(
+                Json.Encode(
+                    ((IEnumerable<ES_CapDien.Site >)ViewBag.listSite).Select(item => new
+                    {
+                        Id= item.Id,
+                        Latitude = item.Latitude.Trim(),
+                        Longtitude = item.Longtitude.Trim(),
+                        Device_Id=item.DeviceId,
+                        Name=item.Name,
+                        IsActive=item.IsActive
+                    })
+                )
+            );
+            var image1 = '/Images/place_green.png';
+            var image2 = '/Images/place_grey.png';
+            
+            array.forEach(function (element) {
+                
+                var marker = new google.maps.Marker({
+                    position: { lat: parseFloat(element.Latitude), lng: parseFloat(element.Longtitude) },
+                    map: map,
+                    draggable: true,
+                    icon: (element.IsActive ==true)?image1: image2,
+                    id: element.Device_Id,
+                    title: element.Name
+                });
+                
+                var contentString = '<div><strong>Tên trạm:' + element.Name + '</strong><p style="margin:6px 0">Thiết bị: ' + element.Device_Id + '</p><button onclick="GetDataTable(' + element.Device_Id + ')" class="btn-detail btn btn-xs btn-primary">Xem chi tiết</button></div>';
+                
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+                
+                google.maps.event.addListener(marker, 'click', function () {
+                    infowindow.open(map, marker);
+                });
+                google.maps.event.addListener(marker, 'drag', function (event) {
+                    document.getElementById("VidoId").value = event.latLng.lat();
+                    document.getElementById("KinhDoId").value = event.latLng.lng();
+                });
+            });
+
+        }
+        function GetDetailAlarm(alermID) {
+            $.ajax({
+                type: "GET",
+                url: '/Home/GetDetailDataAlarm',
+                data: { alerId: alermID},
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (resuilt) {
+                    $("#tblAlarm").html(resuilt);
+                    $('.btnDetailAlarm').trigger('click');
+                },
+                error: function () {
+                }
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAakvdgbVCWBw__icKUbSPUEKBaOKsIBy8&callback=initMap" async defer></script>
+}
+
+<style type="text/css">
+    #map {
+        width: 100%;
+        height: 140vh;
+    }
+
+    .location-stat {
+        padding: 10px 0 10px 9px;
+        margin: 8px 0;
+        border: 1px solid #212121;
+        height: 50px;
+        opacity: 0.8;
+        border-radius: 10px;
+    }
+
+    .totalTb {
+        width: 38%;
+        height: 94px;
+        background-color: #6C7B8B;
+        border: 1px solid #212121;
+        margin: 30px;
+        position: relative;
+    }
+
+    .textInfo {
+        text-align: center;
+        font-weight: 300;
+        position: absolute;
+        top: 22%;
+        left: 25%;
+        font-size: 15px;
+    }
+</style>
+<div class="container" style="border-bottom:none!important; border-left:none!important;">    
+    <div class="col-md-12">
+        @Html.Partial("~/Views/Shared/_MessagePartial.cshtml")
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-external-link-square"></i><b>Bản đồ dữ liệu</b>
+            </div>
+            <div class="panel-body">
+                <div class="row" style="padding-left:10px;">
+                    <div class="col-md-7">
+                        <div id="map"></div>
+                    </div>
+                    <div class="col-md-5">
+
+                        <div class="form-group panel-heading">
+                            <b> Thông tin cơ bản </b>
+                        </div>
+                        <div class='panel panel-default'>
+                            <div class='panel-body'>
+                                <div class="row">
+                                    <div class="col-md-2">Khu vực: </div>
+                                    <div class="col-sm-10" style="color:black">
+                                        <select id="addsArea" class="form-control search-select" name="addsArea">
+                                            @if (ViewBag.listArea != null)
+                                            {
+                                                <option value="0">--Chọn khu vực--</option>
+                                                foreach (var item in ViewBag.listArea)
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-sm-5">
+                                        <div class="location-stat" onclick="updateMap(0,this)" style="background-color: #cccccc">
+                                            <span style="color:black;">Thiết bị không hoạt động :</span>
+                                            <label>@Model.ThietBiKhongHoatDong</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="location-stat" onclick="updateMap(0,this)" style="background-color: #acf321">
+                                            <span style="color:black;">Thiết bị hoạt động :</span>
+                                            <label>@Model.ThietBiHoatDong</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-sm-5">
+                                        <div class="location-stat" onclick="updateMap(0,this)" style="background-color: #f3d921">
+                                            <span style="color:black;">Cảnh báo :</span>
+                                            <label>@Model.ThietBiCanhBao</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="textInfoNotActive"></span>
+                                        <div class="textInfoNumber"></div>
+                                    </div>
+                                </div>
+                                <div class="row">                                   
+                                    <div class="col-sm-12" style="color:black; display:none;" id="getListSite">
+                                        @Html.Action("GetSite", "Home", new { idArea = 2 })                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" style="color:black; display:none; padding-top:10px;" id="canhBaoDiaDiem">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" style="display:none;" id="clickInfoBieuDo">
+                                <div class='form-group panel-heading'><b>Xem biểu đồ</b></div>
+                                <div class='panel panel-default'>
+                                    <div class='panel-body'>
+                                        <div class="row">
+                                            <div class="col-md-4">Số điểm cần xem</div>
+                                            <div class="col-md-2">
+                                                <input id="takeNumber" type="text" style="width:100%" />
+                                            </div>
+                                            <div class="col-md-4">Đặt thời gian làm mới (s) </div>
+                                            <div class="col-md-2">
+                                                <input id="setTimeNumber" type="text" style="width:100%" />
+                                            </div>
+                                        </div>
+                                        <a href="#BieuDoDuLieu" data-toggle="modal" class="demo btn btn-blue" style="margin-top:10px;" id="ViewBieuDo">
+                                            Xem dữ liệu biểu đồ
+                                        </a>
+                                        <div id="BieuDoDuLieu" class="modal fade" tabindex="-1" data-width="760" style="display: none;">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                    &times;
+                                                </button>
+                                                <h4 class="modal-title">Dữ liệu biểu đồ</h4>
+                                            </div>
+                                            <div class="modal-body" id="inFoDeviceBieuDo">
+                                                <div class="panel-body">
+                                                    <div id="container1" style="min-width: 50%"></div>
+                                                    <div id="container2" style="min-width: 50%"></div>
+                                                    <div id="container3" style="min-width: 50%"></div>
+                                                    <div id="container4" style="min-width: 50%"></div>
+                                                    <div id="container5" style="min-width: 50%"></div>
+                                                    <div id="container6" style="min-width: 50%"></div>
+                                                    <div id="container7" style="min-width: 50%"></div>
+                                                    <div id="container8" style="min-width: 50%"></div>
+                                                    <div id="container9" style="min-width: 50%"></div>
+                                                    <div id="container10" style="min-width: 50%"></div>
+                                                    <div id="container11" style="min-width: 50%"></div>
+                                                    <div id="container12" style="min-width: 50%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" data-dismiss="modal" class="btn btn-default close">
+                                                    Đóng
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#infoObservation" data-toggle="modal" class="demo btn btn-blue" id="clickInfo" style="display:none;">
+                    </a>
+                    <div id="infoObservation" class="modal container fade in" tabindex="-1" data-focus-on="input:first" style="display: none;margin-top: 100px;">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title">Thông tin chi tiết</h4>
+                        </div>
+                        <div class="modal-body" id="inFoDevice">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-default close">
+                                Đóng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="container" style="height: 400px; min-width: 310px"></div>
+    <span data-toggle="modal" data-target="#detailAlarm2" style="display:none;" class="btnDetailAlarm"></span>
+    <div id="detailAlarm2" class="modal fade" tabindex="-1" data-width="760" style="display: none;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title">Dữ liệu cảnh báo</h4>
+        </div>
+        <div class="modal-body">
+            <div class="panel-body" id="tblAlarm">
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btn-default close">
+                Đóng
+            </button>
+        </div>
+    </div>
+</div>

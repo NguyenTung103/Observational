@@ -1,0 +1,20 @@
+﻿@using ES_CapDien
+@using ES_CapDien.Helpers
+@using ES_CapDien.Models
+@model SitesViewModel
+@RenderCategorySelectItem(Model.SiteTree, 0, Model.CurrentSite == null ? 0 : Model.CurrentSite.Value)
+@helper RenderCategorySelectItem(IEnumerable<TreeItem<SiteModel>> lstSite, int deep = 0, int CurrentSite = 0)
+{
+    foreach (var sites in lstSite)
+    {
+        if (CurrentSite == sites.Item.Id)
+        {
+            <option value="@sites.Item.Id" selected="selected">@Html.Raw(new string('-', deep) + " " + sites.Item.Name)</option>
+        }
+        else
+        {
+            <option value="@sites.Item.Id">@Html.Raw(new string('-', deep) + " " + sites.Item.Name)</option>
+        }
+        @RenderCategorySelectItem(sites.Children, deep + 5, Model.CurrentSite == null ? 0 : Model.CurrentSite.Value)
+    }
+}

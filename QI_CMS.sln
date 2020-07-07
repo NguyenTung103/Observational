@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{54E8F982-7C36-45B7-B512-29D606D75284}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Observational", "QI_CMS\Observational.csproj", "{A5B16B7D-44D1-4DD6-B525-8F97FDA4EAFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bts.udpgateway", "..\udpserver\bts.udp\bts.udpgateway\bts.udpgateway.csproj", "{C3E57338-9211-4343-AEC1-0551833624EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UdpServer", "UdpServer", "{4B5D5CB3-D641-412C-8B20-F52FD7954FAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bts.udpgateway.integration", "..\udpserver\bts.udp\bts.udpgateway.integration\bts.udpgateway.integration.csproj", "{FF3056FE-CEAE-4FCF-809F-C77E45FFD22D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5B16B7D-44D1-4DD6-B525-8F97FDA4EAFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B16B7D-44D1-4DD6-B525-8F97FDA4EAFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5B16B7D-44D1-4DD6-B525-8F97FDA4EAFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B16B7D-44D1-4DD6-B525-8F97FDA4EAFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3E57338-9211-4343-AEC1-0551833624EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3E57338-9211-4343-AEC1-0551833624EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3E57338-9211-4343-AEC1-0551833624EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3E57338-9211-4343-AEC1-0551833624EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF3056FE-CEAE-4FCF-809F-C77E45FFD22D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF3056FE-CEAE-4FCF-809F-C77E45FFD22D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF3056FE-CEAE-4FCF-809F-C77E45FFD22D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF3056FE-CEAE-4FCF-809F-C77E45FFD22D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C3E57338-9211-4343-AEC1-0551833624EB} = {4B5D5CB3-D641-412C-8B20-F52FD7954FAB}
+		{FF3056FE-CEAE-4FCF-809F-C77E45FFD22D} = {4B5D5CB3-D641-412C-8B20-F52FD7954FAB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B12E20D-3736-46B3-A52E-99FE757B08A2}
+	EndGlobalSection
+EndGlobal

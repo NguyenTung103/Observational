@@ -1,0 +1,12 @@
+﻿@model IEnumerable<ES_CapDien.Models.SiteModel>
+
+@if (Model != null)
+{
+    <option value="0" selected="selected">--Chọn địa điểm--</option>
+    foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+}
+
+

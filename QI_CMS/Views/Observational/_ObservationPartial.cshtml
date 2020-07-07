@@ -1,0 +1,69 @@
+﻿@using ES_CapDien.Models
+@using ES_CapDien
+@model ObservationsModel
+<style type="text/css">
+    select option {
+        color: #01054f;
+    }
+
+    select.form-control {
+        color: #01054f;
+    }
+</style>
+<div class="form-group">
+    <div class="col-sm-1"></div>
+    <label class="col-sm-2 control-label" for="form-field-1">Tên yếu tố<span class="symbol required"></span></label>
+    <div class="col-sm-5">
+        @Html.TextBoxFor(item => item.Name, new { @class = "form-control", @placeholder = "Nhập tên yếu tố" })
+        @Html.ValidationMessageFor(item => item.Name)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-1"></div>
+    <label class="col-sm-2 control-label" for="form-field-1">Mã</label>
+    <div class="col-sm-5">
+        @Html.TextBoxFor(item => item.Code, new { @class = "form-control", @placeholder = "Mã yếu tố" })
+        @Html.ValidationMessageFor(item => item.Code)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-1"></div>
+    <label class="col-sm-2 control-label" for="form-field-1">Giá trị nhỏ nhất</label>
+    <div class="col-sm-5">
+        @Html.TextBoxFor(item => item.Low_Value, new { @class = "form-control", @placeholder = "Nhập giá trị nhỏ nhất" })
+        @Html.ValidationMessageFor(item => item.Low_Value)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-1"></div>
+    <label class="col-sm-2 control-label" for="form-field-1">Giá trị lớn nhất</label>
+    <div class="col-sm-5">
+        @Html.TextBoxFor(item => item.Hight_Value, new { @class = "form-control", @placeholder = "Nhập giá trị lớn nhất" })
+        @Html.ValidationMessageFor(item => item.Hight_Value)
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-9">
+        <div class="form-group">
+            <div class="col-sm-6 control-label" for="form-field-1">
+                <label class="checkbox-inline">
+                    @Html.EditorFor(q => q.IsBieuDo)
+                    Yếu tố biểu đồ
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-8">
+
+</div>
+<div class="col-md-4">
+    <input class="btn btn-primary" type="submit" value="Lưu" id="btnAdd" style="width:100px;" />
+    <a class="btn btn-dark-grey" href="@Url.Action("ElementManagement",new { page  = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"]})" style="width: 100px;">
+        Thoát
+        <i class="fa fa-arrow-circle-right"></i>
+    </a>
+</div>

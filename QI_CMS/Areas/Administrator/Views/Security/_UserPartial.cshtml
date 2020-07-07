@@ -1,0 +1,76 @@
+﻿@model Administrator.Library.Models.RegisterModel
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Thông tin tài khoản</h3>
+        <hr>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">
+                Tên đăng nhập				
+            </label>
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Tên đăng nhập" })
+            @Html.ValidationMessageFor(item => item.UserName)
+        </div>
+        <div class="form-group">
+            <label class="control-label">
+                Mật khẩu	
+            </label>
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
+            @Html.ValidationMessageFor(item => item.Password)
+        </div>
+        <div class="form-group">
+            <label class="control-label">
+                Nhập lại mật khẩu				
+            </label>
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Nhập lại mật khẩu" })
+            @Html.ValidationMessageFor(item => item.ConfirmPassword)
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">
+                Họ tên			
+            </label>
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @placeholder = "Họ tên" })
+            @Html.ValidationMessageFor(item => item.FullName)
+        </div>
+        <div class="form-group">
+            <label class="control-label">
+                Email		
+            </label>
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
+            @Html.ValidationMessageFor(item => item.Email)
+        </div>
+        <div class="form-group">
+            <label class="control-label">
+                Giới tính													
+            </label>
+            <div>
+                <label class="radio-inline">
+                    <input type="radio" class="grey" value="1" name="GenderId" id="gender_female" checked="checked">
+                    Nam
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="grey" value="0" name="GenderId" id="gender_male">
+                    Nữ
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <hr>
+    </div>
+    <div class="col-md-8">
+    </div>
+    <div class="col-md-4">
+        <input class="btn btn-primary" type="submit" value="Lưu" id="btnAdd" style="width: 100px;" />
+        <a class="btn btn-dark-grey" href="@Url.Action("UserManager")" style="width: 100px;">Thoát
+                            <i class="fa fa-arrow-circle-right"></i>
+        </a>
+    </div>
+</div>

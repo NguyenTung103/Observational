@@ -1,0 +1,18 @@
+﻿@model IEnumerable<ES_CapDien.Site>
+    <div class="row">
+        <div class="col-md-2 col-lg-2 col-sm-2">
+            Trạm:
+        </div>
+        <div class="col-md-10 col-lg-10 col-sm-10">
+            <select class="search-select" name="listAddsSite" id="listAddsSite" style="width:100%;">
+                <option value="0" selected="selected">--Chọn trạm--</option>
+                @foreach (var item in Model)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+
+

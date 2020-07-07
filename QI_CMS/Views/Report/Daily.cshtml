@@ -1,0 +1,1660 @@
+﻿@model ES_CapDien.Models.ReportDailyViewModel
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Báo cáo theo ngày";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-external-link-square"></i>
+        <strong>Báo cáo theo ngày</strong>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("daily", "report", FormMethod.Get, new { id = "news-from" }))
+        {
+            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-4 col-md-4 col-lg-4 col-xs-12 control-label" for="form-field-1">Tên nhóm<span class="symbol required"></span></label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 col-xs-12" style="color:black">
+                            <select id="groupId" class="form-control search-select" name="groupId" onchange="LoadArea(this.value)">
+                                @if (ViewBag.listGroups != null)
+                                {
+                                    foreach (var item in ViewBag.listGroups)
+                                    {
+                                        if (item.Id == Model.GroupId)
+                                        {
+                                            <option value="@item.Id" selected="selected">@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-4 col-md-4 col-lg-4 col-xs-12 control-label" for="form-field-1">Tên khu vực<span class="symbol required"></span></label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 col-xs-12" style="color:black">
+                            <select id="Area_Id" class="form-control search-select" name="Area_Id" onchange="LoadSite(this.value)">
+                                @if (ViewBag.listArea != null)
+                                {
+                                    foreach (var item in ViewBag.listArea)
+                                    {
+                                        if (item.Id == Model.AreaId)
+                                        {
+                                            <option value="@item.Id" selected="selected">@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+                <div class="form-group">
+                    <div class="row" id="loadSiteByArea">
+                        <label class="col-sm-4 col-md-4 col-lg-4 col-xs-12 control-label" for="form-field-1">Tên trạm<span class="symbol required"></span></label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 col-xs-12" style="color:black">
+                            <select id="DeviceId" class="form-control search-select" name="DeviceId">
+                                @if (ViewBag.listSite != null)
+                                {
+                                    foreach (var item in ViewBag.listSite)
+                                    {
+                                        if (item.DeviceId == Model.DeviceId)
+                                        {
+                                            <option value="@item.DeviceId" selected="selected">@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.DeviceId">@item.Name</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-3 col-md-3 col-lg-3 col-xs-12 control-label" for="form-field-1">Ngày báo cáo</label>
+                        <div class="col-sm-8 col-md-8 col-lg-8 col-xs-12">
+                            <div class='input-group'>
+                                <input type='text' name="Date" class="form-control datetimepicker" id="day" autocomplete="off" data-date-viewmode="years" onchange="check_date(this)" value="@(Model.Date == null ? " " : Model.Date.ToString("dd/MM/yyyy"))" />
+                                <span class="input-group-addon">
+                                    <span class="fa fa-calendar">
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-lg-9 col-sm-9 col-xs-12"></div>
+            <div class="col-md-3 col-lg-3 col-sm-3 form-horizontal">
+                <a style="margin-left: 10px;" class="btn btn-green fill-data-cus locDuLieu" href="@Url.Action("ExportExel", "Report", new {Date = Request.Params["Date"], deviceId = Request.Params["deviceId"]})">
+                    <i class="clip-file-excel"></i> Xuất excel
+                </a>
+                <button class="btn btn-primary fill-data-cus  locDuLieu" type="submit">
+                    <i class="clip-search-2"></i>Lọc dữ liệu
+                </button>
+            </div>
+        }
+    </div>
+</div>
+<div class="row" id="reportDl">
+    @if (Model.NhietDo != null)
+    {
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-external-link"></i>
+                    Nhiệt độ
+                    <div class="panel-tools">
+                        <a class="btn btn-xs btn-link panel-collapse collapses" href="#">
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="containerRP0"></div>
+                    <div class="center">
+                        Biểu đồ nhiệt độ trong ngày
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info">
+                                Nhiệt độ lớn nhất trong ngày: @Model.NhietDo.MaxValue °C
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                Nhiệt độ nhỏ nhất trong ngày: @Model.NhietDo.MinValue °C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info">
+                                <span class="clip-clock-2">@Model.NhietDo.TimeMaxValue</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                <span class="clip-clock-2">@Model.NhietDo.TimeMinValue</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.DoAm != null)
+    {
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-external-link"></i>
+                    Độ ẩm
+                    <div class="panel-tools">
+                        <a class="btn btn-xs btn-link panel-collapse collapses" href="#">
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="containerRP1"></div>
+                    <div class="center">
+                        Biểu đồ độ ẩm trong ngày
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info">
+                                Độ ẩm lớn nhất trong ngày: @Model.DoAm.MaxValue %
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                Độ ẩm nhỏ nhất trong ngày: @Model.DoAm.MinValue %
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info">
+                                <span class="clip-clock-2">@Model.DoAm.TimeMaxValue</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                <span class="clip-clock-2">@Model.DoAm.TimeMinValue</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.ApSuat != null)
+    {
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-external-link"></i>
+                    Áp suất
+                    <div class="panel-tools">
+                        <a class="btn btn-xs btn-link panel-collapse collapses" href="#">
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="containerRP2"></div>
+                    <div class="center">
+                        Biểu đồ áp suất trong ngày
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info">
+                                Áp suất lớn nhất trong ngày: @Model.ApSuat.MaxValue hPA
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                Áp suất nhỏ nhất trong ngày: @Model.ApSuat.MinValue hPA
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info">
+                                <span class="clip-clock-2">@Model.ApSuat.TimeMaxValue</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                <span class="clip-clock-2">@Model.ApSuat.TimeMinValue</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.LuongMua != null)
+    {
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-external-link"></i>
+                    Lượng mưa
+                    <div class="panel-tools">
+                        <a class="btn btn-xs btn-link panel-collapse collapses" href="#">
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="containerRP3"></div>
+                    <div class="center">
+                        Biểu đồ lượng mưa trong ngày
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                            <div class="label label-info" id="maxinfo3"> Tổng lượng mưa trong ngày: @Model.LuongMua.TongLuongMua mm</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+    @if (Model.TocDoGio != null)
+    {
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-external-link"></i>
+                    Tốc độ gió
+                    <div class="panel-tools">
+                        <a class="btn btn-xs btn-link panel-collapse collapses" href="#">
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="containerRP6"></div>
+                    <div class="center">
+                        Biểu đồ tốc độ gió trung bình trong ngày
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" id="maxinfo5">Tốc độ gió lớn nhất trong 2 giây: @Model.TocDoGio.TocDoGioLonNhat m/s</div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;" id="maxinfo5">Tốc độ gió lớn nhất trong 2 phút: @Model.TocDoGio.TocDoGioNhoNhat m/s</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info">
+                                <span class="clip-clock-2">@Model.TocDoGio.TimeMaxValue</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                <span class="clip-clock-2">@Model.TocDoGio.TimeMinValue</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.MucNuoc != null)
+    {
+
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-external-link"></i>
+                    Mực nước
+                    <div class="panel-tools">
+                        <a class="btn btn-xs btn-link panel-collapse collapses" href="#">
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="containerRP5"></div>
+                    <div class="center">
+                        Biểu đồ mực nước trong ngày
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+
+
+                            @if (Model.MucNuoc.MaxValue != null)
+                            {
+                                <div class="label label-info" id="maxinfo5">
+                                    Mực nước lớn nhất: @Model.MucNuoc.MaxValue m
+                                </div>
+                            }
+
+
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            @if (Model.MucNuoc.MinValue != null)
+                            {
+                                <div class="label label-info" style="float:right;" id="maxinfo5">Mực nước nhỏ nhất: @Model.MucNuoc.MinValue m</div>
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+
+                            @if (Model.MucNuoc.TimeMaxValue != null)
+                            {
+                                <div class="label label-info">
+                                    <span class="clip-clock-2">@Model.MucNuoc.TimeMaxValue</span>
+                                </div>
+                            }
+
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+
+                            @if (Model.MucNuoc.TimeMinValue != null)
+                            {
+                                <div class="label label-info" style="float:right;">
+                                    <span class="clip-clock-2">@Model.MucNuoc.TimeMinValue</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+    @if (Model.HuongGio != null)
+    {
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-external-link"></i>
+                    Hướng gió
+                    <div class="panel-tools">
+                        <a class="btn btn-xs btn-link panel-collapse collapses" href="#">
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <figure class="highcharts-figure">
+                        <div id="containerRP4"></div>
+                    </figure>
+                    <div class="center">
+                        Biểu đồ hướng gió trong ngày
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" id="maxinfo4"> Hướng gió đặc trưng nhiều nhất trong ngày: @Model.HuongGio.HuongGioDacTrungNhieuNhat</div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" id="maxinfo4" style="float:right;"> Hướng gió đặc trưng nhiều thứ hai trong ngày: @Model.HuongGio.HuongGioDacTrungNhieuThuHai</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section PageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datetimepicker').daterangepicker({
+                singleDatePicker: true, format: 'DD/MM/YYYY', autoclose: true
+            }, function (start, end, label) {
+            });
+        });
+        var runSelect2 = function () {
+            $(".search-select").select2({
+                placeholder: "Chọn gì đó",
+                allowClear: true
+            });
+        };
+        runSelect2();
+        function LoadArea(groupId) {
+            $.ajax({
+                type: "GET",
+                url: '/Report/LoadArea',
+                data: { groupId: groupId },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var html = '<option value="0" selected="selected">--Chọn khu vực--</option>';
+                    $.each(result.data, function (i, obj) {
+                        html += ' <option value="' + obj.Id + '">' + obj.Name + '</option>';
+                    });
+                    $("#Area_Id").html(html);
+                    var runSelect2 = function () {
+                        $(".search-select").select2({
+                            placeholder: "Chọn gì đó",
+                            allowClear: true
+                        });
+                    };
+                    runSelect2();
+                },
+                error: function () {
+                }
+            });
+        }
+        function LoadSite(areaId) {
+            $.ajax({
+                type: "GET",
+                url: '/Report/GetSite',
+                data: { idArea: areaId },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var a = $("#s2id_DeviceId").val(null).trigger("change");
+                    var html = '<option value="0" selected="selected">--Chọn trạm--</option>';
+                    $.each(result.data, function (i, obj) {
+                        html += ' <option value="' + obj.DeviceId + '">' + obj.Name + '</option>';
+                    });
+                    $("#DeviceId").html(html);
+                    var runSelect2 = function () {
+                        $(".search-select").select2({
+                            placeholder: "Chọn gì đó",
+                            allowClear: true
+                        });
+                    };
+                    runSelect2();
+                },
+                error: function () {
+                }
+            });
+        }
+    </script>
+    @if (Model.NhietDo != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                Highcharts.chart('container' + '@Html.Raw(Model.NhietDo.ReportTypeCode)', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: '@Html.Raw(Model.NhietDo.ReportTypeName)'
+                    },
+                    subtitle: {
+                        text: 'Nguồn asm.aks.vn'
+                    },
+                    accessibility: {
+                        announceNewData: {
+                            enabled: true
+                        }
+                    },
+                    xAxis: {
+                        type: 'category'
+                    },
+                    yAxis: {
+                        title: {
+                            text: '@Html.Raw(Model.NhietDo.Title)'
+                        }
+
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.y:.1f}'
+                            }
+                        }
+                    },
+
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f} ' + '@Html.Raw(Model.NhietDo.Measure)' + '</b>'
+                    },
+
+                    series: [
+                        {
+                            name: '@Html.Raw(Model.NhietDo.ReportTypeName)',
+                            colorByPoint: false,
+                            data: [
+                                {
+                                    name: "0h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance1).ToString().Replace(",",".")),
+                                    drilldown: "0h"
+                                },
+                                {
+                                    name: "1h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance2).ToString().Replace(",",".")),
+                                    drilldown: "1h"
+                                },
+                                {
+                                    name: "2h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance3).ToString().Replace(",",".")),
+                                    drilldown: "2h"
+                                },
+                                {
+                                    name: "3h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance4).ToString().Replace(",",".")),
+                                    drilldown: "3h"
+                                },
+                                {
+                                    name: "4h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance5).ToString().Replace(",",".")),
+                                    drilldown: "4h"
+                                },
+                                {
+                                    name: "5h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance6).ToString().Replace(",",".")),
+                                    drilldown: "5h"
+                                },
+                                {
+                                    name: "6h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance7).ToString().Replace(",",".")),
+                                    drilldown: "6h"
+                                },
+                                {
+                                    name: "7h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance8).ToString().Replace(",",".")),
+                                    drilldown: "7h"
+                                },
+                                {
+                                    name: "8h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance9).ToString().Replace(",",".")),
+                                    drilldown: "8h"
+                                },
+                                {
+                                    name: "9h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance10).ToString().Replace(",",".")),
+                                    drilldown: "9h"
+                                },
+                                {
+                                    name: "10h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance11).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "11h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance12).ToString().Replace(",",".")),
+                                    drilldown: "11h"
+                                },
+                                {
+                                    name: "12h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance13).ToString().Replace(",",".")),
+                                    drilldown: "12h"
+                                },
+                                {
+                                    name: "13h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance14).ToString().Replace(",",".")),
+                                    drilldown: "13h"
+                                },
+                                {
+                                    name: "14h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance15).ToString().Replace(",",".")),
+                                    drilldown: "14h"
+                                },
+                                {
+                                    name: "15h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance16).ToString().Replace(",",".")),
+                                    drilldown: "15h"
+                                },
+                                {
+                                    name: "16h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance17).ToString().Replace(",",".")),
+                                    drilldown: "16h"
+                                },
+                                {
+                                    name: "17h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance18).ToString().Replace(",",".")),
+                                    drilldown: "17h"
+                                },
+                                {
+                                    name: "18h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance19).ToString().Replace(",",".")),
+                                    drilldown: "18h"
+                                },
+                                {
+                                    name: "19h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance20).ToString().Replace(",",".")),
+                                    drilldown: "19h"
+                                },
+                                {
+                                    name: "20h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance21).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "21h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance22).ToString().Replace(",",".")),
+                                    drilldown: "21h"
+                                },
+                                {
+                                    name: "22h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance23).ToString().Replace(",",".")),
+                                    drilldown: "22h"
+                                }
+                                ,
+                                {
+                                    name: "23h",
+                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance24).ToString().Replace(",",".")),
+                                    drilldown: "23h"
+                                }
+                            ]
+                        }
+                    ],
+                    drilldown: {
+
+                    }
+                });
+            });
+        </script>
+    }
+    @if (Model.DoAm != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                Highcharts.chart('container' + '@Html.Raw(Model.DoAm.ReportTypeCode)', {
+                chart: {
+                        type: 'column'
+                },
+                title: {
+                        text:'@Html.Raw(Model.DoAm.ReportTypeName)'
+                },
+                subtitle: {
+                        text: 'Nguồn asm.aks.vn'
+                },
+                accessibility: {
+                        announceNewData: {
+                            enabled: true
+                        }
+                        },
+                xAxis: {
+                        type: 'category'
+                },
+                yAxis: {
+                        title: {
+                            text: '@Html.Raw(Model.DoAm.Title)'
+                        }
+
+                        },
+                legend: {
+                        enabled: false
+                },
+                plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                        dataLabels: {
+                                enabled: true,
+                            format: '{point.y:.1f}'
+                        }
+                            }
+                        },
+
+                tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f} ' + '@Html.Raw(Model.DoAm.Measure)' + '</b>'
+                },
+
+                series: [
+                           {
+                        name: '@Html.Raw(Model.DoAm.ReportTypeName)',
+                        colorByPoint: false,
+                        data: [
+                            {
+                                    name: "0h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance1).ToString().Replace(",",".")),
+                                    drilldown: "0h"
+                                },
+                                {
+                                    name: "1h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance2).ToString().Replace(",",".")),
+                                    drilldown: "1h"
+                                },
+                                {
+                                    name: "2h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance3).ToString().Replace(",",".")),
+                                    drilldown: "2h"
+                                },
+                                {
+                                    name: "3h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance4).ToString().Replace(",",".")),
+                                    drilldown: "3h"
+                                },
+                                {
+                                    name: "4h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance5).ToString().Replace(",",".")),
+                                    drilldown: "4h"
+                                },
+                                {
+                                    name: "5h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance6).ToString().Replace(",",".")),
+                                    drilldown: "5h"
+                                },
+                                {
+                                    name: "6h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance7).ToString().Replace(",",".")),
+                                    drilldown: "6h"
+                                },
+                                {
+                                    name: "7h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance8).ToString().Replace(",",".")),
+                                    drilldown: "7h"
+                                },
+                                {
+                                    name: "8h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance9).ToString().Replace(",",".")),
+                                    drilldown: "8h"
+                                },
+                                {
+                                    name: "9h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance10).ToString().Replace(",",".")),
+                                    drilldown: "9h"
+                                },
+                                {
+                                    name: "10h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance11).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "11h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance12).ToString().Replace(",",".")),
+                                    drilldown: "11h"
+                                },
+                                {
+                                    name: "12h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance13).ToString().Replace(",",".")),
+                                    drilldown: "12h"
+                                },
+                                {
+                                    name: "13h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance14).ToString().Replace(",",".")),
+                                    drilldown: "13h"
+                                },
+                                {
+                                    name: "14h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance15).ToString().Replace(",",".")),
+                                    drilldown: "14h"
+                                },
+                                {
+                                    name: "15h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance16).ToString().Replace(",",".")),
+                                    drilldown: "15h"
+                                },
+                                {
+                                    name: "16h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance17).ToString().Replace(",",".")),
+                                    drilldown: "16h"
+                                },
+                                {
+                                    name: "17h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance18).ToString().Replace(",",".")),
+                                    drilldown: "17h"
+                                },
+                                {
+                                    name: "18h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance19).ToString().Replace(",",".")),
+                                    drilldown: "18h"
+                                },
+                                {
+                                    name: "19h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance20).ToString().Replace(",",".")),
+                                    drilldown: "19h"
+                                },
+                                {
+                                    name: "20h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance21).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "21h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance22).ToString().Replace(",",".")),
+                                    drilldown: "21h"
+                                },
+                                {
+                                    name: "22h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance23).ToString().Replace(",",".")),
+                                    drilldown: "22h"
+                                }
+                                ,
+                                {
+                                    name: "23h",
+                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance24).ToString().Replace(",",".")),
+                                    drilldown: "23h"
+                                }
+                        ]
+                    }
+                ],
+                drilldown: {
+
+                }
+             });
+            })
+        </script>
+    }
+    @if (Model.ApSuat != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                 Highcharts.chart('container' + '@Html.Raw(Model.ApSuat.ReportTypeCode)', {
+                    chart: {
+                        type: 'column'
+                    },
+                title: {
+                        text:'@Html.Raw(Model.ApSuat.ReportTypeName)'
+                },
+                subtitle: {
+                        text: 'Nguồn asm.aks.vn'
+                },
+                accessibility: {
+                        announceNewData: {
+                            enabled: true
+                        }
+                        },
+                xAxis: {
+                        type: 'category'
+                },
+                yAxis: {
+                        title: {
+                            text: '@Html.Raw(Model.ApSuat.Title)'
+                        }
+
+                        },
+                legend: {
+                        enabled: false
+                },
+                plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                        dataLabels: {
+                                enabled: true,
+                            format: '{point.y:.1f}'
+                        }
+                            }
+                        },
+
+                tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f} ' + '@Html.Raw(Model.ApSuat.Measure)' + '</b>'
+                },
+
+                series: [
+                          {
+                        name: '@Html.Raw(Model.ApSuat.ReportTypeName)',
+                        colorByPoint: false,
+                        data: [
+                             {
+                                    name: "0h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance1).ToString().Replace(",",".")),
+                                    drilldown: "0h"
+                                },
+                                {
+                                    name: "1h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance2).ToString().Replace(",",".")),
+                                    drilldown: "1h"
+                                },
+                                {
+                                    name: "2h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance3).ToString().Replace(",",".")),
+                                    drilldown: "2h"
+                                },
+                                {
+                                    name: "3h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance4).ToString().Replace(",",".")),
+                                    drilldown: "3h"
+                                },
+                                {
+                                    name: "4h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance5).ToString().Replace(",",".")),
+                                    drilldown: "4h"
+                                },
+                                {
+                                    name: "5h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance6).ToString().Replace(",",".")),
+                                    drilldown: "5h"
+                                },
+                                {
+                                    name: "6h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance7).ToString().Replace(",",".")),
+                                    drilldown: "6h"
+                                },
+                                {
+                                    name: "7h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance8).ToString().Replace(",",".")),
+                                    drilldown: "7h"
+                                },
+                                {
+                                    name: "8h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance9).ToString().Replace(",",".")),
+                                    drilldown: "8h"
+                                },
+                                {
+                                    name: "9h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance10).ToString().Replace(",",".")),
+                                    drilldown: "9h"
+                                },
+                                {
+                                    name: "10h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance11).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "11h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance12).ToString().Replace(",",".")),
+                                    drilldown: "11h"
+                                },
+                                {
+                                    name: "12h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance13).ToString().Replace(",",".")),
+                                    drilldown: "12h"
+                                },
+                                {
+                                    name: "13h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance14).ToString().Replace(",",".")),
+                                    drilldown: "13h"
+                                },
+                                {
+                                    name: "14h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance15).ToString().Replace(",",".")),
+                                    drilldown: "14h"
+                                },
+                                {
+                                    name: "15h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance16).ToString().Replace(",",".")),
+                                    drilldown: "15h"
+                                },
+                                {
+                                    name: "16h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance17).ToString().Replace(",",".")),
+                                    drilldown: "16h"
+                                },
+                                {
+                                    name: "17h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance18).ToString().Replace(",",".")),
+                                    drilldown: "17h"
+                                },
+                                {
+                                    name: "18h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance19).ToString().Replace(",",".")),
+                                    drilldown: "18h"
+                                },
+                                {
+                                    name: "19h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance20).ToString().Replace(",",".")),
+                                    drilldown: "19h"
+                                },
+                                {
+                                    name: "20h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance21).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "21h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance22).ToString().Replace(",",".")),
+                                    drilldown: "21h"
+                                },
+                                {
+                                    name: "22h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance23).ToString().Replace(",",".")),
+                                    drilldown: "22h"
+                                }
+                                ,
+                                {
+                                    name: "23h",
+                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance24).ToString().Replace(",",".")),
+                                    drilldown: "23h"
+                                }
+                        ]
+                    }
+                ],
+                drilldown: {
+
+                }
+            });
+            });
+        </script>
+    }
+    @if (Model.MucNuoc != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                 Highcharts.chart('container' + '@Html.Raw(Model.MucNuoc.ReportTypeCode)', {
+                    chart: {
+                        type: 'column'
+                    },
+                title: {
+                        text:'@Html.Raw(Model.MucNuoc.ReportTypeName)'
+                },
+                subtitle: {
+                        text: 'Nguồn asm.aks.vn'
+                },
+                accessibility: {
+                        announceNewData: {
+                            enabled: true
+                        }
+                        },
+                xAxis: {
+                        type: 'category'
+                },
+                yAxis: {
+                        title: {
+                            text: '@Html.Raw(Model.MucNuoc.Title)'
+                        }
+
+                        },
+                legend: {
+                        enabled: false
+                },
+                plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                        dataLabels: {
+                                enabled: true,
+                            format: '{point.y:.3f}'
+                        }
+                            }
+                        },
+
+                tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.3f} ' + '@Html.Raw(Model.MucNuoc.Measure)' + '</b>'
+                },
+
+                series: [
+                          {
+                        name: '@Html.Raw(Model.MucNuoc.ReportTypeName)',
+                        colorByPoint: false,
+                        data: [
+                            {
+                                    name: "0h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance1).ToString().Replace(",",".")),
+                                    drilldown: "0h"
+                                },
+                                {
+                                    name: "1h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance2).ToString().Replace(",",".")),
+                                    drilldown: "1h"
+                                },
+                                {
+                                    name: "2h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance3).ToString().Replace(",",".")),
+                                    drilldown: "2h"
+                                },
+                                {
+                                    name: "3h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance4).ToString().Replace(",",".")),
+                                    drilldown: "3h"
+                                },
+                                {
+                                    name: "4h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance5).ToString().Replace(",",".")),
+                                    drilldown: "4h"
+                                },
+                                {
+                                    name: "5h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance6).ToString().Replace(",",".")),
+                                    drilldown: "5h"
+                                },
+                                {
+                                    name: "6h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance7).ToString().Replace(",",".")),
+                                    drilldown: "6h"
+                                },
+                                {
+                                    name: "7h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance8).ToString().Replace(",",".")),
+                                    drilldown: "7h"
+                                },
+                                {
+                                    name: "8h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance9).ToString().Replace(",",".")),
+                                    drilldown: "8h"
+                                },
+                                {
+                                    name: "9h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance10).ToString().Replace(",",".")),
+                                    drilldown: "9h"
+                                },
+                                {
+                                    name: "10h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance11).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "11h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance12).ToString().Replace(",",".")),
+                                    drilldown: "11h"
+                                },
+                                {
+                                    name: "12h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance13).ToString().Replace(",",".")),
+                                    drilldown: "12h"
+                                },
+                                {
+                                    name: "13h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance14).ToString().Replace(",",".")),
+                                    drilldown: "13h"
+                                },
+                                {
+                                    name: "14h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance15).ToString().Replace(",",".")),
+                                    drilldown: "14h"
+                                },
+                                {
+                                    name: "15h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance16).ToString().Replace(",",".")),
+                                    drilldown: "15h"
+                                },
+                                {
+                                    name: "16h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance17).ToString().Replace(",",".")),
+                                    drilldown: "16h"
+                                },
+                                {
+                                    name: "17h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance18).ToString().Replace(",",".")),
+                                    drilldown: "17h"
+                                },
+                                {
+                                    name: "18h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance19).ToString().Replace(",",".")),
+                                    drilldown: "18h"
+                                },
+                                {
+                                    name: "19h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance20).ToString().Replace(",",".")),
+                                    drilldown: "19h"
+                                },
+                                {
+                                    name: "20h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance21).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "21h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance22).ToString().Replace(",",".")),
+                                    drilldown: "21h"
+                                },
+                                {
+                                    name: "22h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance23).ToString().Replace(",",".")),
+                                    drilldown: "22h"
+                                }
+                                ,
+                                {
+                                    name: "23h",
+                                    y: parseFloat(@Html.Raw(Model.MucNuoc.Distance24).ToString().Replace(",",".")),
+                                    drilldown: "23h"
+                                }
+                        ]
+                    }
+                ],
+                drilldown: {
+
+                }
+            });
+            });
+        </script>
+    }
+    @if (Model.LuongMua != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                 Highcharts.chart('container' + '@Html.Raw(Model.LuongMua.ReportTypeCode)', {
+                    chart: {
+                        type: 'column'
+                    },
+                title: {
+                        text:'@Html.Raw(Model.LuongMua.ReportTypeName)'
+                },
+                subtitle: {
+                        text: 'Nguồn asm.aks.vn'
+                },
+                accessibility: {
+                        announceNewData: {
+                            enabled: true
+                        }
+                        },
+                xAxis: {
+                        type: 'category'
+                },
+                yAxis: {
+                        title: {
+                            text: '@Html.Raw(Model.LuongMua.Title)'
+                        }
+
+                        },
+                legend: {
+                        enabled: false
+                },
+                plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                        dataLabels: {
+                                enabled: true,
+                            format: '{point.y:.0f}'
+                        }
+                            }
+                        },
+
+                tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f} ' + '@Html.Raw(Model.LuongMua.Measure)' + '</b>'
+                },
+
+                series: [
+                          {
+                        name: '@Html.Raw(Model.LuongMua.ReportTypeName)',
+                        colorByPoint: false,
+                        data: [
+                             {
+                                    name: "0h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance1).ToString().Replace(",",".")),
+                                    drilldown: "0h"
+                                },
+                                {
+                                    name: "1h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance2).ToString().Replace(",",".")),
+                                    drilldown: "1h"
+                                },
+                                {
+                                    name: "2h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance3).ToString().Replace(",",".")),
+                                    drilldown: "2h"
+                                },
+                                {
+                                    name: "3h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance4).ToString().Replace(",",".")),
+                                    drilldown: "3h"
+                                },
+                                {
+                                    name: "4h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance5).ToString().Replace(",",".")),
+                                    drilldown: "4h"
+                                },
+                                {
+                                    name: "5h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance6).ToString().Replace(",",".")),
+                                    drilldown: "5h"
+                                },
+                                {
+                                    name: "6h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance7).ToString().Replace(",",".")),
+                                    drilldown: "6h"
+                                },
+                                {
+                                    name: "7h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance8).ToString().Replace(",",".")),
+                                    drilldown: "7h"
+                                },
+                                {
+                                    name: "8h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance9).ToString().Replace(",",".")),
+                                    drilldown: "8h"
+                                },
+                                {
+                                    name: "9h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance10).ToString().Replace(",",".")),
+                                    drilldown: "9h"
+                                },
+                                {
+                                    name: "10h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance11).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "11h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance12).ToString().Replace(",",".")),
+                                    drilldown: "11h"
+                                },
+                                {
+                                    name: "12h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance13).ToString().Replace(",",".")),
+                                    drilldown: "12h"
+                                },
+                                {
+                                    name: "13h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance14).ToString().Replace(",",".")),
+                                    drilldown: "13h"
+                                },
+                                {
+                                    name: "14h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance15).ToString().Replace(",",".")),
+                                    drilldown: "14h"
+                                },
+                                {
+                                    name: "15h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance16).ToString().Replace(",",".")),
+                                    drilldown: "15h"
+                                },
+                                {
+                                    name: "16h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance17).ToString().Replace(",",".")),
+                                    drilldown: "16h"
+                                },
+                                {
+                                    name: "17h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance18).ToString().Replace(",",".")),
+                                    drilldown: "17h"
+                                },
+                                {
+                                    name: "18h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance19).ToString().Replace(",",".")),
+                                    drilldown: "18h"
+                                },
+                                {
+                                    name: "19h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance20).ToString().Replace(",",".")),
+                                    drilldown: "19h"
+                                },
+                                {
+                                    name: "20h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance21).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "21h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance22).ToString().Replace(",",".")),
+                                    drilldown: "21h"
+                                },
+                                {
+                                    name: "22h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance23).ToString().Replace(",",".")),
+                                    drilldown: "22h"
+                                }
+                                ,
+                                {
+                                    name: "23h",
+                                    y: parseFloat(@Html.Raw(Model.LuongMua.Distance24).ToString().Replace(",",".")),
+                                    drilldown: "23h"
+                                }
+                        ]
+                    }
+                ],
+                drilldown: {
+
+                }
+            });
+            });
+        </script>
+    }
+    @if (Model.TocDoGio != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                 Highcharts.chart('container' + '@Html.Raw(Model.TocDoGio.ReportTypeCode)', {
+                    chart: {
+                        type: 'column'
+                    },
+                title: {
+                        text:'@Html.Raw(Model.TocDoGio.ReportTypeName)'
+                },
+                subtitle: {
+                        text: 'Nguồn asm.aks.vn'
+                },
+                accessibility: {
+                        announceNewData: {
+                            enabled: true
+                        }
+                        },
+                xAxis: {
+                        type: 'category'
+                },
+                yAxis: {
+                        title: {
+                            text: '@Html.Raw(Model.TocDoGio.Title)'
+                        }
+
+                        },
+                legend: {
+                        enabled: false
+                },
+                plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                        dataLabels: {
+                                enabled: true,
+                            format: '{point.y:.1f}'
+                        }
+                            }
+                        },
+
+                tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f} ' + '@Html.Raw(Model.TocDoGio.Measure)' + '</b>'
+                },
+
+                series: [
+                          {
+                        name: '@Html.Raw(Model.TocDoGio.ReportTypeName)',
+                        colorByPoint: false,
+                        data: [
+                             {
+                                    name: "0h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance1).ToString().Replace(",",".")),
+                                    drilldown: "0h"
+                                },
+                                {
+                                    name: "1h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance2).ToString().Replace(",",".")),
+                                    drilldown: "1h"
+                                },
+                                {
+                                    name: "2h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance3).ToString().Replace(",",".")),
+                                    drilldown: "2h"
+                                },
+                                {
+                                    name: "3h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance4).ToString().Replace(",",".")),
+                                    drilldown: "3h"
+                                },
+                                {
+                                    name: "4h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance5).ToString().Replace(",",".")),
+                                    drilldown: "4h"
+                                },
+                                {
+                                    name: "5h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance6).ToString().Replace(",",".")),
+                                    drilldown: "5h"
+                                },
+                                {
+                                    name: "6h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance7).ToString().Replace(",",".")),
+                                    drilldown: "6h"
+                                },
+                                {
+                                    name: "7h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance8).ToString().Replace(",",".")),
+                                    drilldown: "7h"
+                                },
+                                {
+                                    name: "8h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance9).ToString().Replace(",",".")),
+                                    drilldown: "8h"
+                                },
+                                {
+                                    name: "9h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance10).ToString().Replace(",",".")),
+                                    drilldown: "9h"
+                                },
+                                {
+                                    name: "10h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance11).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "11h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance12).ToString().Replace(",",".")),
+                                    drilldown: "11h"
+                                },
+                                {
+                                    name: "12h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance13).ToString().Replace(",",".")),
+                                    drilldown: "12h"
+                                },
+                                {
+                                    name: "13h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance14).ToString().Replace(",",".")),
+                                    drilldown: "13h"
+                                },
+                                {
+                                    name: "14h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance15).ToString().Replace(",",".")),
+                                    drilldown: "14h"
+                                },
+                                {
+                                    name: "15h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance16).ToString().Replace(",",".")),
+                                    drilldown: "15h"
+                                },
+                                {
+                                    name: "16h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance17).ToString().Replace(",",".")),
+                                    drilldown: "16h"
+                                },
+                                {
+                                    name: "17h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance18).ToString().Replace(",",".")),
+                                    drilldown: "17h"
+                                },
+                                {
+                                    name: "18h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance19).ToString().Replace(",",".")),
+                                    drilldown: "18h"
+                                },
+                                {
+                                    name: "19h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance20).ToString().Replace(",",".")),
+                                    drilldown: "19h"
+                                },
+                                {
+                                    name: "20h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance21).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "21h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance22).ToString().Replace(",",".")),
+                                    drilldown: "21h"
+                                },
+                                {
+                                    name: "22h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance23).ToString().Replace(",",".")),
+                                    drilldown: "22h"
+                                }
+                                ,
+                                {
+                                    name: "23h",
+                                    y: parseFloat(@Html.Raw(Model.TocDoGio.Distance24).ToString().Replace(",",".")),
+                                    drilldown: "23h"
+                                }
+                        ]
+                    }
+                ],
+                drilldown: {
+
+                }
+            });
+            });
+        </script>
+    }
+    @if (Model.HuongGio != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                Highcharts.chart('container' + '@Html.Raw(Model.HuongGio.ReportTypeCode)', {
+                     chart: {
+                        polar: true,
+                        type: 'line'
+                    },
+
+                    accessibility: {
+                        description: ''
+                    },
+
+                    title: {
+                        text:'@Html.Raw(Model.HuongGio.Title)',
+                        x: -80
+                    },
+
+                    pane: {
+                        size: '80%'
+                    },
+
+                    xAxis: {
+                        categories: ['Bắc', 'Đông Bắc', 'Đông', 'Đông Nam',
+                            'Nam', 'Tây Nam','Tây','Tây Bắc'],
+                        tickmarkPlacement: 'on',
+                        lineWidth: 0
+                    },
+
+                    yAxis: {
+                        gridLineInterpolation: 'polygon',
+                        lineWidth: 0,
+                        min: 0
+                    },
+
+                    tooltip: {
+                        shared: true,
+                        pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f} s</b><br/>'
+                    },
+
+                    legend: {
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        layout: 'vertical'
+                    },
+
+                                    series: [{
+                                        name: 'Thời gian',
+                                        data: [@Html.Raw(Model.HuongGio.Distance1), @Html.Raw(Model.HuongGio.Distance2), @Html.Raw(Model.HuongGio.Distance3), @Html.Raw(Model.HuongGio.Distance4), @Html.Raw(Model.HuongGio.Distance5), @Html.Raw(Model.HuongGio.Distance6),@Html.Raw(Model.HuongGio.Distance7),@Html.Raw(Model.HuongGio.Distance8)],
+                                        pointPlacement: 'on'
+                                    }],
+                    responsive: {
+                        rules: [{
+                            condition: {
+                                maxWidth: 500
+                            },
+                            chartOptions: {
+                                legend: {
+                                    align: 'center',
+                                    verticalAlign: 'bottom',
+                                    layout: 'horizontal'
+                                },
+                                pane: {
+                                    size: '70%'
+                                }
+                            }
+                        }]
+                    }
+                });
+            });
+        </script>
+    }
+
+}

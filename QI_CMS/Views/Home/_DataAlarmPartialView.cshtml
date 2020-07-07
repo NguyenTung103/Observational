@@ -1,0 +1,115 @@
+﻿@model IEnumerable<ES_CapDien.Models.DataAlarmMongo>
+<div class="form-group panel-heading">
+    <b> Thông tin cảnh báo </b>
+</div>
+<div class='panel panel-default'>
+    <div class='panel-body'>
+        <table class="table table-striped table-bordered table-hover table-full-width" id="areas-list">
+            <thead>
+                <tr>
+                    <th class="center">Thời gian</th>
+                    <th class="center">F</th>
+                    <th class="center">D</th>
+                    <th class="center">T</th>
+                    <th class="center">A</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.TimeSend</td>
+                        <td class="hidden-xs">
+                            @if (item.AMAFR.Contains("1-1") == true)
+                            {
+                                <span class="btn btn-danger" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm(''@item.Id'')"></span>                               
+                                <br />
+                            }
+                            else if (item.AMAFR.Contains("0-1") == true)
+                            {
+                                <span class="btn btn-info" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm(''@item.Id'')"></span>                                
+                                <br />
+                            }
+                            else if (item.AMAFR.Contains("1-0") == true)
+                            {
+                                <span class="btn btn-yellow" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm(''@item.Id'')"></span>                                
+                                <br />
+                            }
+                            else if (item.AMAFR.Contains("0-0") == true)
+                            {
+                                <span class="btn btn-success" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
+                                <br />
+                            }
+                        </td>
+                        <td>
+                            @if (item.AMADR.Contains("1-1") == true)
+                            {
+                                <span class="btn btn-danger" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
+                                <br />
+                            }
+                            else if (item.AMADR.Contains("0-1") == true)
+                            {
+                                <span class="btn btn-info" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                               
+                                <br />
+                            }
+                            else if (item.AMADR.Contains("1-0") == true)
+                            {
+                                <span class="btn btn-yellow" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                               
+                                <br />
+                            }
+                            else if (item.AMADR.Contains("0-0") == true)
+                            {
+                                <span class="btn btn-success" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                               
+                                <br />
+                            }
+                        </td>
+                        <td>
+                            @if (item.AMATI.Contains("1-1") == true)
+                            {
+                                <span class="btn btn-danger" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
+                                <br />
+                            }
+                            else if (item.AMATI.Contains("0-1") == true)
+                            {
+                                <span class="btn btn-info" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                               
+                                <br />
+                            }
+                            else if (item.AMATI.Contains("1-0") == true)
+                            {
+                                <span class="btn btn-yellow" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
+                                <br />
+                            }
+                            else if (item.AMATI.Contains("0-0") == true)
+                            {
+                                <span class="btn btn-success" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
+                                <br />
+                            }
+                        </td>
+                        <td>
+                            @if (item.AMIAC.Contains("1-1") == true)
+                            {
+                                <span class="btn btn-danger" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                              
+                                <br />
+                            }
+                            else if (item.AMIAC.Contains("0-1") == true)
+                            {
+                                <span class="btn btn-info" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                               
+                                <br />
+                            }
+                            else if (item.AMIAC.Contains("1-0") == true)
+                            {
+                                <span class="btn btn-yellow" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
+                                <br />
+                            }
+                            else if (item.AMIAC.Contains("0-0") == true)
+                            {
+                                <span class="btn btn-success" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
+                                <br />
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

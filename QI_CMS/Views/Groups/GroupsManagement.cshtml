@@ -1,0 +1,185 @@
+﻿@model ES_CapDien.Models.GroupsViewModel
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Quản lý nhóm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section PageScripts{
+    <script type="text/javascript">
+        function deleteVtu(e) {
+            swal({
+                title: 'Bạn có chắc chắn muốn xóa ?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Accept',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.value) {
+                    var id = "Page_" + e;
+                    var button = $("#" + id);
+                    button.click();
+                }
+            })
+        };
+           function DeleteSelect() {
+            var selectedIds = new Array();
+               $('#groups-list input[type="checkbox"]:checked').each(function () {
+                selectedIds.push($(this).attr('value'));
+            });
+              swal({
+                title: 'Bạn có chắc chắn muốn xóa ?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Accept',
+                cancelButtonText: 'Cancel',
+              }).then((result) => {
+                  if (result.value) {
+                       $.ajax({
+                        cache: false,
+                        type: "POST",
+                        url: "@Html.Raw(Url.Action("DeleteSelected"))",
+                        data: { ids: selectedIds },
+                           complete: function (data) {
+                              $("#loadmesenger").load('@(Url.Action("_MessagePartial"))');
+                               $('#point-form').submit();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(thrownError);
+                        },
+                        traditional: true
+            });
+                  }
+              })
+        };
+        var runSelect2 = function () {
+            $(".search-select").select2({
+                placeholder: "Choose something",
+                allowClear: true
+            });
+        };
+        runSelect2();
+        function submitform() {
+            $("#btn_Submit").click();
+        };
+        function submitValue(value) {
+            $("#pageSize").val(value);
+            submitform();
+        };
+    </script>
+}
+    <div class="col-md-12">       
+        <div id="loadmesenger">
+            @Html.Partial("~/Views/Shared/_MessagePartial.cshtml")
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-external-link-square"></i>
+                <strong>Danh sách nhóm</strong>
+                <div class="panel-tools">
+                    <a class="btn btn-primary btn-xs" href="@Url.Action("Create","Groups", new { id = 0,  page  = Request.Params["page"], pageSize = Request.Params["pageSize"], Search = Request.Params["Search"] })">
+                        <i class="fa fa-plus"></i>
+                        Thêm mới
+                    </a>
+                    <a class="btn btn-danger btn-xs" onclick="DeleteSelect()">
+                        <i class="fa fa-trash-o"></i>
+                        Xóa các mục đã chọn
+                    </a>
+                    <p class="btn btn-xs btn-link panel-expand1">
+                        <i class="fa fa-resize-full"></i>
+                    </p>
+                </div>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("GroupsManagement", "Groups", FormMethod.Get, new { id = "point-form" }))
+                {
+                    <input type="hidden" id="pageSize" name="pageSize" value="@Request.Params["pageSize"]" />
+                }
+                <hr />                
+                <table class="table table-striped table-bordered table-hover table-full-width" id="groups-list">
+                    <thead>
+                        <tr>
+                            <th class="center"></th>
+                            <th class="center">STT</th>
+                            <th class="center">Name</th>
+                            <th class="center">Liên hệ</th>
+                            <th class="center">Ngày tạo</th>
+                            <th class="center">Ngày Cập nhật</th>
+                            <th class="center">Người tạo</th>
+                            <th class="center">Số điện thoại</th>
+                            <th class="center">Email</th>
+                            <th class="center">Trạng thái</th>
+                            <th class="center">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Groups)
+                        {
+                            <tr>
+                                <td align="center">
+                                    <div class="checkbox-table" id="parentt">
+                                        <label>
+                                            <input type="checkbox" value='@item.Id' class="flat-grey checkboxGroups" id="check_@item.Id">
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="center">@(Model.Groups.ToList().IndexOf(item) + 1)</td>
+                                <td>@item.Name</td>
+                                <td>@item.Contact</td>
+                                <td>@item.CreateDay</td>
+                                <td>@item.UpdateDay</td>
+                                <td>@item.NguoiTao</td>
+                                <td>@item.Mobile</td>
+                                <td>@item.Email</td>                                
+                                <td>@item.IsActive</td>
+                                <td width="90px;">
+                                    <div>
+                                        <a href="@Url.Action("Update","Groups", new { id = item.Id, page  = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"]})" class="btn btn-xs btn-teal tooltips" data-placement="top" data-original-title="Sửa"><i class="fa fa-edit"></i></a>
+                                        <a href="#" onclick="deleteVtu(@item.Id)" class="btn btn-xs btn-bricky tooltips"><i class="fa fa-times fa fa-white"></i></a>
+                                        <div style="display: none;">
+                                            @using (Html.BeginForm("Delete", "Groups", new { id = item.Id, page = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"]}))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <input id="Page_@item.Id" class="btn btn-xs btn-bricky tooltips" type="submit" value="Delete" />
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div id="sample_1_info" class="dataTables_info">
+                            <label>
+                                Page @Model.PagingInfo.CurrentPage  total @Model.PagingInfo.TotalPages Pages.
+                                <select class="form-control search-select" style="width: 70px;" onchange="submitValue(this.value);" name="pageSize">
+                                    @foreach (var item in @ViewBag.PageSizes)
+                                    {
+                                        if (item.ToString() == Request.Params["pageSize"])
+                                        {
+                                            <option value="@item" selected="selected">@item</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                    }
+                                </select>
+                                dòng
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        @Html.PagedListPager((PagedList.IPagedList)Model.Groups, page => Url.Action("GroupsManagement", new { page, pageSize = Request.Params["pageSize"], Search = Request.Params["Search"] }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+

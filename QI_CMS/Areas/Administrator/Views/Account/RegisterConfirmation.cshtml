@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "RegisterConfirmation";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+@*<div class="logo" style="font-family: 'Times New Roman'">
+    KÍCH HOẠT TÀI KHOẢN
+</div>*@
+<div class="row">
+  @*  <div class="col-md-6">
+<img src="~/Images/feuerwerk_137.gif" />
+        </div>*@
+     <div class="col-md-6 col-md-offset-1">
+    <img src="~/Images/phaohoa.gif" />
+         </div>
+    </div>
+<div class="box-login">
+    @Html.Partial("_MessagePartial")
+    <div class="form-actions">
+        <a class="btn btn-light-grey go-back" href="@Url.Action("Index", "Home")">
+            <i class="fa fa-circle-arrow-left"></i>Về trang chủ
+        </a>
+        <a type="submit" class="btn btn-bricky pull-right" href="@Url.Action("Login")">
+            Đăng Nhập <i class="fa fa-arrow-circle-right"></i>
+        </a>
+    </div>
+</div>

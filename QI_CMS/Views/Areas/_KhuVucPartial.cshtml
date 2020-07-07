@@ -1,0 +1,88 @@
+﻿@model ES_CapDien.Models.AreaModel
+@{
+    ViewBag.Title = "_KhuVucPartial";
+}
+<style type="text/css">
+    #map {
+        width: 100%;
+        height: 400px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-6">
+        <div id="map"></div>
+    </div>
+    <div class="col-md-6">   
+        <div class="form-group">
+            <div class="col-sm-1"></div>
+            <label class="col-sm-2 control-label" for="form-field-1">Nhóm<span class="symbol required"></span></label>
+            <div class="col-sm-8">
+                <select id="listTypeNewID" class="form-control search-select" name="@Html.NameFor(q=>q.Group_Id)">
+                    @if (ViewBag.listGroup != null)
+                    {
+                        foreach (var item in ViewBag.listGroup)
+                        {
+                            if (item.Id == Model.Group_Id)
+                            {
+                                <option value="@item.Id" selected="selected">@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-1"></div>
+            <label class="col-sm-2 control-label" for="form-field-1">Tên khu vực<span class="symbol required"></span></label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(item => item.Name, new { @class = "form-control", @placeholder = "Nhập tên khu vực" })
+                @Html.ValidationMessageFor(item => item.Name)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-1"></div>
+            <label class="col-sm-2 control-label" for="form-field-1">Kinh độ</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(item => item.Longtitude, new { @class = "form-control", @placeholder = "Kinh độ", id = "KinhDoId" })
+                @Html.ValidationMessageFor(item => item.Longtitude)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-1"></div>
+            <label class="col-sm-2 control-label" for="form-field-1">Vĩ độ</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(item => item.Latitude, new { @class = "form-control", @placeholder = "Vĩ độ", id = "VidoId" })
+                @Html.ValidationMessageFor(item => item.Latitude)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <div class="col-sm-6 control-label" for="form-field-1">
+                        <label class="checkbox-inline">
+                            @Html.EditorFor(q => q.IsActive)
+                            Hoạt động
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-7"></div>
+            <div class="col-sm-5">
+                <input class="btn btn-primary" type="submit" value="Lưu" id="btnAdd" style="width:100px;" />
+                <a class="btn btn-dark-grey" href="@Url.Action("AreasManament",new { page=Request.Params["page"], pageSize=Request.Params["pageSize"], title=Request.Params["title"]})" style="width: 100px;">
+                    Thoát
+                    <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

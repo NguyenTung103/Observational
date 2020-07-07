@@ -1,0 +1,49 @@
+﻿@using ES_CapDien.Models
+@model ChangePassModel
+@{
+    ViewBag.Title = "Thay đổi mật khẩu";
+}
+
+<div class="col-md-12">
+    <div class="page-header">
+        <h1 class="titlepageas"><a class="homcomback" href="/DashBoard/DashBoardManager"><img src="~/Content/Images/home.png" /></a>@ViewBag.Title</h1>
+    </div>
+    @Html.Partial("~/Views/Shared/_MessagePartial.cshtml")
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i><b>Thay đổi mật khẩu</b>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("ChangePass", "LoginAccount", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <input type="hidden" name="UserId" value="@Model.UserId"/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="form-field-1">Mật khẩu cũ</label>
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(item => item.PasswordOld, new { @class = "form-control", @placeholder = "Mật khẩu cũ", @type = "password" })
+                        @Html.ValidationMessageFor(item => item.PasswordOld)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="form-field-1">Mật khẩu mới</label>
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(item => item.PasswordNew, new { @class = "form-control", @placeholder = "Mật khẩu mới", @type = "password" })
+                        @Html.ValidationMessageFor(item => item.PasswordNew)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                    <div class="col-md-8">
+                    </div>
+                    <div class="col-md-4">
+                        <input class="btn btn-primary" type="submit" value="Lưu" id="btnAdd" style="width: 100px;" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

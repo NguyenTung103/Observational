@@ -1,0 +1,88 @@
+﻿@using ES_CapDien.Models
+@using ES_CapDien
+@model UserProfileModel
+<style type="text/css">
+    select option {
+        color: #01054f;
+    }
+
+    textarea {
+        color: inherit;
+        font: inherit;
+        margin: 0px;
+    }
+
+    select.form-control {
+        color: #01054f;
+    }
+</style>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Tên đăng nhập</label>
+    <div class="col-sm-10">
+        @Html.TextBoxFor(item => item.UserName, new { @class = "form-control", @placeholder = "Nhập tên đăng nhập" })
+        @Html.ValidationMessageFor(item => item.UserName)
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Nhập mật khẩu</label>
+    <div class="col-sm-10">
+        @Html.PasswordFor(item => item.Password, new { @class = "form-control", @placeholder = "Nhập mật khẩu" })
+        @Html.ValidationMessageFor(item => item.Password)
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Tên đầy đủ</label>
+    <div class="col-sm-10">
+        @Html.TextBoxFor(item => item.FullName, new { @class = "form-control", @placeholder = "Nhập tên đầy đủ" })
+        @Html.ValidationMessageFor(item => item.FullName)
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Email</label>
+    <div class="col-sm-10">
+        @Html.TextBoxFor(item => item.Email, new { @class = "form-control", @placeholder = "Nhập địa chỉ Email" })
+        @Html.ValidationMessageFor(item => item.Email)
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1">Nhóm <span class="symbol required"></span></label>
+    <div class="col-sm-10" style="color:black">
+        <select id="listAddsPosstions" class="form-control search-select" name="Group_Id">
+            <option value="">--Chọn nhóm--</option>
+            @if (@ViewBag.Groups != null)
+            {
+                foreach (var item in @ViewBag.Groups)
+                {
+                    if (item.Id == Model.Group_Id)
+                    {
+                        <option value="@item.Id" selected="selected">@item.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label" for="form-field-1"> Cho phép hoạt động </label>
+    <div class="col-sm-9 control-label" for="form-field-1">
+        <label class="checkbox-inline">
+            @Html.EditorFor(q => q.IsActive)
+            Cho phép hoạt động
+        </label>
+    </div>
+</div>
+<div class="col-md-8">
+
+</div>
+<div class="col-md-4">
+    <input class="btn btn-primary" type="submit" value="Cập nhập" id="btnAdd" style="width:100px;" />
+    <a class="btn btn-dark-grey" href="@Url.Action("Management",new { page  = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"]})" style="width: 100px;">
+        Thoát
+        <i class="fa fa-arrow-circle-right"></i>
+    </a>
+</div>

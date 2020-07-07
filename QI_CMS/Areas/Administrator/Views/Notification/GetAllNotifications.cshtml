@@ -1,0 +1,37 @@
+﻿@model List<Administrator.Library.Models.NotificationModel>
+@{
+    ViewBag.Title = "GetAllNotifications";
+}
+
+<div class="col-md-12">
+    <div class="page-header">
+        <h1>Thông báo cá nhân</h1>
+    </div>
+    <div class="panel panel-white">
+        <div class="panel-heading">
+        </div>
+        <div class="panel-body panel-scroll" style="height: 300px">
+            <ul class="todo">
+                @foreach (var item in Model)
+                {
+                    <li>
+                        @if (!item.IsRead)
+                        {
+                            <a href="@item.Link" style="background: #EAEAEA">
+                                <span class="desc" style="opacity: 1; text-decoration: none;">@item.Content</span>
+                                <span class="label" style="opacity: 1; color: black;">@HelperLibrary.DateTimeHelper.Timeago(item.CreateDate)</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="todo-actions" href="javascript:void(0)">
+                                <span class="desc" style="opacity: 1; text-decoration: none;">@item.Content</span>
+                                <span class="label" style="opacity: 1; color: black;">@HelperLibrary.DateTimeHelper.Timeago(item.CreateDate)</span>
+                            </a>
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+﻿@model Administrator.Library.Models.RolesModel
+@{
+    ViewBag.Title = "EditRole";
+}
+@section PageScripts{
+    <script type="text/javascript">
+
+        $("#btnUpdate").click(function () {
+            //Lấy RoleId
+            var roleId = $("#RoleId").val();
+            //Lấy PageId được chọn
+            var selNodes = $("#tree").dynatree("getTree").getSelectedNodes();
+            var selKeys = $.map(selNodes, function (node) {
+                return node.data.key;
+            });
+            var pageId = selKeys.join(",");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("PageInRole", "Security", new { area = "Administrator" })',
+                data: JSON.stringify({ RoleId: roleId, PageId: pageId }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    window.location.href = response.Url;
+                },
+                error: function () {
+                }
+            });
+        });
+
+        var runTreeView = function () {
+            //Default Tree
+            $("#tree").dynatree({
+                checkbox: true,
+                selectMode: 3,
+            });
+        }
+        runTreeView();;
+    </script>
+}
+<div class="col-md-12">
+    <div class="page-header">
+        <h1>Quản trị quyền</h1>
+    </div>
+    @Html.Partial("_MessagePartial")
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i><b>Lưu role</b>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("EditRole", "Security", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                @Html.Partial("_RolePartial")
+                @Html.HiddenFor(item => item.RoleId)
+            }
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i><b>Tác động trên trang</b>
+            <div class="panel-tools">
+                <a class="btn btn-xs btn-link panel-collapse expand" href="#"></a>
+            </div>
+        </div>
+        <div class="panel-body" style="display: none;">
+            <div id="tree">
+                @Html.Raw(ViewBag.MenuTreeView)
+            </div>
+            <form id="__AjaxAntiForgeryForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+                <div class="col-md-8">
+                </div>
+                <div class="col-md-4">
+                    <span class="btn btn-primary" id="btnUpdate" style="width: 100px;">Lưu</span>
+                    <a class="btn btn-dark-grey" href="@Url.Action("RoleManager")" style="width: 100px;">Thoát
+                            <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

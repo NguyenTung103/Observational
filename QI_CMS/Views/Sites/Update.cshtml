@@ -1,0 +1,62 @@
+﻿@model ES_CapDien.Models.SiteModel
+@{
+    ViewBag.Title = "Cập nhật trạm";
+}
+@section PageScripts{
+    <script>
+        var runSelect2 = function () {
+            $(".search-select").select2({
+                allowClear: true
+            });
+        };
+        runSelect2();
+        var map;
+        function initMap() {
+            /* Set các thuộc tính của map bao gồm tọa độ và view trung tâm bản đồ */
+            map = new google.maps.Map(document.getElementById('map'));
+            map.setZoom(13);      // This will trigger a zoom_changed on the map
+            map.setCenter(new google.maps.LatLng(21.027763, 105.834160));
+            map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+            /* Nội dung của điểm point */
+            var contentStringBracU = '<div id="content">' +
+                '<div id="siteNotice">' +
+                '</div>' +
+                '<h1 id="firstHeading" class="firstHeading">BracU</h1>' +
+                '<div id="bodyContent">' +
+                '<p><b>BracU</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+                'sandstone rock formation in the southern part of the ' +
+                'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) ' +
+                'south west of the nearest large town, Alice Springs; 450&#160;km ';
+            ////For Dhaka U
+            var markerdhakau = new google.maps.Marker({
+                position: { lat: 21.027763, lng: 105.834160 },
+                map: map,
+                draggable: true
+            });
+            google.maps.event.addListener(markerdhakau, 'drag', function (event) {
+                document.getElementById("VidoId").value = event.latLng.lat();
+                document.getElementById("KinhDoId").value = event.latLng.lng();
+                //console.log(markerdhakau.getPosition().lat());
+                //console.log(markerdhakau.getPosition().lng());
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAakvdgbVCWBw__icKUbSPUEKBaOKsIBy8&callback=initMap" async defer></script>
+}
+<div class="col-md-12">
+    @Html.Partial("~/Views/Shared/_MessagePartial.cshtml")
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i><b>@ViewBag.Title</b>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("Update", "Sites", new { page = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"] }, FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                @Html.Partial("_SitesPartial")
+            }
+        </div>
+        }
+    </div>
+</div>

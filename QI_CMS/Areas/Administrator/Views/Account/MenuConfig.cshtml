@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Administrator.Library.Models.MenuModel>
+@{
+    ViewBag.Title = "MenuConfig";
+}
+@section PageScripts{
+    <script type="text/javascript">
+        function deleteMenu(e) {
+            var r = confirm("Bạn chắc chắn xóa Thao tác này?");
+            if (r) {
+                var id = "Menu_" + e;
+                var button = $("#" + id);
+                button.click();
+            }
+        }
+    </script>
+}
+<div class="col-md-12">
+    <div class="page-header">
+        <h1>Quản trị menu</h1>
+    </div>
+    <!-- start: DYNAMIC TABLE PANEL -->
+    @Html.Partial("_MessagePartial")
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i>
+            <strong>Danh sách menu </strong>
+            @*  <a class="btn btn-primary btn-xs" href="@Url.Action("AddProduct", "Admin", new { IdCategory = Request.QueryString["IdCategory"], editing = 0 })">
+                            <i class="fa fa-plus"></i>
+                            Thêm mới </a>*@
+            <div class="panel-tools">
+                <a class="btn btn-primary btn-xs" href="@Url.Action("AddMenu")" >
+                    <i class="fa fa-plus"></i>
+                    Thêm mới 
+                </a>
+                <p class="btn btn-xs btn-link panel-expand1">
+                    <i class="fa fa-resize-full"></i>
+                </p>
+            </div>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("MenuConfig", "Account", FormMethod.Get))
+            {  
+                <div class="chat-form">
+                    <div class="input-group">
+
+                        <input name="search" value="@Request.Params["search"]" class="form-control input-mask-date" placeholder="Tìm kiếm tên menu..." type="text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-teal" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+
+                    </div>
+                </div>
+            }
+            <table class="table table-bordered table-hover" id="sample_1">
+                <thead>
+                    <tr>
+                        <th>Tên menu</th>
+                        <th class="hidden-xs">Menu Cha</th>
+                        <th class="hidden-xs">Đường dẫn</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td class="hidden-xs">@item.ParentName</td>
+                            <td class="hidden-xs">@item.Url</td>
+                            <td class="center">
+                                <div>
+                                    <a href="@Url.Action("EditMenu", new { editing = item.MenuId })" class="btn btn-xs btn-teal tooltips" data-placement="top" data-original-title="Sửa"><i class="fa fa-edit"></i></a>
+                                    <a onclick="deleteMenu('@item.MenuId.ToString().Replace("-", "")')" class="btn btn-xs btn-bricky tooltips" data-placement="top" data-original-title="Xóa"><i class="fa fa-times fa fa-white"></i></a>
+                                    <div style="display: none;">
+                                        @using (Html.BeginForm("DeleteMenu", "Account", new { delete = item.MenuId }))
+                                        {                                            
+                                            @Html.AntiForgeryToken()
+                                            <input id="Menu_@item.MenuId.ToString().Replace("-", "")" type="submit" value="Delete" />
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

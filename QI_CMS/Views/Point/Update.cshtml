@@ -1,0 +1,24 @@
+﻿@using ES_CapDien.Models
+@model PointModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="col-md-12">
+    @Html.Partial("~/Views/Shared/_MessagePartial.cshtml")
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i><b>@ViewBag.Title</b>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("Update", "Point", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {           
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                @Html.Partial("_PointPartialView")
+            }
+        </div>
+    </div>
+</div>

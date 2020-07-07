@@ -1,0 +1,291 @@
+﻿@model ES_CapDien.Models.DataObservationViewModel
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Dữ liệu tổng hợp";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section PageScripts{
+    <script>
+        $(document).ready(function () {
+            var reload;
+            $('#fromDate').daterangepicker({
+                singleDatePicker: true, format: 'DD/MM/YYYY HH:mm A'
+            }, function (start, end, label) {
+            });
+            $('#toDate').daterangepicker({
+                singleDatePicker: true, format: 'DD/MM/YYYY HH:mm A'
+            }, function (start, end, label) {
+            });
+            $(document).ajaxStart(function () {
+                $("body").css("opacity", "0.4");
+                $("#loading").css("opacity", "1");
+                $("#loading").show();
+
+            }).ajaxStop(function () {
+                $("#loading").hide();
+                $("body").css("opacity", "1");
+            });
+            $("#runRealTime").click(function () {
+                var setTime = document.getElementById("setTime").value;
+                if (setTime > 6) {
+                    Swal.fire(
+                        'Thành công !',
+                        'Bắt đầu thực hiện',
+                        'success'
+                    );
+                    $("#stop").css("display", "block");
+                    reload = setInterval(function () {
+                        Data();
+                    }, setTime * 1000);
+                }
+                else {
+                    Swal.fire(
+                        'Lỗi !',
+                        'Thời gian cài đặt phải lớn hơn 6s',
+                        'error'
+                    )
+                }
+
+            });
+            $("#stop").click(function () {
+                Swal.fire(
+                    'Thành công !',
+                    'Dừng thực hiện',
+                    'success'
+                )
+                $("#stop").css("display", "none");
+                clearInterval(reload);
+            });
+
+        });
+        function Data() {
+            $.ajax({
+                type: "GET",
+                url: '/Home/GetDataTable',
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (resuilt) {
+                    $("#dataTable").html(resuilt);
+                },
+                error: function () {
+                }
+            });
+        }
+        var runSelect2 = function () {
+            $(".search-select").select2({
+                placeholder: "Choose something",
+                allowClear: true
+            });
+        };
+        runSelect2();
+        function submitform() {
+            $("#btn_Submit").click();
+        };
+        function submitValue(value) {
+            $("#pageSize").val(value);
+            submitform();
+        };
+
+        /**/</script>
+}
+<div class="row">
+    <div class="col-md-12" style="text-align:center; position:absolute;">
+        <img src="/Images/ajax-loader.gif" id="loading" style="width:10%; margin-top:17%; display:none;" />
+    </div>
+</div>
+<div class="col-md-12">
+    <div id="loadmesenger">
+        @Html.Partial("~/Views/Shared/_MessagePartial.cshtml")
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i>
+            <strong>Tổng hợp dữ liệu</strong>
+            <div class="panel-tools">
+            </div>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("Management", "Home", FormMethod.Get, new { id = "point-form" }))
+            {
+                <div class="chat-form">
+                    <div class="row">
+                        <div class="col-md-3 form-horizontal">
+                            <div class="row form-group">
+                                <label class="col-sm-3 control-label" for="form-field-1">
+                                    Khu vực
+                                </label>
+                                <div class="col-sm-9">
+                                    <select class="form-control search-select" id="areaID" name="areaID">
+                                        <option value="">--- Khu vực ---</option>
+                                        @if (ViewBag.lstArea != null)
+                                        {
+                                            foreach (var item in ViewBag.lstArea)
+                                            {
+                                                if (item.Id.ToString() == Request.Params["areaID"])
+                                                {
+                                                    <option value="@item.Id" selected="selected">@item.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form-horizontal">
+                            <div class="row form-group">
+                                <label class="col-sm-3 control-label" for="form-field-1">
+                                    Trạm
+                                </label>
+                                <div class="col-sm-9">
+                                    <select class="form-control search-select" id="siteId" name="siteId">
+                                        <option value="">--- Trạm ---</option>
+                                        @if (ViewBag.lstTram != null)
+                                        {
+                                            foreach (var item in ViewBag.lstTram)
+                                            {
+                                                if (item.Id.ToString() == Request.Params["siteId"])
+                                                {
+                                                    <option value="@item.Id" selected="selected">@item.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form-horizontal">
+                            <div class="row form-group">
+                                <label class="col-sm-3 control-label" for="form-field-1">
+                                    Ngày tạo từ ngày
+                                </label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="text" id="fromDate" name="fromDate" data-date-format="dd-mm-yyyy" autocomplete="off" data-date-viewmode="years" class="form-control date-picker" value="@(Model.From == null ? "": Model.From.Value.ToString("dd/MM/yyyy"))" onchange="check_date(this)">
+                                        <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form-horizontal">
+                            <div class="row form-group">
+                                <label class="col-sm-3 control-label" for="form-field-1">
+                                    Đến ngày
+                                </label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="text" id="toDate" name="toDate" data-date-format="dd-mm-yyyy" autocomplete="off" data-date-viewmode="years" class="form-control date-picker" value="@(Model.To == null ? "": Model.To.Value.ToString("dd/MM/yyyy"))" onchange="check_date(this)">
+                                        <span class="input-group-addon"> <i class="fa fa-calendar"></i> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 form-horizontal">
+                            <div class="row form-group">
+                                <label class="col-sm-3 control-label" for="form-field-1">
+                                    Cài đặt thời gian
+                                </label>
+                                <div class="col-sm-9">
+                                    <input class="form-control input-group" type="text" id="setTime" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form-horizontal">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary fill-data-cus" type="button" id="runRealTime">
+                                        Thực hiện
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-danger fill-data-cus" type="button" id="stop" style="display:none;">
+                                        Dừng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form-horizontal">
+                            <button class="btn btn-primary fill-data-cus" type="submit" id="btn_Submit">
+                                <i class="clip-search-2"></i>Lọc dữ liệu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="pageSize" name="pageSize" value="@Request.Params["pageSize"]" />
+            }
+            <hr />
+            <div id="dataTable">
+                <table class="table table-striped table-bordered table-hover table-full-width" id="areas-list">
+                    <thead>
+                        <tr>
+                            <th class="center">STT</th>
+                            <th class="center">Trạm</th>
+                            <th class="center">Thời gian</th>
+                            <th class="center">Nhiệt độ môi trường (oC)</th>                            
+                            <th class="center">Độ ẩm môi trường (%)</th>
+                            <th class="center">Tốc độ gió</th>
+                            <th class="center">Hướng gió</th>
+                            <th class="center">Áp suất KQ (hPA)</th>
+                            <th class="center">Lượng mưa (mm)</th>
+                            <th class="center">Mực nước (m)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.DataO)
+                        {
+                            <tr>
+                                <td class="center">@(Model.DataO.ToList().IndexOf(item) + 1)</td>
+                                <td>@item.NameSite.Trim()</td>
+                                <td class="center">@item.DateCreate</td>
+                                <td class="center">@item.BTI</td>                                
+                                <td class="center">@item.BHU</td>
+                                <td class="center">@item.BWS</td>
+                                <td class="center">@item.BAP</td>
+                                <td class="center">@item.BAV</td>
+                                <td class="center">@item.BAC</td>
+                                <td class="center">@item.BAF</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div id="sample_1_info" class="dataTables_info">
+                        <label>
+                            Page @Model.PagingInfo.CurrentPage  total @Model.PagingInfo.TotalPages Pages.
+                            <select class="form-control search-select" style="width: 70px;" onchange="submitValue(this.value);" name="pageSize">
+                                @foreach (var item in @ViewBag.PageSizes)
+                                {
+                                    if (item.ToString() == Request.Params["pageSize"])
+                                    {
+                                        <option value="@item" selected="selected">@item</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                }
+                            </select>
+                            dòng
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    @Html.PagedListPager((PagedList.IPagedList)Model.DataO, page => Url.Action("Management", new { page, pageSize = Request.Params["pageSize"], areaID = Request.Params["areaID"], fromDate = Request.Params["fromDate"], toDate = Request.Params["toDate"] }))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

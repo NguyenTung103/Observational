@@ -1,0 +1,102 @@
+﻿@model Administrator.Library.ViewModels.UserViewModel
+@{
+    ViewBag.Title = "UserManager";
+}
+@using PagedList.Mvc;
+@using PagedList;
+@section PageScripts{
+    <script type="text/javascript">
+        function deletePage(e) {
+            var r = confirm("Bạn chắc chắn xóa người dùng này?");
+            if (r == true) {
+                var id = "User_" + e;
+                var button = $("#" + id);
+                button.click();
+            }
+        }
+    </script>
+}
+
+<div class="col-md-12">
+    <div class="page-header">
+        <h1>Users management</h1>
+    </div>
+    @Html.Partial("_MessagePartial")
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i>
+            <strong>List users </strong>
+            <div class="panel-tools">
+                <a class="btn btn-primary btn-xs" href="@Url.Action("AddUser")" >
+                    <i class="fa fa-plus"></i>
+                    Create 
+                </a>
+                <p class="btn btn-xs btn-link panel-expand1">
+                    <i class="fa fa-resize-full"></i>
+                </p>
+            </div>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("UserManager", "Security", new { page = 1 }, FormMethod.Get))
+            {  
+                <div class="chat-form">
+                    <div class="input-group">
+
+                        <input name="search" value="@Request.Params["search"]" class="form-control input-mask-date" placeholder="Tìm kiếm tên đăng nhập..." type="text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-teal" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+
+                    </div>
+                </div>
+            }
+            <table class="table table-striped table-bordered table-hover table-full-width" id="sample_1">
+                <thead>
+                    <tr>
+                        <th>Tên đăng nhập</th>
+                        <th class="hidden-xs">Tên đầy đủ</th>
+                        <th class="hidden-xs">Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Users)
+                    {
+                        <tr>
+                            <td>@item.UserName</td>
+                            <td class="hidden-xs">@item.FullName</td>
+                            <td class="hidden-xs">@if (item.Status == true)
+                                                  { <span class="label label-sm label-success">Active</span> }
+                            </td>
+                            <td class="center">
+                                <div>
+                                    <a href="@Url.Action("Authorize", new { editing = item.UserId })" class="btn btn-xs btn-teal tooltips" data-placement="top" data-original-title="Phân quyền"><i class="fa fa-edit"></i></a>
+                                    <a onclick="deletePage(@item.UserId)" class="btn btn-xs btn-bricky tooltips" data-placement="top" data-original-title="Xóa"><i class="fa fa-times fa fa-white"></i></a>
+                                    <div style="display: none;">
+                                        @using (Html.BeginForm("DeleteUser", "Security", new { deleting = item.UserId }))
+                                        {                                            
+                                            @Html.AntiForgeryToken()
+                                            <input id="User_@item.UserId" data-toggle="modal" class="btn btn-xs btn-bricky tooltips" data-original-title="Xóa" data-placement="top" type="submit" value="Delete" />
+                                        }
+                                    </div>
+                                    <a href="@Url.Action("ResetPass", new { editing = item.UserName })" class="btn btn-xs btn-purple tooltips" data-placement="top" data-original-title="Reset mật khẩu"><i class="clip-spin-alt "></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="sample_1_info" class="dataTables_info">Trang @Model.PagingInfo.CurrentPage  trên tổng số @Model.PagingInfo.TotalPages trang</div>
+                </div>
+                <div class="col-md-6">
+                    @Html.PagedListPager((IPagedList)Model.Users, page => Url.Action("UserManager", new { page, Search = Request.Params["Search"] }))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

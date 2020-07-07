@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "AddRole";
+}
+<div class="col-md-12">
+    <div class="page-header">
+        <h1>Quản trị quyền</h1>
+    </div>
+    @Html.Partial("_MessagePartial")
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-external-link-square"></i><b>Thêm mới quyền</b>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("AddRole", "Security", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                @Html.Partial("_RolePartial")
+            }
+        </div>
+    </div>
+</div>
+
