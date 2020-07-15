@@ -92,6 +92,10 @@ namespace ES_CapDien.Controllers
                 }
                 catch { }
             }
+            if(!deviceId.HasValue)
+            {
+                deviceId = sitesService.GetBygroupId(groupId).FirstOrDefault().DeviceId;
+            }    
             ReportType rp0 = reportTypeService.GetByCode("RP0").FirstOrDefault();
             ReportType rp1 = reportTypeService.GetByCode("RP1").FirstOrDefault();
             ReportType rp2 = reportTypeService.GetByCode("RP2").FirstOrDefault();
@@ -443,6 +447,12 @@ namespace ES_CapDien.Controllers
             DateTime distance4 = new DateTime(date.Year, date.Month, 20, 23, 59, 59);
             DateTime distance5 = new DateTime(date.Year, date.Month, 21);
             DateTime distance6 = new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month), 23, 59, 59);
+            int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
+            int? groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id;
+            if (!deviceId.HasValue)
+            {
+                deviceId = sitesService.GetBygroupId(groupId).FirstOrDefault().DeviceId;
+            }
             var result = await Task.WhenAll(dataObservationMongoService.GetDatayDeviceId(distance1, distance2, deviceId.Value)
                 , dataObservationMongoService.GetDatayDeviceId(distance3, distance4, deviceId.Value)
                 , dataObservationMongoService.GetDatayDeviceId(distance5, distance6, deviceId.Value));
@@ -621,6 +631,12 @@ namespace ES_CapDien.Controllers
                 int rowStartAllTable = 7;
                 ExcelPackage pck = new ExcelPackage();
                 List<ReportExcelModel> lst = new List<ReportExcelModel>();
+                int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
+                int? groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id;
+                if (!deviceId.HasValue)
+                {
+                    deviceId = sitesService.GetBygroupId(groupId).FirstOrDefault().DeviceId;
+                }
 
                 #region Nhiet độ
                 ReportExcelModel nhietDo = reportDailyNhietDoService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new ReportExcelModel
