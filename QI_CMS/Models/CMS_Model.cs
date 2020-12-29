@@ -27,6 +27,29 @@ namespace ES_CapDien.Models
         public string Email { get; set; }
         public bool IsActive { get; set; }
     }
+    public partial class CommandModel
+    {
+        public int Id { get; set; }
+
+        public Nullable<int> Device_Id { get; set; }
+
+        public string Command_Content { get; set; }
+        public string SiteName { get; set; }
+        public string GroupName { get; set; }
+        public string UserName { get; set; }
+
+        public Nullable<bool> Status { get; set; }
+
+        public Nullable<System.DateTime> CreateDay { get; set; }
+
+        public Nullable<int> CreateBy { get; set; }
+
+        public Nullable<int> UpdateBy { get; set; }
+
+        public Nullable<System.DateTime> UpdateDay { get; set; }
+
+        public Nullable<int> GroupId { get; set; }
+    }
     public partial class DataObservationModel
     {
         public int Device_Id { get; set; }
@@ -50,6 +73,7 @@ namespace ES_CapDien.Models
         public double BSE { get; set; }
         public double BA1 { get; set; }
         public double BB1 { get; set; }
+        public double BVC { get; set; }
         public double BA2 { get; set; }
         public double BB2 { get; set; }
         public double BA3 { get; set; }
@@ -57,7 +81,7 @@ namespace ES_CapDien.Models
         public double BA4 { get; set; }
         public double BB4 { get; set; }
         public double BFA { get; set; }
-        public double BFD { get; set; }
+        public double BFD { get; set; }        
         public double BPW { get; set; }
         public Nullable<bool> IsSEQ { get; set; }
         public Nullable<System.DateTime> DateCreate { get; set; }
@@ -86,17 +110,20 @@ namespace ES_CapDien.Models
         [Required(ErrorMessage = "Khu vực không được để trống")]
         public int Area_Id { get; set; }
         public int Group_Id { get; set; }
+        [Required(ErrorMessage = "Kiểu trạm không được để trống")]
+        public int TypeSiteId { get; set; }
         [Required(ErrorMessage = "Tên trạm không được để trống")]
         public string Name { get; set; }
         public string Address { get; set; }
         public string Latitude { get; set; }
         public string Longtitude { get; set; }
         public string TimeZone { get; set; }
-        public System.DateTime CreateDay { get; set; }
+        public Nullable<System.DateTime> CreateDay { get; set; }
         public Nullable<System.DateTime> UpdateDay { get; set; }
         public Nullable<int> CreateBy { get; set; }
         public Nullable<int> UpdateBy { get; set; }
         public bool IsActive { get; set; }
+        public string NameTypeSite { get; set; }
         [Required(ErrorMessage = "Id thiết bị không được để trống")]
         public Nullable<int> DeviceId { get; set; }
         public string NameGroups { get; set; }
@@ -255,8 +282,8 @@ namespace ES_CapDien.Models
         public Nullable<System.DateTime> DateRequestReport { get; set; }
         public double? MaxValue { get; set; }
         public double? MinValue { get; set; }
-        public Nullable<System.DateTime> TimeMaxValue { get; set; }
-        public Nullable<System.DateTime> TimeMinValue { get; set; }
+        public string TimeMaxValue { get; set; }
+        public string TimeMinValue { get; set; }
         public double? Distance1 { get; set; }
         public double? Distance2 { get; set; }
         public double? Distance3 { get; set; }
@@ -282,7 +309,7 @@ namespace ES_CapDien.Models
         public double? Distance23 { get; set; }
         public double? Distance24 { get; set; }       
     }
-    public class Report_NhietDo_DoAm_ApSuat_DailyModel
+    public class Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -302,9 +329,9 @@ namespace ES_CapDien.Models
 
         public double? MinValue { get; set; }
 
-        public Nullable<System.DateTime> TimeMaxValue { get; set; }
+        public string TimeMaxValue { get; set; }
 
-        public Nullable<System.DateTime> TimeMinValue { get; set; }
+        public string TimeMinValue { get; set; }
 
         public double? Distance1 { get; set; }              
         public double? Distance2 { get; set; }               
@@ -346,9 +373,9 @@ namespace ES_CapDien.Models
 
         public Nullable<System.DateTime> DateRequestReport { get; set; }
 
-        public Nullable<System.DateTime> TimeMaxValue { get; set; }
+        public string TimeMaxValue { get; set; }
 
-        public Nullable<System.DateTime> TimeMinValue { get; set; }
+        public string TimeMinValue { get; set; }
         public Nullable<double> MaxValue { get; set; }
 
         public Nullable<double> MinValue { get; set; }
@@ -417,9 +444,9 @@ namespace ES_CapDien.Models
 
         public Nullable<double> TongLuongMua { get; set; }
 
-        public Nullable<System.DateTime> TimeMaxValue { get; set; }
+        public string TimeMaxValue { get; set; }
 
-        public Nullable<System.DateTime> TimeMinValue { get; set; }
+        public string TimeMinValue { get; set; }
 
         public Nullable<double> Distance1 { get; set; }
 
@@ -481,9 +508,9 @@ namespace ES_CapDien.Models
 
         public Nullable<System.DateTime> DateRequestReport { get; set; }
 
-        public Nullable<System.DateTime> TimeMaxValue { get; set; }
+        public string TimeMaxValue { get; set; }
 
-        public Nullable<System.DateTime> TimeMinValue { get; set; }
+        public string TimeMinValue { get; set; }
 
         public Nullable<double> Distance1 { get; set; }
 
@@ -559,9 +586,9 @@ namespace ES_CapDien.Models
 
         public string HuongGioDacTrungNhieuThuHai { get; set; }
 
-        public Nullable<System.DateTime> TimeMaxValue { get; set; }
+        public string TimeMaxValue { get; set; }
 
-        public Nullable<System.DateTime> TimeMinValue { get; set; }
+        public string TimeMinValue { get; set; }
 
         public Nullable<double> Distance1 { get; set; }
 

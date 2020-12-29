@@ -86,6 +86,13 @@
           <Property Name="Group_Id" Type="int" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="CategoryTypeSite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+        </EntityType>
         <EntityType Name="Command">
           <Key>
             <PropertyRef Name="Id" />
@@ -98,8 +105,35 @@
           <Property Name="CreateBy" Type="int" />
           <Property Name="UpdateBy" Type="int" />
           <Property Name="UpdateDay" Type="datetime" />
+          <Property Name="GroupId" Type="int" />
         </EntityType>
-        <EntityType Name="Data">
+        <EntityType Name="DataAlarm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Device_Id" Type="int" Nullable="false" />
+          <Property Name="AMATI" Type="nchar" MaxLength="10" />
+          <Property Name="AMIHU" Type="nchar" MaxLength="10" />
+          <Property Name="AMADR" Type="nchar" MaxLength="10" />
+          <Property Name="AMAFL" Type="nchar" MaxLength="10" />
+          <Property Name="AMAFR" Type="nchar" MaxLength="10" />
+          <Property Name="AMIPS" Type="nchar" MaxLength="10" />
+          <Property Name="AMIAL" Type="nchar" MaxLength="10" />
+          <Property Name="AMIAH" Type="nchar" MaxLength="10" />
+          <Property Name="AMIAP" Type="nchar" MaxLength="10" />
+          <Property Name="AMIAC" Type="nchar" MaxLength="10" />
+          <Property Name="AMIGN" Type="nchar" MaxLength="10" />
+          <Property Name="AMIAR" Type="nchar" MaxLength="10" />
+          <Property Name="AMIL1" Type="nchar" MaxLength="10" />
+          <Property Name="AMIH1" Type="nchar" MaxLength="10" />
+          <Property Name="AMIT1" Type="nchar" MaxLength="10" />
+          <Property Name="AMIL2" Type="nchar" MaxLength="10" />
+          <Property Name="AMIH2" Type="nchar" MaxLength="10" />
+          <Property Name="AMIT2" Type="nchar" MaxLength="10" />
+          <Property Name="TimeSend" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataObservation">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -137,32 +171,7 @@
           <Property Name="IsSEQ" Type="bit" />
           <Property Name="TimeSend" Type="datetime" />
           <Property Name="BWS" Type="nchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="DataAlarm">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Device_Id" Type="int" Nullable="false" />
-          <Property Name="AMATI" Type="nchar" MaxLength="10" />
-          <Property Name="AMIHU" Type="nchar" MaxLength="10" />
-          <Property Name="AMADR" Type="nchar" MaxLength="10" />
-          <Property Name="AMAFL" Type="nchar" MaxLength="10" />
-          <Property Name="AMAFR" Type="nchar" MaxLength="10" />
-          <Property Name="AMIPS" Type="nchar" MaxLength="10" />
-          <Property Name="AMIAL" Type="nchar" MaxLength="10" />
-          <Property Name="AMIAH" Type="nchar" MaxLength="10" />
-          <Property Name="AMIAP" Type="nchar" MaxLength="10" />
-          <Property Name="AMIAC" Type="nchar" MaxLength="10" />
-          <Property Name="AMIGN" Type="nchar" MaxLength="10" />
-          <Property Name="AMIAR" Type="nchar" MaxLength="10" />
-          <Property Name="AMIL1" Type="nchar" MaxLength="10" />
-          <Property Name="AMIH1" Type="nchar" MaxLength="10" />
-          <Property Name="AMIT1" Type="nchar" MaxLength="10" />
-          <Property Name="AMIL2" Type="nchar" MaxLength="10" />
-          <Property Name="AMIH2" Type="nchar" MaxLength="10" />
-          <Property Name="AMIT2" Type="nchar" MaxLength="10" />
-          <Property Name="TimeSend" Type="datetime" Nullable="false" />
+          <Property Name="BVC" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Device">
           <Key>
@@ -182,7 +191,21 @@
           <Property Name="Area_Id" Type="int" Nullable="false" />
           <Property Name="IsAlarm" Type="bit" />
         </EntityType>
-        <EntityType Name="Group">
+        <EntityType Name="Observation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Noti_Alarm" Type="bit" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Code" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="CreateDay" Type="datetime" />
+          <Property Name="UpdateDay" Type="datetime" />
+          <Property Name="Low_Value" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Hight_Value" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="IsBieuDo" Type="bit" />
+        </EntityType>
+        <EntityType Name="RegionalGroup">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -197,20 +220,7 @@
           <Property Name="Mobile" Type="nchar" MaxLength="15" />
           <Property Name="Email" Type="nchar" MaxLength="30" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Observation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Noti_Alarm" Type="bit" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
-          <Property Name="Code" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="CreateDay" Type="datetime" />
-          <Property Name="UpdateDay" Type="datetime" />
-          <Property Name="Low_Value" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Hight_Value" Type="nchar" MaxLength="30" Nullable="false" />
-          <Property Name="IsBieuDo" Type="bit" />
+          <Property Name="IsSendTTTT" Type="bit" />
         </EntityType>
         <EntityType Name="RegisterSMS">
           <Key>
@@ -391,6 +401,45 @@
           <Property Name="Distance23" Type="float" />
           <Property Name="Distance24" Type="float" />
         </EntityType>
+        <EntityType Name="ReportDailyLuuLuongDongChay">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeviceId" Type="int" />
+          <Property Name="ReportTypeCode" Type="nchar" MaxLength="10" />
+          <Property Name="DateReport" Type="date" />
+          <Property Name="ContentReport" Type="text" />
+          <Property Name="DateRequestReport" Type="datetime" />
+          <Property Name="MaxValue" Type="float" />
+          <Property Name="MinValue" Type="float" />
+          <Property Name="TimeMaxValue" Type="datetime" />
+          <Property Name="TimeMinValue" Type="datetime" />
+          <Property Name="Distance1" Type="float" />
+          <Property Name="Distance2" Type="float" />
+          <Property Name="Distance3" Type="float" />
+          <Property Name="Distance4" Type="float" />
+          <Property Name="Distance5" Type="float" />
+          <Property Name="Distance6" Type="float" />
+          <Property Name="Distance7" Type="float" />
+          <Property Name="Distance8" Type="float" />
+          <Property Name="Distance9" Type="float" />
+          <Property Name="Distance10" Type="float" />
+          <Property Name="Distance11" Type="float" />
+          <Property Name="Distance12" Type="float" />
+          <Property Name="Distance13" Type="float" />
+          <Property Name="Distance14" Type="float" />
+          <Property Name="Distance15" Type="float" />
+          <Property Name="Distance16" Type="float" />
+          <Property Name="Distance17" Type="float" />
+          <Property Name="Distance18" Type="float" />
+          <Property Name="Distance19" Type="float" />
+          <Property Name="Distance20" Type="float" />
+          <Property Name="Distance21" Type="float" />
+          <Property Name="Distance22" Type="float" />
+          <Property Name="Distance23" Type="float" />
+          <Property Name="Distance24" Type="float" />
+        </EntityType>
         <EntityType Name="ReportDailyMucNuoc">
           <Key>
             <PropertyRef Name="Id" />
@@ -431,6 +480,45 @@
           <Property Name="MinValue" Type="float" />
         </EntityType>
         <EntityType Name="ReportDailyNhietDo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeviceId" Type="int" />
+          <Property Name="ReportTypeCode" Type="nchar" MaxLength="10" />
+          <Property Name="DateReport" Type="date" />
+          <Property Name="ContentReport" Type="text" />
+          <Property Name="DateRequestReport" Type="datetime" />
+          <Property Name="MaxValue" Type="float" />
+          <Property Name="MinValue" Type="float" />
+          <Property Name="TimeMaxValue" Type="datetime" />
+          <Property Name="TimeMinValue" Type="datetime" />
+          <Property Name="Distance1" Type="float" />
+          <Property Name="Distance2" Type="float" />
+          <Property Name="Distance3" Type="float" />
+          <Property Name="Distance4" Type="float" />
+          <Property Name="Distance5" Type="float" />
+          <Property Name="Distance6" Type="float" />
+          <Property Name="Distance7" Type="float" />
+          <Property Name="Distance8" Type="float" />
+          <Property Name="Distance9" Type="float" />
+          <Property Name="Distance10" Type="float" />
+          <Property Name="Distance11" Type="float" />
+          <Property Name="Distance12" Type="float" />
+          <Property Name="Distance13" Type="float" />
+          <Property Name="Distance14" Type="float" />
+          <Property Name="Distance15" Type="float" />
+          <Property Name="Distance16" Type="float" />
+          <Property Name="Distance17" Type="float" />
+          <Property Name="Distance18" Type="float" />
+          <Property Name="Distance19" Type="float" />
+          <Property Name="Distance20" Type="float" />
+          <Property Name="Distance21" Type="float" />
+          <Property Name="Distance22" Type="float" />
+          <Property Name="Distance23" Type="float" />
+          <Property Name="Distance24" Type="float" />
+        </EntityType>
+        <EntityType Name="ReportDailyTocDoDongChay">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -538,6 +626,7 @@
           <Property Name="UpdateBy" Type="int" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="DeviceId" Type="int" />
+          <Property Name="TypeSiteId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SiteAdminLog">
           <Key>
@@ -715,19 +804,22 @@
           <EntitySet Name="Administrator_RoleGroups" EntityType="Self.Administrator_RoleGroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Alarm" EntityType="Self.Alarm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoryTypeSite" EntityType="Self.CategoryTypeSite" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Command" EntityType="Self.Command" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Data" EntityType="Self.Data" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataAlarm" EntityType="Self.DataAlarm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DataObservation" EntityType="Self.DataObservation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Device" EntityType="Self.Device" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Observation" EntityType="Self.Observation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegionalGroup" EntityType="Self.RegionalGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegisterSMS" EntityType="Self.RegisterSMS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDailyApSuat" EntityType="Self.ReportDailyApSuat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDailyDoAm" EntityType="Self.ReportDailyDoAm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDailyHuongGio" EntityType="Self.ReportDailyHuongGio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDailyLuongMua" EntityType="Self.ReportDailyLuongMua" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportDailyLuuLuongDongChay" EntityType="Self.ReportDailyLuuLuongDongChay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDailyMucNuoc" EntityType="Self.ReportDailyMucNuoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDailyNhietDo" EntityType="Self.ReportDailyNhietDo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportDailyTocDoDongChay" EntityType="Self.ReportDailyTocDoDongChay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDailyTocDoGio" EntityType="Self.ReportDailyTocDoGio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportType" EntityType="Self.ReportType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Site" EntityType="Self.Site" Schema="dbo" store:Type="Tables" />
@@ -765,65 +857,15 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ObservationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="ObservationsEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C__MigrationHistory" EntityType="ObservationModel.C__MigrationHistory" />
-          <EntitySet Name="Administrator_Menu" EntityType="ObservationModel.Administrator_Menu" />
-          <EntitySet Name="Administrator_Notifications" EntityType="ObservationModel.Administrator_Notifications" />
-          <EntitySet Name="Administrator_Pages" EntityType="ObservationModel.Administrator_Pages" />
-          <EntitySet Name="Administrator_RoleGroups" EntityType="ObservationModel.Administrator_RoleGroups" />
-          <EntitySet Name="Alarms" EntityType="ObservationModel.Alarm" />
-          <EntitySet Name="Areas" EntityType="ObservationModel.Area" />
-          <EntitySet Name="Commands" EntityType="ObservationModel.Command" />
-          <EntitySet Name="Data1" EntityType="ObservationModel.Data" />
-          <EntitySet Name="DataAlarms" EntityType="ObservationModel.DataAlarm" />
-          <EntitySet Name="Devices" EntityType="ObservationModel.Device" />
-          <EntitySet Name="Groups" EntityType="ObservationModel.Group" />
-          <EntitySet Name="Observations" EntityType="ObservationModel.Observation" />
-          <EntitySet Name="RegisterSMS" EntityType="ObservationModel.RegisterSMS" />
-          <EntitySet Name="ReportDailyApSuats" EntityType="ObservationModel.ReportDailyApSuat" />
-          <EntitySet Name="ReportDailyDoAms" EntityType="ObservationModel.ReportDailyDoAm" />
-          <EntitySet Name="ReportDailyHuongGios" EntityType="ObservationModel.ReportDailyHuongGio" />
-          <EntitySet Name="ReportDailyLuongMuas" EntityType="ObservationModel.ReportDailyLuongMua" />
-          <EntitySet Name="ReportDailyMucNuocs" EntityType="ObservationModel.ReportDailyMucNuoc" />
-          <EntitySet Name="ReportDailyNhietDoes" EntityType="ObservationModel.ReportDailyNhietDo" />
-          <EntitySet Name="ReportDailyTocDoGios" EntityType="ObservationModel.ReportDailyTocDoGio" />
-          <EntitySet Name="ReportTypes" EntityType="ObservationModel.ReportType" />
-          <EntitySet Name="Sites" EntityType="ObservationModel.Site" />
-          <EntitySet Name="SiteAdminLogs" EntityType="ObservationModel.SiteAdminLog" />
-          <EntitySet Name="SmsServers" EntityType="ObservationModel.SmsServer" />
-          <EntitySet Name="UserProfiles" EntityType="ObservationModel.UserProfile" />
-          <EntitySet Name="UserWebsite_Category" EntityType="ObservationModel.UserWebsite_Category" />
-          <EntitySet Name="webpages_Membership" EntityType="ObservationModel.webpages_Membership" />
-          <EntitySet Name="webpages_OAuthMembership" EntityType="ObservationModel.webpages_OAuthMembership" />
-          <EntitySet Name="webpages_Roles" EntityType="ObservationModel.webpages_Roles" />
-          <EntitySet Name="webpages_UsersInRoles" EntityType="ObservationModel.webpages_UsersInRoles" />
-          <EntitySet Name="WT_SystemRules" EntityType="ObservationModel.WT_SystemRules" />
-          <AssociationSet Name="FK_dbo_Administrator_Notifications_dbo_UserProfile_UserId" Association="ObservationModel.FK_dbo_Administrator_Notifications_dbo_UserProfile_UserId">
-            <End Role="UserProfile" EntitySet="UserProfiles" />
-            <End Role="Administrator_Notifications" EntitySet="Administrator_Notifications" />
-          </AssociationSet>
-          <AssociationSet Name="fk_UserId" Association="ObservationModel.fk_UserId">
-            <End Role="UserProfile" EntitySet="UserProfiles" />
-            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
-          </AssociationSet>
-          <AssociationSet Name="fk_RoleId" Association="ObservationModel.fk_RoleId">
-            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
-            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
-          </AssociationSet>
-          <AssociationSet Name="Administrator_PageInRoles" Association="ObservationModel.Administrator_PageInRoles">
-            <End Role="Administrator_Pages" EntitySet="Administrator_Pages" />
-            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
-          </AssociationSet>
-        </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
             <PropertyRef Name="ContextKey" />
           </Key>
-          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Administrator_Menu">
           <Key>
@@ -849,7 +891,7 @@
           <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsRead" Type="Boolean" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="UserProfile" Relationship="ObservationModel.FK_dbo_Administrator_Notifications_dbo_UserProfile_UserId" FromRole="Administrator_Notifications" ToRole="UserProfile" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK_dbo_Administrator_Notifications_dbo_UserProfile_UserId" FromRole="Administrator_Notifications" ToRole="UserProfile" />
         </EntityType>
         <EntityType Name="Administrator_Pages">
           <Key>
@@ -858,7 +900,7 @@
           <Property Name="PageId" Type="Guid" Nullable="false" />
           <Property Name="PageTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="webpages_Roles" Relationship="ObservationModel.Administrator_PageInRoles" FromRole="Administrator_Pages" ToRole="webpages_Roles" />
+          <NavigationProperty Name="webpages_Roles" Relationship="Self.Administrator_PageInRoles" FromRole="Administrator_Pages" ToRole="webpages_Roles" />
         </EntityType>
         <EntityType Name="Administrator_RoleGroups">
           <Key>
@@ -890,6 +932,13 @@
           <Property Name="Group_Id" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="CategoryTypeSite">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Command">
           <Key>
             <PropertyRef Name="Id" />
@@ -902,14 +951,41 @@
           <Property Name="CreateBy" Type="Int32" />
           <Property Name="UpdateBy" Type="Int32" />
           <Property Name="UpdateDay" Type="DateTime" Precision="3" />
+          <Property Name="GroupId" Type="Int32" />
         </EntityType>
-        <EntityType Name="Data">
+        <EntityType Name="DataAlarm">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Device_Id" Type="Int32" Nullable="false" />
-          <Property Name="BTI" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="AMATI" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIHU" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMADR" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMAFL" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMAFR" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIPS" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIAL" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIAH" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIAP" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIAC" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIGN" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIAR" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIL1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIH1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIT1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIL2" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIH2" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AMIT2" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="TimeSend" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="DataObservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Device_Id" Type="Int32" Nullable="false" />
+          <Property Name="BTI" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="BHU" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="BTO" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="BDR" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
@@ -941,32 +1017,7 @@
           <Property Name="IsSEQ" Type="Boolean" />
           <Property Name="TimeSend" Type="DateTime" Precision="3" />
           <Property Name="BWS" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-        </EntityType>
-        <EntityType Name="DataAlarm">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Device_Id" Type="Int32" Nullable="false" />
-          <Property Name="AMATI" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIHU" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMADR" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMAFL" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMAFR" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIPS" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIAL" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIAH" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIAP" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIAC" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIGN" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIAR" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIL1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIH1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIT1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIL2" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIH2" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AMIT2" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="TimeSend" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BVC" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Device">
           <Key>
@@ -975,7 +1026,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Group_Id" Type="Int32" />
           <Property Name="Site_Id" Type="Int32" Nullable="false" />
-          <Property Name="Serial" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="Serial" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="CreateDay" Type="DateTime" Precision="3" />
           <Property Name="UpdateDay" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="Int32" />
@@ -986,7 +1037,21 @@
           <Property Name="Area_Id" Type="Int32" Nullable="false" />
           <Property Name="IsAlarm" Type="Boolean" />
         </EntityType>
-        <EntityType Name="Group">
+        <EntityType Name="Observation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Noti_Alarm" Type="Boolean" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="CreateDay" Type="DateTime" Precision="3" />
+          <Property Name="UpdateDay" Type="DateTime" Precision="3" />
+          <Property Name="Low_Value" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Hight_Value" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="IsBieuDo" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="RegionalGroup">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -1001,20 +1066,7 @@
           <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Observation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Noti_Alarm" Type="Boolean" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="CreateDay" Type="DateTime" Precision="3" />
-          <Property Name="UpdateDay" Type="DateTime" Precision="3" />
-          <Property Name="Low_Value" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Hight_Value" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
-          <Property Name="IsBieuDo" Type="Boolean" />
+          <Property Name="IsSendTTTT" Type="Boolean" />
         </EntityType>
         <EntityType Name="RegisterSMS">
           <Key>
@@ -1195,6 +1247,45 @@
           <Property Name="Distance23" Type="Double" />
           <Property Name="Distance24" Type="Double" />
         </EntityType>
+        <EntityType Name="ReportDailyLuuLuongDongChay">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeviceId" Type="Int32" />
+          <Property Name="ReportTypeCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DateReport" Type="DateTime" Precision="0" />
+          <Property Name="ContentReport" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateRequestReport" Type="DateTime" Precision="3" />
+          <Property Name="MaxValue" Type="Double" />
+          <Property Name="MinValue" Type="Double" />
+          <Property Name="TimeMaxValue" Type="DateTime" Precision="3" />
+          <Property Name="TimeMinValue" Type="DateTime" Precision="3" />
+          <Property Name="Distance1" Type="Double" />
+          <Property Name="Distance2" Type="Double" />
+          <Property Name="Distance3" Type="Double" />
+          <Property Name="Distance4" Type="Double" />
+          <Property Name="Distance5" Type="Double" />
+          <Property Name="Distance6" Type="Double" />
+          <Property Name="Distance7" Type="Double" />
+          <Property Name="Distance8" Type="Double" />
+          <Property Name="Distance9" Type="Double" />
+          <Property Name="Distance10" Type="Double" />
+          <Property Name="Distance11" Type="Double" />
+          <Property Name="Distance12" Type="Double" />
+          <Property Name="Distance13" Type="Double" />
+          <Property Name="Distance14" Type="Double" />
+          <Property Name="Distance15" Type="Double" />
+          <Property Name="Distance16" Type="Double" />
+          <Property Name="Distance17" Type="Double" />
+          <Property Name="Distance18" Type="Double" />
+          <Property Name="Distance19" Type="Double" />
+          <Property Name="Distance20" Type="Double" />
+          <Property Name="Distance21" Type="Double" />
+          <Property Name="Distance22" Type="Double" />
+          <Property Name="Distance23" Type="Double" />
+          <Property Name="Distance24" Type="Double" />
+        </EntityType>
         <EntityType Name="ReportDailyMucNuoc">
           <Key>
             <PropertyRef Name="Id" />
@@ -1235,6 +1326,45 @@
           <Property Name="MinValue" Type="Double" />
         </EntityType>
         <EntityType Name="ReportDailyNhietDo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeviceId" Type="Int32" />
+          <Property Name="ReportTypeCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DateReport" Type="DateTime" Precision="0" />
+          <Property Name="ContentReport" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateRequestReport" Type="DateTime" Precision="3" />
+          <Property Name="MaxValue" Type="Double" />
+          <Property Name="MinValue" Type="Double" />
+          <Property Name="TimeMaxValue" Type="DateTime" Precision="3" />
+          <Property Name="TimeMinValue" Type="DateTime" Precision="3" />
+          <Property Name="Distance1" Type="Double" />
+          <Property Name="Distance2" Type="Double" />
+          <Property Name="Distance3" Type="Double" />
+          <Property Name="Distance4" Type="Double" />
+          <Property Name="Distance5" Type="Double" />
+          <Property Name="Distance6" Type="Double" />
+          <Property Name="Distance7" Type="Double" />
+          <Property Name="Distance8" Type="Double" />
+          <Property Name="Distance9" Type="Double" />
+          <Property Name="Distance10" Type="Double" />
+          <Property Name="Distance11" Type="Double" />
+          <Property Name="Distance12" Type="Double" />
+          <Property Name="Distance13" Type="Double" />
+          <Property Name="Distance14" Type="Double" />
+          <Property Name="Distance15" Type="Double" />
+          <Property Name="Distance16" Type="Double" />
+          <Property Name="Distance17" Type="Double" />
+          <Property Name="Distance18" Type="Double" />
+          <Property Name="Distance19" Type="Double" />
+          <Property Name="Distance20" Type="Double" />
+          <Property Name="Distance21" Type="Double" />
+          <Property Name="Distance22" Type="Double" />
+          <Property Name="Distance23" Type="Double" />
+          <Property Name="Distance24" Type="Double" />
+        </EntityType>
+        <EntityType Name="ReportDailyTocDoDongChay">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -1324,25 +1454,6 @@
           <Property Name="Measure" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Site">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Area_Id" Type="Int32" Nullable="false" />
-          <Property Name="Group_Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Latitude" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
-          <Property Name="Longtitude" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
-          <Property Name="TimeZone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="CreateDay" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdateDay" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="UpdateBy" Type="Int32" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="DeviceId" Type="Int32" />
-        </EntityType>
         <EntityType Name="SiteAdminLog">
           <Key>
             <PropertyRef Name="ID" />
@@ -1363,7 +1474,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AddressIP" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="AddressIP" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="RegisterId" Type="Int32" Nullable="false" />
           <Property Name="Port" Type="Int32" />
         </EntityType>
@@ -1372,7 +1483,7 @@
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="56" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FullName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -1382,8 +1493,8 @@
           <Property Name="GenderId" Type="Int32" />
           <Property Name="CmisUserType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Group_Id" Type="Int32" />
-          <NavigationProperty Name="Administrator_Notifications" Relationship="ObservationModel.FK_dbo_Administrator_Notifications_dbo_UserProfile_UserId" FromRole="UserProfile" ToRole="Administrator_Notifications" />
-          <NavigationProperty Name="webpages_UsersInRoles" Relationship="ObservationModel.fk_UserId" FromRole="UserProfile" ToRole="webpages_UsersInRoles" />
+          <NavigationProperty Name="Administrator_Notifications" Relationship="Self.FK_dbo_Administrator_Notifications_dbo_UserProfile_UserId" FromRole="UserProfile" ToRole="Administrator_Notifications" />
+          <NavigationProperty Name="webpages_UsersInRoles" Relationship="Self.fk_UserId" FromRole="UserProfile" ToRole="webpages_UsersInRoles" />
         </EntityType>
         <EntityType Name="UserWebsite_Category">
           <Key>
@@ -1405,9 +1516,9 @@
           <Property Name="IsConfirmed" Type="Boolean" />
           <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
           <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
-          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordSalt" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
         </EntityType>
@@ -1416,8 +1527,8 @@
             <PropertyRef Name="Provider" />
             <PropertyRef Name="ProviderUserId" />
           </Key>
-          <Property Name="Provider" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="ProviderUserId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Provider" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderUserId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="webpages_Roles">
@@ -1425,10 +1536,10 @@
             <PropertyRef Name="RoleId" />
           </Key>
           <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="RoleName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="webpages_UsersInRoles" Relationship="ObservationModel.fk_RoleId" FromRole="webpages_Roles" ToRole="webpages_UsersInRoles" />
-          <NavigationProperty Name="Administrator_Pages" Relationship="ObservationModel.Administrator_PageInRoles" FromRole="webpages_Roles" ToRole="Administrator_Pages" />
+          <NavigationProperty Name="webpages_UsersInRoles" Relationship="Self.fk_RoleId" FromRole="webpages_Roles" ToRole="webpages_UsersInRoles" />
+          <NavigationProperty Name="Administrator_Pages" Relationship="Self.Administrator_PageInRoles" FromRole="webpages_Roles" ToRole="Administrator_Pages" />
         </EntityType>
         <EntityType Name="webpages_UsersInRoles">
           <Key>
@@ -1438,23 +1549,23 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="RoleId" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserProfile" Relationship="ObservationModel.fk_UserId" FromRole="webpages_UsersInRoles" ToRole="UserProfile" />
-          <NavigationProperty Name="webpages_Roles" Relationship="ObservationModel.fk_RoleId" FromRole="webpages_UsersInRoles" ToRole="webpages_Roles" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.fk_UserId" FromRole="webpages_UsersInRoles" ToRole="UserProfile" />
+          <NavigationProperty Name="webpages_Roles" Relationship="Self.fk_RoleId" FromRole="webpages_UsersInRoles" ToRole="webpages_Roles" />
         </EntityType>
         <EntityType Name="WT_SystemRules">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_dbo_Administrator_Notifications_dbo_UserProfile_UserId">
-          <End Type="ObservationModel.UserProfile" Role="UserProfile" Multiplicity="1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="ObservationModel.Administrator_Notifications" Role="Administrator_Notifications" Multiplicity="*" />
+          <End Role="Administrator_Notifications" Type="Self.Administrator_Notifications" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserProfile">
               <PropertyRef Name="UserId" />
@@ -1465,8 +1576,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_UserId">
-          <End Type="ObservationModel.UserProfile" Role="UserProfile" Multiplicity="1" />
-          <End Type="ObservationModel.webpages_UsersInRoles" Role="webpages_UsersInRoles" Multiplicity="*" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserProfile">
               <PropertyRef Name="UserId" />
@@ -1477,8 +1588,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_RoleId">
-          <End Type="ObservationModel.webpages_Roles" Role="webpages_Roles" Multiplicity="1" />
-          <End Type="ObservationModel.webpages_UsersInRoles" Role="webpages_UsersInRoles" Multiplicity="*" />
+          <End Role="webpages_Roles" Type="Self.webpages_Roles" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="webpages_Roles">
               <PropertyRef Name="RoleId" />
@@ -1489,546 +1600,825 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Administrator_PageInRoles">
-          <End Type="ObservationModel.Administrator_Pages" Role="Administrator_Pages" Multiplicity="*" />
-          <End Type="ObservationModel.webpages_Roles" Role="webpages_Roles" Multiplicity="*" />
+          <End Role="Administrator_Pages" Type="Self.Administrator_Pages" Multiplicity="*" />
+          <End Role="webpages_Roles" Type="Self.webpages_Roles" Multiplicity="*" />
         </Association>
-        </Schema>
+        <EntityContainer Name="ObservationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="Administrator_Menu" EntityType="Self.Administrator_Menu" />
+          <EntitySet Name="Administrator_Notifications" EntityType="Self.Administrator_Notifications" />
+          <EntitySet Name="Administrator_Pages" EntityType="Self.Administrator_Pages" />
+          <EntitySet Name="Administrator_RoleGroups" EntityType="Self.Administrator_RoleGroups" />
+          <EntitySet Name="Alarms" EntityType="Self.Alarm" />
+          <EntitySet Name="Areas" EntityType="Self.Area" />
+          <EntitySet Name="CategoryTypeSites" EntityType="Self.CategoryTypeSite" />
+          <EntitySet Name="Commands" EntityType="Self.Command" />
+          <EntitySet Name="DataAlarms" EntityType="Self.DataAlarm" />
+          <EntitySet Name="DataObservations" EntityType="Self.DataObservation" />
+          <EntitySet Name="Devices" EntityType="Self.Device" />
+          <EntitySet Name="Observations" EntityType="Self.Observation" />
+          <EntitySet Name="RegionalGroups" EntityType="Self.RegionalGroup" />
+          <EntitySet Name="RegisterSMS" EntityType="ObservationModel.RegisterSMS" />
+          <EntitySet Name="ReportDailyApSuats" EntityType="Self.ReportDailyApSuat" />
+          <EntitySet Name="ReportDailyDoAms" EntityType="Self.ReportDailyDoAm" />
+          <EntitySet Name="ReportDailyHuongGios" EntityType="Self.ReportDailyHuongGio" />
+          <EntitySet Name="ReportDailyLuongMuas" EntityType="Self.ReportDailyLuongMua" />
+          <EntitySet Name="ReportDailyLuuLuongDongChays" EntityType="Self.ReportDailyLuuLuongDongChay" />
+          <EntitySet Name="ReportDailyMucNuocs" EntityType="Self.ReportDailyMucNuoc" />
+          <EntitySet Name="ReportDailyNhietDoes" EntityType="Self.ReportDailyNhietDo" />
+          <EntitySet Name="ReportDailyTocDoDongChays" EntityType="Self.ReportDailyTocDoDongChay" />
+          <EntitySet Name="ReportDailyTocDoGios" EntityType="Self.ReportDailyTocDoGio" />
+          <EntitySet Name="ReportTypes" EntityType="Self.ReportType" />
+          <EntitySet Name="SiteAdminLogs" EntityType="Self.SiteAdminLog" />
+          <EntitySet Name="SmsServers" EntityType="Self.SmsServer" />
+          <EntitySet Name="UserProfiles" EntityType="Self.UserProfile" />
+          <EntitySet Name="UserWebsite_Category" EntityType="Self.UserWebsite_Category" />
+          <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" />
+          <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" />
+          <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" />
+          <EntitySet Name="WT_SystemRules" EntityType="Self.WT_SystemRules" />
+          <AssociationSet Name="FK_dbo_Administrator_Notifications_dbo_UserProfile_UserId" Association="Self.FK_dbo_Administrator_Notifications_dbo_UserProfile_UserId">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="Administrator_Notifications" EntitySet="Administrator_Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="fk_RoleId" Association="Self.fk_RoleId">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="Administrator_PageInRoles" Association="Self.Administrator_PageInRoles">
+            <End Role="Administrator_Pages" EntitySet="Administrator_Pages" />
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+          </AssociationSet>
+          <EntitySet Name="Sites" EntityType="ObservationModel.Site" />
+        </EntityContainer>
+        <EntityType Name="Site">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Area_Id" Type="Int32" Nullable="false" />
+          <Property Name="Group_Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Latitude" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="Longtitude" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="TimeZone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CreateDay" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdateDay" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="UpdateBy" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="DeviceId" Type="Int32" />
+          <Property Name="TypeSiteId" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ObservationModelStoreContainer" CdmEntityContainer="ObservationsEntities">
+        <EntityContainerMapping StorageEntityContainer="ObservationModelStoreContainer" CdmEntityContainer="ObservationEntities">
           <EntitySetMapping Name="C__MigrationHistory">
             <EntityTypeMapping TypeName="ObservationModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
-                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
-                <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
                 <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Administrator_Menu">
             <EntityTypeMapping TypeName="ObservationModel.Administrator_Menu">
               <MappingFragment StoreEntitySet="Administrator_Menu">
-                <ScalarProperty Name="ShowUp" ColumnName="ShowUp" />
-                <ScalarProperty Name="PageId" ColumnName="PageId" />
-                <ScalarProperty Name="Index" ColumnName="Index" />
-                <ScalarProperty Name="Style" ColumnName="Style" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Style" ColumnName="Style" />
+                <ScalarProperty Name="Index" ColumnName="Index" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="ShowUp" ColumnName="ShowUp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Administrator_Notifications">
             <EntityTypeMapping TypeName="ObservationModel.Administrator_Notifications">
               <MappingFragment StoreEntitySet="Administrator_Notifications">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Link" ColumnName="Link" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Administrator_Pages">
             <EntityTypeMapping TypeName="ObservationModel.Administrator_Pages">
               <MappingFragment StoreEntitySet="Administrator_Pages">
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="PageTitle" ColumnName="PageTitle" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
+                <ScalarProperty Name="PageTitle" ColumnName="PageTitle" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Administrator_RoleGroups">
             <EntityTypeMapping TypeName="ObservationModel.Administrator_RoleGroups">
               <MappingFragment StoreEntitySet="Administrator_RoleGroups">
-                <ScalarProperty Name="RoleGroupName" ColumnName="RoleGroupName" />
                 <ScalarProperty Name="RoleGroupId" ColumnName="RoleGroupId" />
+                <ScalarProperty Name="RoleGroupName" ColumnName="RoleGroupName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Alarms">
             <EntityTypeMapping TypeName="ObservationModel.Alarm">
               <MappingFragment StoreEntitySet="Alarm">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Areas">
             <EntityTypeMapping TypeName="ObservationModel.Area">
               <MappingFragment StoreEntitySet="Area">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
-                <ScalarProperty Name="Longtitude" ColumnName="Longtitude" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
-                <ScalarProperty Name="CreateDay" ColumnName="CreateDay" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreateDay" ColumnName="CreateDay" />
+                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longtitude" ColumnName="Longtitude" />
+                <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryTypeSites">
+            <EntityTypeMapping TypeName="ObservationModel.CategoryTypeSite">
+              <MappingFragment StoreEntitySet="CategoryTypeSite">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Commands">
             <EntityTypeMapping TypeName="ObservationModel.Command">
               <MappingFragment StoreEntitySet="Command">
-                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
-                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="CreateDay" ColumnName="CreateDay" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
                 <ScalarProperty Name="Command_Content" ColumnName="Command_Content" />
-                <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Data1">
-            <EntityTypeMapping TypeName="ObservationModel.Data">
-              <MappingFragment StoreEntitySet="Data">
-                <ScalarProperty Name="BWS" ColumnName="BWS" />
-                <ScalarProperty Name="TimeSend" ColumnName="TimeSend" />
-                <ScalarProperty Name="IsSEQ" ColumnName="IsSEQ" />
-                <ScalarProperty Name="BPW" ColumnName="BPW" />
-                <ScalarProperty Name="BFD" ColumnName="BFD" />
-                <ScalarProperty Name="BFA" ColumnName="BFA" />
-                <ScalarProperty Name="BB4" ColumnName="BB4" />
-                <ScalarProperty Name="BA4" ColumnName="BA4" />
-                <ScalarProperty Name="BB3" ColumnName="BB3" />
-                <ScalarProperty Name="BA3" ColumnName="BA3" />
-                <ScalarProperty Name="BB2" ColumnName="BB2" />
-                <ScalarProperty Name="BA2" ColumnName="BA2" />
-                <ScalarProperty Name="BB1" ColumnName="BB1" />
-                <ScalarProperty Name="BA1" ColumnName="BA1" />
-                <ScalarProperty Name="BSE" ColumnName="BSE" />
-                <ScalarProperty Name="BT2" ColumnName="BT2" />
-                <ScalarProperty Name="BC2" ColumnName="BC2" />
-                <ScalarProperty Name="BV2" ColumnName="BV2" />
-                <ScalarProperty Name="BT1" ColumnName="BT1" />
-                <ScalarProperty Name="BC1" ColumnName="BC1" />
-                <ScalarProperty Name="BV1" ColumnName="BV1" />
-                <ScalarProperty Name="BAF" ColumnName="BAF" />
-                <ScalarProperty Name="BAC" ColumnName="BAC" />
-                <ScalarProperty Name="BAP" ColumnName="BAP" />
-                <ScalarProperty Name="BAV" ColumnName="BAV" />
-                <ScalarProperty Name="BPS" ColumnName="BPS" />
-                <ScalarProperty Name="BFR" ColumnName="BFR" />
-                <ScalarProperty Name="BFL" ColumnName="BFL" />
-                <ScalarProperty Name="BDR" ColumnName="BDR" />
-                <ScalarProperty Name="BTO" ColumnName="BTO" />
-                <ScalarProperty Name="BHU" ColumnName="BHU" />
-                <ScalarProperty Name="BTI" ColumnName="BTI" />
-                <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreateDay" ColumnName="CreateDay" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DataAlarms">
             <EntityTypeMapping TypeName="ObservationModel.DataAlarm">
               <MappingFragment StoreEntitySet="DataAlarm">
-                <ScalarProperty Name="TimeSend" ColumnName="TimeSend" />
-                <ScalarProperty Name="AMIT2" ColumnName="AMIT2" />
-                <ScalarProperty Name="AMIH2" ColumnName="AMIH2" />
-                <ScalarProperty Name="AMIL2" ColumnName="AMIL2" />
-                <ScalarProperty Name="AMIT1" ColumnName="AMIT1" />
-                <ScalarProperty Name="AMIH1" ColumnName="AMIH1" />
-                <ScalarProperty Name="AMIL1" ColumnName="AMIL1" />
-                <ScalarProperty Name="AMIAR" ColumnName="AMIAR" />
-                <ScalarProperty Name="AMIGN" ColumnName="AMIGN" />
-                <ScalarProperty Name="AMIAC" ColumnName="AMIAC" />
-                <ScalarProperty Name="AMIAP" ColumnName="AMIAP" />
-                <ScalarProperty Name="AMIAH" ColumnName="AMIAH" />
-                <ScalarProperty Name="AMIAL" ColumnName="AMIAL" />
-                <ScalarProperty Name="AMIPS" ColumnName="AMIPS" />
-                <ScalarProperty Name="AMAFR" ColumnName="AMAFR" />
-                <ScalarProperty Name="AMAFL" ColumnName="AMAFL" />
-                <ScalarProperty Name="AMADR" ColumnName="AMADR" />
-                <ScalarProperty Name="AMIHU" ColumnName="AMIHU" />
-                <ScalarProperty Name="AMATI" ColumnName="AMATI" />
-                <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
+                <ScalarProperty Name="AMATI" ColumnName="AMATI" />
+                <ScalarProperty Name="AMIHU" ColumnName="AMIHU" />
+                <ScalarProperty Name="AMADR" ColumnName="AMADR" />
+                <ScalarProperty Name="AMAFL" ColumnName="AMAFL" />
+                <ScalarProperty Name="AMAFR" ColumnName="AMAFR" />
+                <ScalarProperty Name="AMIPS" ColumnName="AMIPS" />
+                <ScalarProperty Name="AMIAL" ColumnName="AMIAL" />
+                <ScalarProperty Name="AMIAH" ColumnName="AMIAH" />
+                <ScalarProperty Name="AMIAP" ColumnName="AMIAP" />
+                <ScalarProperty Name="AMIAC" ColumnName="AMIAC" />
+                <ScalarProperty Name="AMIGN" ColumnName="AMIGN" />
+                <ScalarProperty Name="AMIAR" ColumnName="AMIAR" />
+                <ScalarProperty Name="AMIL1" ColumnName="AMIL1" />
+                <ScalarProperty Name="AMIH1" ColumnName="AMIH1" />
+                <ScalarProperty Name="AMIT1" ColumnName="AMIT1" />
+                <ScalarProperty Name="AMIL2" ColumnName="AMIL2" />
+                <ScalarProperty Name="AMIH2" ColumnName="AMIH2" />
+                <ScalarProperty Name="AMIT2" ColumnName="AMIT2" />
+                <ScalarProperty Name="TimeSend" ColumnName="TimeSend" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataObservations">
+            <EntityTypeMapping TypeName="ObservationModel.DataObservation">
+              <MappingFragment StoreEntitySet="DataObservation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Device_Id" ColumnName="Device_Id" />
+                <ScalarProperty Name="BTI" ColumnName="BTI" />
+                <ScalarProperty Name="BHU" ColumnName="BHU" />
+                <ScalarProperty Name="BTO" ColumnName="BTO" />
+                <ScalarProperty Name="BDR" ColumnName="BDR" />
+                <ScalarProperty Name="BFL" ColumnName="BFL" />
+                <ScalarProperty Name="BFR" ColumnName="BFR" />
+                <ScalarProperty Name="BPS" ColumnName="BPS" />
+                <ScalarProperty Name="BAV" ColumnName="BAV" />
+                <ScalarProperty Name="BAP" ColumnName="BAP" />
+                <ScalarProperty Name="BAC" ColumnName="BAC" />
+                <ScalarProperty Name="BAF" ColumnName="BAF" />
+                <ScalarProperty Name="BV1" ColumnName="BV1" />
+                <ScalarProperty Name="BC1" ColumnName="BC1" />
+                <ScalarProperty Name="BT1" ColumnName="BT1" />
+                <ScalarProperty Name="BV2" ColumnName="BV2" />
+                <ScalarProperty Name="BC2" ColumnName="BC2" />
+                <ScalarProperty Name="BT2" ColumnName="BT2" />
+                <ScalarProperty Name="BSE" ColumnName="BSE" />
+                <ScalarProperty Name="BA1" ColumnName="BA1" />
+                <ScalarProperty Name="BB1" ColumnName="BB1" />
+                <ScalarProperty Name="BA2" ColumnName="BA2" />
+                <ScalarProperty Name="BB2" ColumnName="BB2" />
+                <ScalarProperty Name="BA3" ColumnName="BA3" />
+                <ScalarProperty Name="BB3" ColumnName="BB3" />
+                <ScalarProperty Name="BA4" ColumnName="BA4" />
+                <ScalarProperty Name="BB4" ColumnName="BB4" />
+                <ScalarProperty Name="BFA" ColumnName="BFA" />
+                <ScalarProperty Name="BFD" ColumnName="BFD" />
+                <ScalarProperty Name="BPW" ColumnName="BPW" />
+                <ScalarProperty Name="IsSEQ" ColumnName="IsSEQ" />
+                <ScalarProperty Name="TimeSend" ColumnName="TimeSend" />
+                <ScalarProperty Name="BWS" ColumnName="BWS" />
+                <ScalarProperty Name="BVC" ColumnName="BVC" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Devices">
             <EntityTypeMapping TypeName="ObservationModel.Device">
               <MappingFragment StoreEntitySet="Device">
-                <ScalarProperty Name="IsAlarm" ColumnName="IsAlarm" />
-                <ScalarProperty Name="Area_Id" ColumnName="Area_Id" />
-                <ScalarProperty Name="LastData" ColumnName="LastData" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Off_Sns_after" ColumnName="Off_Sns_after" />
-                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
-                <ScalarProperty Name="CreateDay" ColumnName="CreateDay" />
-                <ScalarProperty Name="Serial" ColumnName="Serial" />
-                <ScalarProperty Name="Site_Id" ColumnName="Site_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Groups">
-            <EntityTypeMapping TypeName="ObservationModel.Group">
-              <MappingFragment StoreEntitySet="Group">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
+                <ScalarProperty Name="Site_Id" ColumnName="Site_Id" />
+                <ScalarProperty Name="Serial" ColumnName="Serial" />
                 <ScalarProperty Name="CreateDay" ColumnName="CreateDay" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Contact" ColumnName="Contact" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="Off_Sns_after" ColumnName="Off_Sns_after" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastData" ColumnName="LastData" />
+                <ScalarProperty Name="Area_Id" ColumnName="Area_Id" />
+                <ScalarProperty Name="IsAlarm" ColumnName="IsAlarm" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Observations">
             <EntityTypeMapping TypeName="ObservationModel.Observation">
               <MappingFragment StoreEntitySet="Observation">
-                <ScalarProperty Name="IsBieuDo" ColumnName="IsBieuDo" />
-                <ScalarProperty Name="Hight_Value" ColumnName="Hight_Value" />
-                <ScalarProperty Name="Low_Value" ColumnName="Low_Value" />
-                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
-                <ScalarProperty Name="CreateDay" ColumnName="CreateDay" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Noti_Alarm" ColumnName="Noti_Alarm" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Noti_Alarm" ColumnName="Noti_Alarm" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CreateDay" ColumnName="CreateDay" />
+                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
+                <ScalarProperty Name="Low_Value" ColumnName="Low_Value" />
+                <ScalarProperty Name="Hight_Value" ColumnName="Hight_Value" />
+                <ScalarProperty Name="IsBieuDo" ColumnName="IsBieuDo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegionalGroups">
+            <EntityTypeMapping TypeName="ObservationModel.RegionalGroup">
+              <MappingFragment StoreEntitySet="RegionalGroup">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreateDay" ColumnName="CreateDay" />
+                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsSendTTTT" ColumnName="IsSendTTTT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RegisterSMS">
             <EntityTypeMapping TypeName="ObservationModel.RegisterSMS">
               <MappingFragment StoreEntitySet="RegisterSMS">
-                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
-                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
-                <ScalarProperty Name="SMSServerId" ColumnName="SMSServerId" />
-                <ScalarProperty Name="IsAll" ColumnName="IsAll" />
-                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
-                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
-                <ScalarProperty Name="DateSend" ColumnName="DateSend" />
-                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
-                <ScalarProperty Name="CodeObservation" ColumnName="CodeObservation" />
-                <ScalarProperty Name="DanhSachSDT" ColumnName="DanhSachSDT" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DanhSachSDT" ColumnName="DanhSachSDT" />
+                <ScalarProperty Name="CodeObservation" ColumnName="CodeObservation" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="DateSend" ColumnName="DateSend" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="IsAll" ColumnName="IsAll" />
+                <ScalarProperty Name="SMSServerId" ColumnName="SMSServerId" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportDailyApSuats">
             <EntityTypeMapping TypeName="ObservationModel.ReportDailyApSuat">
               <MappingFragment StoreEntitySet="ReportDailyApSuat">
-                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
-                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
-                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
-                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
-                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
-                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
-                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
-                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
-                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
-                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
-                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
-                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
-                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
-                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
-                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
-                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
-                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
-                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
-                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
-                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
-                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
-                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
-                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
-                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
-                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
-                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
-                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
-                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
-                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
-                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
-                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
+                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
+                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
+                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
+                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
+                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
+                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
+                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
+                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
+                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
+                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
+                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
+                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
+                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
+                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
+                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
+                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
+                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
+                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
+                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
+                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
+                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
+                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
+                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
+                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
+                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
+                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
+                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
+                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
+                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportDailyDoAms">
             <EntityTypeMapping TypeName="ObservationModel.ReportDailyDoAm">
               <MappingFragment StoreEntitySet="ReportDailyDoAm">
-                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
-                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
-                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
-                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
-                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
-                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
-                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
-                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
-                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
-                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
-                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
-                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
-                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
-                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
-                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
-                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
-                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
-                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
-                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
-                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
-                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
-                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
-                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
-                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
-                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
-                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
-                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
-                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
-                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
-                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
-                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
+                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
+                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
+                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
+                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
+                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
+                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
+                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
+                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
+                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
+                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
+                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
+                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
+                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
+                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
+                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
+                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
+                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
+                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
+                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
+                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
+                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
+                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
+                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
+                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
+                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
+                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
+                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
+                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
+                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportDailyHuongGios">
             <EntityTypeMapping TypeName="ObservationModel.ReportDailyHuongGio">
               <MappingFragment StoreEntitySet="ReportDailyHuongGio">
-                <ScalarProperty Name="HuongGio8" ColumnName="HuongGio8" />
-                <ScalarProperty Name="HuongGio7" ColumnName="HuongGio7" />
-                <ScalarProperty Name="HuongGio6" ColumnName="HuongGio6" />
-                <ScalarProperty Name="HuongGio5" ColumnName="HuongGio5" />
-                <ScalarProperty Name="HuongGio4" ColumnName="HuongGio4" />
-                <ScalarProperty Name="HuongGio3" ColumnName="HuongGio3" />
-                <ScalarProperty Name="HuongGio2" ColumnName="HuongGio2" />
-                <ScalarProperty Name="HuongGio1" ColumnName="HuongGio1" />
-                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
-                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
-                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
-                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
-                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
-                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
-                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
-                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
-                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
-                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
-                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
-                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
-                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
-                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
-                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
-                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
-                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
-                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
-                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
-                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
-                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
-                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
-                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
-                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
-                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
-                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
-                <ScalarProperty Name="HuongGioDacTrungNhieuThuHai" ColumnName="HuongGioDacTrungNhieuThuHai" />
-                <ScalarProperty Name="HuongGioDacTrungNhieuNhat" ColumnName="HuongGioDacTrungNhieuNhat" />
-                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
-                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
-                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
+                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
+                <ScalarProperty Name="HuongGioDacTrungNhieuNhat" ColumnName="HuongGioDacTrungNhieuNhat" />
+                <ScalarProperty Name="HuongGioDacTrungNhieuThuHai" ColumnName="HuongGioDacTrungNhieuThuHai" />
+                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
+                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
+                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
+                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
+                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
+                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
+                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
+                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
+                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
+                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
+                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
+                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
+                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
+                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
+                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
+                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
+                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
+                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
+                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
+                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
+                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
+                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
+                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
+                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
+                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
+                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
+                <ScalarProperty Name="HuongGio1" ColumnName="HuongGio1" />
+                <ScalarProperty Name="HuongGio2" ColumnName="HuongGio2" />
+                <ScalarProperty Name="HuongGio3" ColumnName="HuongGio3" />
+                <ScalarProperty Name="HuongGio4" ColumnName="HuongGio4" />
+                <ScalarProperty Name="HuongGio5" ColumnName="HuongGio5" />
+                <ScalarProperty Name="HuongGio6" ColumnName="HuongGio6" />
+                <ScalarProperty Name="HuongGio7" ColumnName="HuongGio7" />
+                <ScalarProperty Name="HuongGio8" ColumnName="HuongGio8" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportDailyLuongMuas">
             <EntityTypeMapping TypeName="ObservationModel.ReportDailyLuongMua">
               <MappingFragment StoreEntitySet="ReportDailyLuongMua">
-                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
-                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
-                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
-                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
-                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
-                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
-                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
-                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
-                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
-                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
-                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
-                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
-                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
-                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
-                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
-                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
-                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
-                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
-                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
-                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
-                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
-                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
-                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
-                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
-                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
-                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
-                <ScalarProperty Name="TongLuongMua" ColumnName="TongLuongMua" />
-                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
-                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
-                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
+                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
+                <ScalarProperty Name="TongLuongMua" ColumnName="TongLuongMua" />
+                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
+                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
+                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
+                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
+                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
+                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
+                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
+                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
+                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
+                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
+                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
+                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
+                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
+                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
+                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
+                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
+                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
+                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
+                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
+                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
+                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
+                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
+                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
+                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
+                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
+                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportDailyLuuLuongDongChays">
+            <EntityTypeMapping TypeName="ObservationModel.ReportDailyLuuLuongDongChay">
+              <MappingFragment StoreEntitySet="ReportDailyLuuLuongDongChay">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
+                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
+                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
+                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
+                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
+                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
+                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
+                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
+                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
+                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
+                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
+                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
+                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
+                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
+                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
+                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
+                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
+                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
+                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
+                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
+                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
+                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
+                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
+                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
+                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
+                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
+                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
+                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
+                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
+                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportDailyMucNuocs">
             <EntityTypeMapping TypeName="ObservationModel.ReportDailyMucNuoc">
               <MappingFragment StoreEntitySet="ReportDailyMucNuoc">
-                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
-                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
-                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
-                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
-                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
-                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
-                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
-                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
-                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
-                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
-                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
-                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
-                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
-                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
-                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
-                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
-                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
-                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
-                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
-                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
-                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
-                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
-                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
-                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
-                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
-                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
-                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
-                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
-                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
-                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
-                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
+                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
+                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
+                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
+                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
+                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
+                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
+                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
+                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
+                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
+                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
+                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
+                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
+                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
+                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
+                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
+                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
+                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
+                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
+                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
+                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
+                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
+                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
+                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
+                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
+                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
+                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
+                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
+                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
+                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportDailyNhietDoes">
             <EntityTypeMapping TypeName="ObservationModel.ReportDailyNhietDo">
               <MappingFragment StoreEntitySet="ReportDailyNhietDo">
-                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
-                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
-                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
-                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
-                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
-                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
-                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
-                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
-                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
-                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
-                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
-                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
-                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
-                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
-                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
-                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
-                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
-                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
-                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
-                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
-                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
-                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
-                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
-                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
-                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
-                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
-                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
-                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
-                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
-                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
-                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
+                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
+                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
+                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
+                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
+                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
+                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
+                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
+                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
+                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
+                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
+                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
+                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
+                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
+                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
+                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
+                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
+                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
+                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
+                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
+                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
+                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
+                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
+                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
+                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
+                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
+                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
+                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
+                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
+                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportDailyTocDoDongChays">
+            <EntityTypeMapping TypeName="ObservationModel.ReportDailyTocDoDongChay">
+              <MappingFragment StoreEntitySet="ReportDailyTocDoDongChay">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
+                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
+                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
+                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
+                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
+                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
+                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
+                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
+                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
+                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
+                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
+                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
+                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
+                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
+                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
+                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
+                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
+                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
+                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
+                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
+                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
+                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
+                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
+                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
+                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
+                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
+                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
+                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
+                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
+                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportDailyTocDoGios">
             <EntityTypeMapping TypeName="ObservationModel.ReportDailyTocDoGio">
               <MappingFragment StoreEntitySet="ReportDailyTocDoGio">
-                <ScalarProperty Name="HuongGioCuaTocDoLonNhat" ColumnName="HuongGioCuaTocDoLonNhat" />
-                <ScalarProperty Name="HuongGioCuarTocDoNhoNhat" ColumnName="HuongGioCuarTocDoNhoNhat" />
-                <ScalarProperty Name="TocDoGioLonNhat" ColumnName="TocDoGioLonNhat" />
-                <ScalarProperty Name="TocDoGioNhoNhat" ColumnName="TocDoGioNhoNhat" />
-                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
-                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
-                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
-                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
-                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
-                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
-                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
-                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
-                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
-                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
-                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
-                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
-                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
-                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
-                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
-                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
-                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
-                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
-                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
-                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
-                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
-                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
-                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
-                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
-                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
-                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
-                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
-                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
-                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
-                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
-                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
+                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
+                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
+                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
+                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
+                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
+                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
+                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
+                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
+                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
+                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
+                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
+                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
+                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
+                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
+                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
+                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
+                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
+                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
+                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
+                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
+                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
+                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
+                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
+                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
+                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
+                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
+                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
+                <ScalarProperty Name="TocDoGioNhoNhat" ColumnName="TocDoGioNhoNhat" />
+                <ScalarProperty Name="TocDoGioLonNhat" ColumnName="TocDoGioLonNhat" />
+                <ScalarProperty Name="HuongGioCuarTocDoNhoNhat" ColumnName="HuongGioCuarTocDoNhoNhat" />
+                <ScalarProperty Name="HuongGioCuaTocDoLonNhat" ColumnName="HuongGioCuaTocDoLonNhat" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportTypes">
             <EntityTypeMapping TypeName="ObservationModel.ReportType">
               <MappingFragment StoreEntitySet="ReportType">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Measure" ColumnName="Measure" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Measure" ColumnName="Measure" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiteAdminLogs">
+            <EntityTypeMapping TypeName="ObservationModel.SiteAdminLog">
+              <MappingFragment StoreEntitySet="SiteAdminLog">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="NewID" ColumnName="NewID" />
+                <ScalarProperty Name="dateCreate" ColumnName="dateCreate" />
+                <ScalarProperty Name="IPAdressAccess" ColumnName="IPAdressAccess" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="SiteUrl" ColumnName="SiteUrl" />
+                <ScalarProperty Name="Devices" ColumnName="Devices" />
+                <ScalarProperty Name="Browser" ColumnName="Browser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SmsServers">
+            <EntityTypeMapping TypeName="ObservationModel.SmsServer">
+              <MappingFragment StoreEntitySet="SmsServer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AddressIP" ColumnName="AddressIP" />
+                <ScalarProperty Name="RegisterId" ColumnName="RegisterId" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="ObservationModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SkypeID" ColumnName="SkypeID" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="CmisUserType" ColumnName="CmisUserType" />
+                <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserWebsite_Category">
+            <EntityTypeMapping TypeName="ObservationModel.UserWebsite_Category">
+              <MappingFragment StoreEntitySet="UserWebsite_Category">
+                <ScalarProperty Name="Websites_Users_ID" ColumnName="Websites_Users_ID" />
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Membership">
+            <EntityTypeMapping TypeName="ObservationModel.webpages_Membership">
+              <MappingFragment StoreEntitySet="webpages_Membership">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
+                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
+                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_OAuthMembership">
+            <EntityTypeMapping TypeName="ObservationModel.webpages_OAuthMembership">
+              <MappingFragment StoreEntitySet="webpages_OAuthMembership">
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+                <ScalarProperty Name="ProviderUserId" ColumnName="ProviderUserId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Roles">
+            <EntityTypeMapping TypeName="ObservationModel.webpages_Roles">
+              <MappingFragment StoreEntitySet="webpages_Roles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_UsersInRoles">
+            <EntityTypeMapping TypeName="ObservationModel.webpages_UsersInRoles">
+              <MappingFragment StoreEntitySet="webpages_UsersInRoles">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WT_SystemRules">
+            <EntityTypeMapping TypeName="ObservationModel.WT_SystemRules">
+              <MappingFragment StoreEntitySet="WT_SystemRules">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Administrator_PageInRoles" TypeName="ObservationModel.Administrator_PageInRoles" StoreEntitySet="Administrator_PageInRoles">
+            <EndProperty Name="Administrator_Pages">
+              <ScalarProperty Name="PageId" ColumnName="PageId" />
+            </EndProperty>
+            <EndProperty Name="webpages_Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
           <EntitySetMapping Name="Sites">
             <EntityTypeMapping TypeName="ObservationModel.Site">
               <MappingFragment StoreEntitySet="Site">
+                <ScalarProperty Name="TypeSiteId" ColumnName="TypeSiteId" />
                 <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
@@ -2046,120 +2436,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SiteAdminLogs">
-            <EntityTypeMapping TypeName="ObservationModel.SiteAdminLog">
-              <MappingFragment StoreEntitySet="SiteAdminLog">
-                <ScalarProperty Name="Browser" ColumnName="Browser" />
-                <ScalarProperty Name="Devices" ColumnName="Devices" />
-                <ScalarProperty Name="SiteUrl" ColumnName="SiteUrl" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="IPAdressAccess" ColumnName="IPAdressAccess" />
-                <ScalarProperty Name="dateCreate" ColumnName="dateCreate" />
-                <ScalarProperty Name="NewID" ColumnName="NewID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SmsServers">
-            <EntityTypeMapping TypeName="ObservationModel.SmsServer">
-              <MappingFragment StoreEntitySet="SmsServer">
-                <ScalarProperty Name="Port" ColumnName="Port" />
-                <ScalarProperty Name="RegisterId" ColumnName="RegisterId" />
-                <ScalarProperty Name="AddressIP" ColumnName="AddressIP" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserProfiles">
-            <EntityTypeMapping TypeName="ObservationModel.UserProfile">
-              <MappingFragment StoreEntitySet="UserProfile">
-                <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
-                <ScalarProperty Name="CmisUserType" ColumnName="CmisUserType" />
-                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="SkypeID" ColumnName="SkypeID" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserWebsite_Category">
-            <EntityTypeMapping TypeName="ObservationModel.UserWebsite_Category">
-              <MappingFragment StoreEntitySet="UserWebsite_Category">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
-                <ScalarProperty Name="Websites_Users_ID" ColumnName="Websites_Users_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="webpages_Membership">
-            <EntityTypeMapping TypeName="ObservationModel.webpages_Membership">
-              <MappingFragment StoreEntitySet="webpages_Membership">
-                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
-                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
-                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
-                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
-                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
-                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
-                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="webpages_OAuthMembership">
-            <EntityTypeMapping TypeName="ObservationModel.webpages_OAuthMembership">
-              <MappingFragment StoreEntitySet="webpages_OAuthMembership">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ProviderUserId" ColumnName="ProviderUserId" />
-                <ScalarProperty Name="Provider" ColumnName="Provider" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="webpages_Roles">
-            <EntityTypeMapping TypeName="ObservationModel.webpages_Roles">
-              <MappingFragment StoreEntitySet="webpages_Roles">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="webpages_UsersInRoles">
-            <EntityTypeMapping TypeName="ObservationModel.webpages_UsersInRoles">
-              <MappingFragment StoreEntitySet="webpages_UsersInRoles">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WT_SystemRules">
-            <EntityTypeMapping TypeName="ObservationModel.WT_SystemRules">
-              <MappingFragment StoreEntitySet="WT_SystemRules">
-                <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="Administrator_PageInRoles" TypeName="ObservationModel.Administrator_PageInRoles" StoreEntitySet="Administrator_PageInRoles">
-            <EndProperty Name="webpages_Roles">
-              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-            </EndProperty>
-            <EndProperty Name="Administrator_Pages">
-              <ScalarProperty Name="PageId" ColumnName="PageId" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

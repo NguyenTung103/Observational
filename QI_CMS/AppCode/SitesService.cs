@@ -31,7 +31,7 @@ namespace ES_CapDien.AppCode
         /// <param name="totalRow">tổng số hàng</param>
         /// <param name="title">title trang web</param>
         /// <returns></returns>
-        public IQueryable<Site> GetAll(int skip, int take, out int totalRow, string title = "", int? areaId=null, int? groupId=null)
+        public IQueryable<Site> GetAll(int skip, int take, int type, out int totalRow, string title = "", int? areaId = null, int? groupId = null)
         {
             IQueryable<Site> query = sitesResponsitory.GetAll(); //Query lấy điều kiện dữ liệu
 
@@ -41,11 +41,15 @@ namespace ES_CapDien.AppCode
             }
             if (areaId.HasValue)
             {
-                query = query.Where(q => q.Area_Id==areaId);
+                query = query.Where(q => q.Area_Id == areaId);
             }
             if (groupId.HasValue)
             {
                 query = query.Where(q => q.Group_Id == groupId);
+            }
+            if (type != 0)
+            {
+                query = query.Where(q => q.TypeSiteId == type);
             }
             query = query.OrderBy(q => q.Id); // Sắp xếp dữ liệu lấy ra theo thứ tự tăng dần
             totalRow = query.Count();
@@ -56,13 +60,21 @@ namespace ES_CapDien.AppCode
         /// </summary>
         /// <param name="areaId">số bản ghi bỏ qua</param>      
         /// <returns></returns>
-        public IQueryable<Site> GetByAreaId( int? areaId = null)
+        public IQueryable<Site> GetByAreaId(int? areaId = null, int? type = null, int? groupId = null)
         {
             IQueryable<Site> query = sitesResponsitory.GetAll().Where(i => i.DeviceId != null); //Query lấy điều kiện dữ liệu
-            if (areaId.HasValue)
+            if (areaId.HasValue && areaId != 0)
+            {
+                query = query.Where(q => q.Group_Id == groupId);
+            }
+            if (areaId.HasValue && areaId != 0)
             {
                 query = query.Where(q => q.Area_Id == areaId);
-            }          
+            }
+            if (type.HasValue && type != 0)
+            {
+                query = query.Where(q => q.TypeSiteId == type);
+            }
             query = query.OrderBy(q => q.Id); // Sắp xếp dữ liệu lấy ra theo thứ tự tăng dần           
             return query;
         }
@@ -71,12 +83,16 @@ namespace ES_CapDien.AppCode
         /// </summary>
         /// <param name="groupId"></param>
         /// <returns></returns>
-        public IQueryable<Site> GetBygroupId(int? groupId = null)
+        public IQueryable<Site> GetBygroupId(int? groupId = null, int? type = null)
         {
-            IQueryable<Site> query = sitesResponsitory.GetAll().Where(i=>i.DeviceId != null); //Query lấy điều kiện dữ liệu
+            IQueryable<Site> query = sitesResponsitory.GetAll().Where(i => i.DeviceId != null); //Query lấy điều kiện dữ liệu
             if (groupId.HasValue)
             {
                 query = query.Where(q => q.Group_Id == groupId);
+            }
+            if (type.HasValue && type != 0)
+            {
+                query = query.Where(q => q.TypeSiteId == type);
             }
             query = query.OrderBy(q => q.Id); // Sắp xếp dữ liệu lấy ra theo thứ tự tăng dần           
             return query;
@@ -92,7 +108,7 @@ namespace ES_CapDien.AppCode
             if (deviceId.HasValue)
             {
                 query = query.Where(q => q.DeviceId == deviceId);
-            }               
+            }
             return query;
         }
     }

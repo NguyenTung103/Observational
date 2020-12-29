@@ -1,7 +1,7 @@
 ﻿@model ES_CapDien.Models.DataObservationViewModel
 @using PagedList.Mvc
 @{
-    ViewBag.Title = "Dữ liệu tổng hợp";
+    ViewBag.Title = "Quản lý dữ liệu khí tượng";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section PageScripts{
@@ -24,7 +24,7 @@
             }).ajaxStop(function () {
                 $("#loading").hide();
                 $("body").css("opacity", "1");
-            });
+            });               
             $("#runRealTime").click(function () {
                 var setTime = document.getElementById("setTime").value;
                 if (setTime > 6) {
@@ -58,10 +58,28 @@
             });
 
         });
+        function GetSite() {
+            var type = document.getElementById("type").value;
+            var key = document.getElementById("areaID").value;
+            $.ajax({
+                type: "GET",
+                url: '/Home/GetSite',
+                data: { idArea: key, type: type },
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (resuilt) {
+                    $("#siteId").html(resuilt);
+                },
+                error: function () {
+                }
+            });
+
+        };       
         function Data() {
             $.ajax({
                 type: "GET",
                 url: '/Home/GetDataTable',
+                data: { type: 1 },
                 contentType: "application/json; charset=utf-8",
                 dataType: "html",
                 success: function (resuilt) {
@@ -100,12 +118,12 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <i class="fa fa-external-link-square"></i>
-            <strong>Tổng hợp dữ liệu</strong>
+            <strong>Quản lý dữ liệu khí tượng</strong>
             <div class="panel-tools">
             </div>
         </div>
         <div class="panel-body">
-            @using (Html.BeginForm("Management", "Home", FormMethod.Get, new { id = "point-form" }))
+            @using (Html.BeginForm("QuanLyKhiTuong", "Home", FormMethod.Get, new { id = "point-form" }))
             {
                 <div class="chat-form">
                     <div class="row">
@@ -115,7 +133,7 @@
                                     Khu vực
                                 </label>
                                 <div class="col-sm-9">
-                                    <select class="form-control search-select" id="areaID" name="areaID">
+                                    <select class="form-control search-select" id="areaID" name="areaID" onchange="GetSite()">
                                         <option value="">--- Khu vực ---</option>
                                         @if (ViewBag.lstArea != null)
                                         {
@@ -123,15 +141,25 @@
                                             {
                                                 if (item.Id.ToString() == Request.Params["areaID"])
                                                 {
-                                                    <option value="@item.Id" selected="selected">@item.Name</option>
-                                                }
+                        <option value="@item.Id" selected="selected">@item.Name</option> }
                                                 else
                                                 {
-                                                    <option value="@item.Id">@item.Name</option>
-                                                }
+                        <option value="@item.Id">@item.Name</option>}
 
                                             }
                                         }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form-horizontal">
+                            <div class="row form-group">
+                                <label class="col-sm-3 control-label" for="form-field-1">
+                                    Kiểu trạm
+                                </label>
+                                <div class="col-sm-9">
+                                    <select class="form-control search-select" id="type" name="type" onchange="GetSite()">
+                                        <option value="1" selected="selected">Trạm khí tượng</option>
                                     </select>
                                 </div>
                             </div>
@@ -150,18 +178,18 @@
                                             {
                                                 if (item.Id.ToString() == Request.Params["siteId"])
                                                 {
-                                                    <option value="@item.Id" selected="selected">@item.Name</option>
-                                                }
+                        <option value="@item.Id" selected="selected">@item.Name</option> }
                                                 else
                                                 {
-                                                    <option value="@item.Id">@item.Name</option>
-                                                }
+                        <option value="@item.Id">@item.Name</option>}
                                             }
                                         }
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div>                      
+                    </div>
+                    <div class="row">
                         <div class="col-md-3 form-horizontal">
                             <div class="row form-group">
                                 <label class="col-sm-3 control-label" for="form-field-1">
@@ -187,9 +215,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                        
-                    </div>
-                    <div class="row">
+                        </div>
                         <div class="col-md-3 form-horizontal">
                             <div class="row form-group">
                                 <label class="col-sm-3 control-label" for="form-field-1">
@@ -202,24 +228,24 @@
                         </div>
                         <div class="col-md-3 form-horizontal">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <button class="btn btn-primary fill-data-cus" type="button" id="runRealTime">
                                         Thực hiện
                                     </button>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <button class="btn btn-danger fill-data-cus" type="button" id="stop" style="display:none;">
                                         Dừng
                                     </button>
                                 </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary fill-data-cus" type="submit" id="btn_Submit">
+                                        <i class="clip-search-2"></i>Lọc dữ liệu
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3 form-horizontal">
-                            <button class="btn btn-primary fill-data-cus" type="submit" id="btn_Submit">
-                                <i class="clip-search-2"></i>Lọc dữ liệu
-                            </button>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
 
                 <input type="hidden" id="pageSize" name="pageSize" value="@Request.Params["pageSize"]" />
@@ -232,30 +258,28 @@
                             <th class="center">STT</th>
                             <th class="center">Trạm</th>
                             <th class="center">Thời gian</th>
-                            <th class="center">Nhiệt độ môi trường (oC)</th>                            
+                            <th class="center">Nhiệt độ môi trường (oC)</th>
                             <th class="center">Độ ẩm môi trường (%)</th>
-                            <th class="center">Tốc độ gió</th>
-                            <th class="center">Hướng gió</th>
+                            <th class="center">Tốc độ gió (m/s)</th>
+                            <th class="center">Hướng gió (o)</th>
                             <th class="center">Áp suất KQ (hPA)</th>
-                            <th class="center">Lượng mưa (mm)</th>
-                            <th class="center">Mực nước (m)</th>
+                            <th class="center">Lượng mưa (mm)</th>                           
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.DataO)
                         {
-                            <tr>
-                                <td class="center">@(Model.DataO.ToList().IndexOf(item) + 1)</td>
-                                <td>@item.NameSite.Trim()</td>
-                                <td class="center">@item.DateCreate</td>
-                                <td class="center">@item.BTI</td>                                
-                                <td class="center">@item.BHU</td>
-                                <td class="center">@item.BWS</td>
-                                <td class="center">@item.BAP</td>
-                                <td class="center">@item.BAV</td>
-                                <td class="center">@item.BAC</td>
-                                <td class="center">@item.BAF</td>
-                            </tr>
+                        <tr>
+                            <td class="center">@(Model.DataO.ToList().IndexOf(item) + 1)</td>
+                            <td>@item.NameSite.Trim()</td>
+                            <td class="center">@item.DateCreate.Value.ToString("HH:mm")</td>
+                            <td class="center">@item.BTI</td>
+                            <td class="center">@item.BHU</td>
+                            <td class="center">@item.BWS</td>
+                            <td class="center">@item.BAP</td>
+                            <td class="center">@item.BAV</td>
+                            <td class="center">@item.BAC</td>                          
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -283,7 +307,7 @@
                     </div>
                 </div>
                 <div class="col-md-7">
-                    @Html.PagedListPager((PagedList.IPagedList)Model.DataO, page => Url.Action("Management", new { page, pageSize = Request.Params["pageSize"], areaID = Request.Params["areaID"], fromDate = Request.Params["fromDate"], toDate = Request.Params["toDate"] }))
+                    @Html.PagedListPager((PagedList.IPagedList)Model.DataO, page => Url.Action("QuanLyKhiTuong", new { page, pageSize = Request.Params["pageSize"], areaID = Request.Params["areaID"], fromDate = Request.Params["fromDate"], toDate = Request.Params["toDate"], type = Request.Params["type"] }))
                 </div>
             </div>
         </div>

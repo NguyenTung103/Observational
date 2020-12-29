@@ -5,6 +5,7 @@ using ES_CapDien.Helpers;
 using ES_CapDien.Models;
 using ES_CapDien.MongoDb.Service;
 using HelperLibrary;
+using Ionic.Zip;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using PagedList;
@@ -12,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -26,6 +28,7 @@ namespace ES_CapDien.Controllers
         private readonly SitesService sitesService;
         private readonly GroupService groupService;
         private readonly UserProfileService userProfileService;
+        Cache_BO cacheBO = new Cache_BO();
         public DataController()
         {
             dataObservationMongoService = new DataObservationMongoService();
@@ -34,7 +37,7 @@ namespace ES_CapDien.Controllers
             groupService = new GroupService();
             userProfileService = new UserProfileService();
         }
-        public ActionResult Management(int page = 1, int pageSize = 50, string title = "", int? areaId = null, string fromDate = "",string toDate="", int? siteID = null)
+        public async Task<ActionResult> Management(int page = 1, int pageSize = 50, string title = "", int? areaId = null, string fromDate = "", string toDate = "", int? siteID = null, int? buoc = null)
         {
             ViewBag.Title = "";
             ViewBag.MessageStatus = TempData["MessageStatus"];
@@ -46,7 +49,7 @@ namespace ES_CapDien.Controllers
             @ViewBag.PageSizes = CMSHelper.pageSizes;
 
             int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
-            int? groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id;
+            int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
             ViewBag.lstTram = sitesService.GetBygroupId(groupId).ToList();
             string userName = User.Identity.Name;
             int skip = (page - 1) * pageSize;
@@ -63,48 +66,12 @@ namespace ES_CapDien.Controllers
             }
             List<DataObservationModel> list = new List<DataObservationModel>();
             int totalRows = 0;
-            if (siteID.HasValue)
-            {
-                int deviceId = sitesService.sitesResponsitory.Single(siteID).DeviceId.Value;
-                list = dataObservationMongoService.GetDataPagingByDeviceId(from, to, deviceId, skip, pageSize, out int total).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
-                {
-                    BTI = x.BTI,
-                    BTO = x.BTO,
-                    BHU = x.BHU,
-                    BWS = x.BWS,
-                    BAP = x.BAP,
-                    BAV = x.BAV,
-                    BAC = x.BAC,
-                    BAF = x.BAF,
-                    NameSite = sitesService.sitesResponsitory.GetAll().Where(i => i.DeviceId == x.Device_Id).FirstOrDefault().Name,
-                    DateCreate = x.DateCreate
-                }).ToList();
-                totalRows = total;
-            }
-            else
-            {
-                list = dataObservationMongoService.GetDataPaging(from, to, skip, pageSize, out int total).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
-                {
-                    BTI = x.BTI,
-                    BTO = x.BTO,
-                    BHU = x.BHU,
-                    BWS = x.BWS,
-                    BAP = x.BAP,
-                    BAV = x.BAV,
-                    BAC = x.BAC,
-                    BAF = x.BAF,
-                    NameSite = sitesService.sitesResponsitory.GetAll().Where(i => i.DeviceId == x.Device_Id).FirstOrDefault().Name,
-                    DateCreate = x.DateCreate
-                }).ToList();
-                totalRows= total;
-            }
-           
-
-
+            list = cacheBO.GetData(from, to, groupId, buoc, siteID);            
+            totalRows = await GetCountData(from, to, groupId, buoc, siteID);
             #region Hiển thị dữ liệu và phân trang
             DataObservationViewModel viewModel = new DataObservationViewModel
             {
-                DataO = new StaticPagedList<DataObservationModel>(list, page, pageSize, totalRows),
+                DataO = new StaticPagedList<DataObservationModel>(list.Skip(skip).Take(pageSize), page, pageSize, totalRows),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
@@ -117,7 +84,225 @@ namespace ES_CapDien.Controllers
             #endregion
             return View(viewModel);
         }
-        public void ExportExel(string title = "", int? areaId = null, string fromDate = "", string toDate = "", int? siteID = null)
+        public async Task<List<DataObservationModel>> GetDataAsync(DateTime from, DateTime to, int groupId, int? buoc = null, int? siteID = null)
+        {
+            List<DataObservationModel> list = new List<DataObservationModel>();
+            List<DataObservationModel> result = new List<DataObservationModel>();
+            if (siteID.HasValue)
+            {
+                int deviceId = sitesService.sitesResponsitory.Single(siteID).DeviceId.Value;
+
+                list = (await dataObservationMongoService.GetDataByDeviceId(from, to, deviceId)).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
+                {
+                    BTI = x.BTI,
+                    BTO = x.BTO,
+                    BHU = x.BHU,
+                    BWS = x.BWS,
+                    BAP = x.BAP,
+                    BAV = x.BAV,
+                    BAC = x.BAC,
+                    BAF = x.BAF,
+                    NameSite = sitesService.sitesResponsitory.GetAll().Where(i => i.DeviceId == x.Device_Id).FirstOrDefault().Name,
+                    DateCreate = x.DateCreate
+                }).ToList();
+                if (buoc.HasValue)
+                {
+                    int countFor = list.Count() / buoc.Value;
+                    for (int i = 0; i <= countFor - 1; i++)
+                    {
+                        DataObservationModel item = list.Skip(i * buoc.Value).FirstOrDefault();
+                        if (item != null)
+                            result.Add(item);
+                    }
+                }
+                else
+                {
+                    result.AddRange(list);
+                }
+
+            }
+            else
+            {
+                List<Site> lstSite = sitesService.GetBygroupId(groupId).ToList();
+                foreach (var site in lstSite)
+                {
+                    list.AddRange((await dataObservationMongoService.GetDataByDeviceId(from, to, site.DeviceId.Value)).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
+                    {
+                        BTI = x.BTI,
+                        BTO = x.BTO,
+                        BHU = x.BHU,
+                        BWS = x.BWS,
+                        BAP = x.BAP,
+                        BAV = x.BAV,
+                        BAC = x.BAC,
+                        BAF = x.BAF,
+                        NameSite = site.Name,
+                        DateCreate = x.DateCreate
+                    }).ToList());
+                }
+                if (buoc.HasValue)
+                {
+                    int countFor = list.Count() / buoc.Value;
+                    for (int i = 0; i <= countFor - 1; i++)
+                    {
+                        DataObservationModel item = list.Skip(i * buoc.Value).FirstOrDefault();
+                        if (item != null)
+                            result.Add(item);
+                    }
+                }
+                else
+                {
+                    result.AddRange(list);
+                }
+            }
+            return result.OrderByDescending(o => o.DateCreate).ToList();
+        }
+        public List<DataObservationModel> GetData(DateTime from, DateTime to, int groupId, int? buoc = null, int? siteID = null)
+        {
+            List<DataObservationModel> list = new List<DataObservationModel>();
+            List<DataObservationModel> result = new List<DataObservationModel>();
+            if (siteID.HasValue)
+            {
+                int deviceId = sitesService.sitesResponsitory.Single(siteID).DeviceId.Value;
+
+                list = (dataObservationMongoService.GetDataByDeviceIdAndDate(from, to, deviceId)).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
+                {
+                    BTI = x.BTI,
+                    BTO = x.BTO,
+                    BHU = x.BHU,
+                    BWS = x.BWS,
+                    BAP = x.BAP,
+                    BAV = x.BAV,
+                    BAC = x.BAC,
+                    BAF = x.BAF,
+                    NameSite = sitesService.sitesResponsitory.GetAll().Where(i => i.DeviceId == x.Device_Id).FirstOrDefault().Name,
+                    DateCreate = x.DateCreate
+                }).ToList();
+                if (buoc.HasValue)
+                {
+                    int countFor = list.Count() / buoc.Value;
+                    for (int i = 0; i <= countFor - 1; i++)
+                    {
+                        DataObservationModel item = list.Skip(i * buoc.Value).FirstOrDefault();
+                        if (item != null)
+                            result.Add(item);
+                    }
+                }
+                else
+                {
+                    result.AddRange(list);
+                }
+
+            }
+            else
+            {
+                List<Site> lstSite = sitesService.GetBygroupId(groupId).ToList();
+                foreach (var site in lstSite)
+                {
+                    list.AddRange((dataObservationMongoService.GetDataByDeviceIdAndDate(from, to, site.DeviceId.Value)).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
+                    {
+                        BTI = x.BTI,
+                        BTO = x.BTO,
+                        BHU = x.BHU,
+                        BWS = x.BWS,
+                        BAP = x.BAP,
+                        BAV = x.BAV,
+                        BAC = x.BAC,
+                        BAF = x.BAF,
+                        NameSite = site.Name,
+                        DateCreate = x.DateCreate
+                    }).ToList());
+                }
+                if (buoc.HasValue)
+                {
+                    int countFor = list.Count() / buoc.Value;
+                    for (int i = 0; i <= countFor - 1; i++)
+                    {
+                        DataObservationModel item = list.Skip(i * buoc.Value).FirstOrDefault();
+                        if (item != null)
+                            result.Add(item);
+                    }
+                }
+                else
+                {
+                    result.AddRange(list);
+                }
+            }
+            return result.OrderByDescending(o => o.DateCreate).ToList();
+        }
+        public async Task<int> GetCountData(DateTime from, DateTime to, int groupId, int? buoc = null, int? siteID = null)
+        {
+            List<DataObservationModel> list = new List<DataObservationModel>();
+            List<DataObservationModel> result = new List<DataObservationModel>();
+            if (siteID.HasValue)
+            {
+                int deviceId = sitesService.sitesResponsitory.Single(siteID).DeviceId.Value;
+
+                list = (await dataObservationMongoService.GetDataByDeviceId(from, to, deviceId)).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
+                {
+                    BTI = x.BTI,
+                    BTO = x.BTO,
+                    BHU = x.BHU,
+                    BWS = x.BWS,
+                    BAP = x.BAP,
+                    BAV = x.BAV,
+                    BAC = x.BAC,
+                    BAF = x.BAF,
+                    NameSite = sitesService.sitesResponsitory.GetAll().Where(i => i.DeviceId == x.Device_Id).FirstOrDefault().Name,
+                    DateCreate = x.DateCreate
+                }).ToList();
+                if (buoc.HasValue)
+                {
+                    int countFor = list.Count() / buoc.Value;
+                    for (int i = 0; i <= countFor - 1; i++)
+                    {
+                        DataObservationModel item = list.Skip(i * buoc.Value).FirstOrDefault();
+                        if (item != null)
+                            result.Add(item);
+                    }
+                }
+                else
+                {
+                    result.AddRange(list);
+                }
+            }
+            else
+            {
+                List<Site> lstSite = sitesService.GetBygroupId(groupId).ToList();
+                foreach (var site in lstSite)
+                {
+                    list.AddRange((await dataObservationMongoService.GetDataByDeviceId(from, to, site.DeviceId.Value)).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
+                    {
+                        BTI = x.BTI,
+                        BTO = x.BTO,
+                        BHU = x.BHU,
+                        BWS = x.BWS,
+                        BAP = x.BAP,
+                        BAV = x.BAV,
+                        BAC = x.BAC,
+                        BAF = x.BAF,
+                        NameSite = site.Name,
+                        DateCreate = x.DateCreate
+                    }).ToList());
+                }
+                if (buoc.HasValue)
+                {
+                    int countFor = list.Count() / buoc.Value;
+                    for (int i = 0; i <= countFor - 1; i++)
+                    {
+                        DataObservationModel item = list.Skip(i * buoc.Value).FirstOrDefault();
+                        if (item != null)
+                            result.Add(item);
+                    }
+                }
+                else
+                {
+                    result.AddRange(list);
+                }
+            }
+            return result.Count();
+        }
+        public void ExportExel(string title = "", int? areaId = null, string fromDate = "", string toDate = "", int? siteID = null, int? buoc = null)
         {
             try
             {
@@ -132,43 +317,10 @@ namespace ES_CapDien.Controllers
                     }
                     catch { }
                 }
+                int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
+                int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
                 List<DataObservationModel> list = new List<DataObservationModel>();
-                int totalRows = 0;
-                if (siteID.HasValue)
-                {
-                    int deviceId = sitesService.sitesResponsitory.Single(siteID).DeviceId.Value;
-                    list = dataObservationMongoService.GetDataPagingByDeviceId(from, to, deviceId, 0, 1000, out int total).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
-                    {
-                        BTI = x.BTI,
-                        BTO = x.BTO,
-                        BHU = x.BHU,
-                        BWS = x.BWS,
-                        BAP = x.BAP,
-                        BAV = x.BAV,
-                        BAC = x.BAC,
-                        BAF = x.BAF,
-                        NameSite = sitesService.sitesResponsitory.GetAll().Where(i => i.DeviceId == x.Device_Id).FirstOrDefault().Name,
-                        DateCreate = x.DateCreate
-                    }).ToList();
-                    totalRows = total;
-                }
-                else
-                {
-                    list = dataObservationMongoService.GetDataPaging(from, to, 0, 1000, out int total).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
-                    {
-                        BTI = x.BTI,
-                        BTO = x.BTO,
-                        BHU = x.BHU,
-                        BWS = x.BWS,
-                        BAP = x.BAP,
-                        BAV = x.BAV,
-                        BAC = x.BAC,
-                        BAF = x.BAF,
-                        NameSite = sitesService.sitesResponsitory.GetAll().Where(i => i.DeviceId == x.Device_Id).FirstOrDefault().Name,
-                        DateCreate = x.DateCreate
-                    }).ToList();
-                    totalRows = total;
-                }
+                list = cacheBO.GetData(from, to, groupId, buoc, siteID);                
 
                 ExcelPackage pck = new ExcelPackage();
                 ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Report");
@@ -204,19 +356,19 @@ namespace ES_CapDien.Controllers
                     ws.Cells[string.Format("I{0}", rowsStart)].Value = item.BAV;
                     ws.Cells[string.Format("J{0}", rowsStart)].Value = item.BAC;
                     ws.Cells[string.Format("K{0}", rowsStart)].Value = item.BAF;
-                    
+
                     rowsStart++;
                     sTT++;
                 }
-                string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H","I","J","K" };
+                string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" };
                 int rowStartAllTable = 5;
                 SetBorderExportExcel(ws, cellColump, list.Count, rowStartAllTable);
                 ws.Cells["A:AZ"].AutoFitColumns();
-                ws.Cells["A:A"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;               
+                ws.Cells["A:A"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 using (var memoryStream = new MemoryStream())
                 {
                     Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                    Response.AddHeader("content-disposition", "attachment; filename=" + "Thống kê Từ ngày " + from.ToString() + " đến ngày " + to.ToString()+".xlsx");
+                    Response.AddHeader("content-disposition", "attachment; filename=" + "Thống kê Từ ngày " + from.ToString() + " đến ngày " + to.ToString() + ".xlsx");
                     pck.SaveAs(memoryStream);
                     memoryStream.WriteTo(Response.OutputStream);
                     Response.Flush();
@@ -224,6 +376,26 @@ namespace ES_CapDien.Controllers
                 }
             }
             catch { }
+        }
+        public ActionResult DotnetZip(string ZipName, string ExcelName, List<ExcelPackage> lstpackage)
+        {
+            using (var stream = new MemoryStream())
+            {
+                using (ZipFile zip = new ZipFile())
+                {
+                    foreach (var package in lstpackage)
+                    {
+                        var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                        zip.AddEntry(ExcelName, package.GetAsByteArray());
+                        zip.Save(stream);
+                    }
+                    return File(
+                            stream.ToArray(),
+                            System.Net.Mime.MediaTypeNames.Application.Zip,
+                            ZipName
+                        );
+                }
+            }
         }
         private void SetBorderExportExcel(ExcelWorksheet ws, string[] arr, int count, int rowsStart)
         {
@@ -241,6 +413,5 @@ namespace ES_CapDien.Controllers
                 }
             }
         }
-
     }
 }

@@ -79,7 +79,7 @@ namespace ES_CapDien.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int Id)
         {
-            Group pts = groupService.groupResponsitory.Single(Id);
+            RegionalGroup pts = groupService.groupResponsitory.Single(Id);
             bool checkDelete = false;
             if (pts != null)
             {
@@ -96,7 +96,7 @@ namespace ES_CapDien.Controllers
             bool checkDelete = false;
             foreach (var i in ids)
             {
-                Group dp = groupService.groupResponsitory.Single(i);
+                RegionalGroup dp = groupService.groupResponsitory.Single(i);
                 if (dp != null)
                 {
                     checkDelete = groupService.groupResponsitory.Delete(dp);
@@ -117,7 +117,7 @@ namespace ES_CapDien.Controllers
             @ViewBag.MessageStatus = TempData["MessageStatus"];
             @ViewBag.Message = TempData["Message"];
 
-            Group pts = groupService.groupResponsitory.Single(id);
+            RegionalGroup pts = groupService.groupResponsitory.Single(id);
             if (pts == null)
             {
                 return RedirectToAction("GroupsManagement");
@@ -134,7 +134,7 @@ namespace ES_CapDien.Controllers
         {
             if (ModelState.IsValid)
             {
-                Group pts = groupService.groupResponsitory.Single(model.Id);
+                RegionalGroup pts = groupService.groupResponsitory.Single(model.Id);
                 if (pts == null)
                 {
                     return RedirectToAction("GroupsManagement");
@@ -169,7 +169,7 @@ namespace ES_CapDien.Controllers
         {
             if (ModelState.IsValid)
             {
-                Group pts = new Group();
+                RegionalGroup pts = new RegionalGroup();
                 bool checkSave = false;
                 pts.CreateDay = DateTime.Now;
                 int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;

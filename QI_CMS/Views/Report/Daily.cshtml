@@ -9,6 +9,11 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<style>
+    .timeDaily {
+        padding: 1px 4px;
+    }
+</style>
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-external-link-square"></i>
@@ -153,13 +158,13 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
-                            <div class="label label-info">
-                                <span class="clip-clock-2">@Model.NhietDo.TimeMaxValue</span>
+                            <div class="label label-info inline">
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.NhietDo.TimeMaxValue</span>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
                             <div class="label label-info" style="float:right;">
-                                <span class="clip-clock-2">@Model.NhietDo.TimeMinValue</span>
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.NhietDo.TimeMinValue</span>
                             </div>
                         </div>
                     </div>
@@ -199,13 +204,13 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
-                            <div class="label label-info">
-                                <span class="clip-clock-2">@Model.DoAm.TimeMaxValue</span>
+                            <div class="label label-info inline">
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.DoAm.TimeMaxValue</span>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
                             <div class="label label-info" style="float:right;">
-                                <span class="clip-clock-2">@Model.DoAm.TimeMinValue</span>
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.DoAm.TimeMinValue</span>
                             </div>
                         </div>
                     </div>
@@ -245,13 +250,13 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
-                            <div class="label label-info">
-                                <span class="clip-clock-2">@Model.ApSuat.TimeMaxValue</span>
+                            <div class="label label-info inline">
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.ApSuat.TimeMaxValue</span>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
                             <div class="label label-info" style="float:right;">
-                                <span class="clip-clock-2">@Model.ApSuat.TimeMinValue</span>
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.ApSuat.TimeMinValue</span>
                             </div>
                         </div>
                     </div>
@@ -314,13 +319,13 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
-                            <div class="label label-info">
-                                <span class="clip-clock-2">@Model.TocDoGio.TimeMaxValue</span>
+                            <div class="label label-info inline">
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.TocDoGio.TimeMaxValue</span>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
                             <div class="label label-info" style="float:right;">
-                                <span class="clip-clock-2">@Model.TocDoGio.TimeMinValue</span>
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.TocDoGio.TimeMinValue</span>
                             </div>
                         </div>
                     </div>
@@ -372,7 +377,7 @@
                             @if (Model.MucNuoc.TimeMaxValue != null)
                             {
                                 <div class="label label-info">
-                                    <span class="clip-clock-2">@Model.MucNuoc.TimeMaxValue</span>
+                                    <span class="clip-clock-2"></span><span class="timeDaily">@Model.MucNuoc.TimeMaxValue</span>
                                 </div>
                             }
 
@@ -382,7 +387,7 @@
                             @if (Model.MucNuoc.TimeMinValue != null)
                             {
                                 <div class="label label-info" style="float:right;">
-                                    <span class="clip-clock-2">@Model.MucNuoc.TimeMinValue</span>
+                                    <span class="clip-clock-2"></span><span class="timeDaily">@Model.MucNuoc.TimeMinValue</span>
                                 </div>
                             }
                         </div>
@@ -417,6 +422,98 @@
                         </div>
                         <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
                             <div class="label label-info" id="maxinfo4" style="float:right;"> Hướng gió đặc trưng nhiều thứ hai trong ngày: @Model.HuongGio.HuongGioDacTrungNhieuThuHai</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.TocDoDongChay != null)
+    {
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-external-link"></i>
+                    Tốc độ dòng chảy
+                    <div class="panel-tools">
+                        <a class="btn btn-xs btn-link panel-collapse collapses" href="#">
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="containerRP7"></div>
+                    <div class="center">
+                        Biểu đồ nhiệt độ trong ngày
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info">
+                                Tốc độ dòng chảy lớn nhất trong ngày: @Model.TocDoDongChay.MaxValue m/s
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                Tốc độ dòng chảy nhỏ nhất trong ngày: @Model.TocDoDongChay.MinValue m/s
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info inline">
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.TocDoDongChay.TimeMaxValue</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.TocDoDongChay.TimeMinValue</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.LuuLuongDongChay != null)
+    {
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-external-link"></i>
+                    Lưu lượng dòng chảy
+                    <div class="panel-tools">
+                        <a class="btn btn-xs btn-link panel-collapse collapses" href="#">
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="containerRP8"></div>
+                    <div class="center">
+                        Lưu lượng dòng chảy trong ngày
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info">
+                                Lưu lượng dòng chảy cao nhất trong ngày: @Model.LuuLuongDongChay.MaxValue °C
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                Lưu lượng dòng chảy thấp nhất trong ngày: @Model.LuuLuongDongChay.MinValue °C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info inline">
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.LuuLuongDongChay.TimeMaxValue</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.LuuLuongDongChay.TimeMinValue</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -497,178 +594,118 @@
             $(document).ready(function () {
                 Highcharts.chart('container' + '@Html.Raw(Model.NhietDo.ReportTypeCode)', {
                     chart: {
-                        type: 'column'
+                        zoomType: 'xy'
                     },
                     title: {
-                        text: '@Html.Raw(Model.NhietDo.ReportTypeName)'
+                        text: '@Html.Raw(Model.NhietDo.Title)',
                     },
                     subtitle: {
                         text: 'Nguồn asm.aks.vn'
                     },
-                    accessibility: {
-                        announceNewData: {
-                            enabled: true
-                        }
-                    },
-                    xAxis: {
-                        type: 'category'
-                    },
-                    yAxis: {
-                        title: {
-                            text: '@Html.Raw(Model.NhietDo.Title)'
-                        }
-
-                    },
-                    legend: {
-                        enabled: false
-                    },
+                    xAxis: [{
+                        categories: ['0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h',
+                            '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h'],
+                        crosshair: true
+                    }],
                     plotOptions: {
+
                         series: {
-                            borderWidth: 0,
                             dataLabels: {
                                 enabled: true,
-                                format: '{point.y:.1f}'
+
                             }
                         }
                     },
-
-                    tooltip: {
-                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f} ' + '@Html.Raw(Model.NhietDo.Measure)' + '</b>'
-                    },
-
-                    series: [
-                        {
-                            name: '@Html.Raw(Model.NhietDo.ReportTypeName)',
-                            colorByPoint: false,
-                            data: [
-                                {
-                                    name: "0h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance1).ToString().Replace(",",".")),
-                                    drilldown: "0h"
-                                },
-                                {
-                                    name: "1h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance2).ToString().Replace(",",".")),
-                                    drilldown: "1h"
-                                },
-                                {
-                                    name: "2h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance3).ToString().Replace(",",".")),
-                                    drilldown: "2h"
-                                },
-                                {
-                                    name: "3h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance4).ToString().Replace(",",".")),
-                                    drilldown: "3h"
-                                },
-                                {
-                                    name: "4h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance5).ToString().Replace(",",".")),
-                                    drilldown: "4h"
-                                },
-                                {
-                                    name: "5h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance6).ToString().Replace(",",".")),
-                                    drilldown: "5h"
-                                },
-                                {
-                                    name: "6h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance7).ToString().Replace(",",".")),
-                                    drilldown: "6h"
-                                },
-                                {
-                                    name: "7h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance8).ToString().Replace(",",".")),
-                                    drilldown: "7h"
-                                },
-                                {
-                                    name: "8h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance9).ToString().Replace(",",".")),
-                                    drilldown: "8h"
-                                },
-                                {
-                                    name: "9h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance10).ToString().Replace(",",".")),
-                                    drilldown: "9h"
-                                },
-                                {
-                                    name: "10h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance11).ToString().Replace(",",".")),
-                                    drilldown: "20h"
-                                },
-                                {
-                                    name: "11h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance12).ToString().Replace(",",".")),
-                                    drilldown: "11h"
-                                },
-                                {
-                                    name: "12h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance13).ToString().Replace(",",".")),
-                                    drilldown: "12h"
-                                },
-                                {
-                                    name: "13h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance14).ToString().Replace(",",".")),
-                                    drilldown: "13h"
-                                },
-                                {
-                                    name: "14h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance15).ToString().Replace(",",".")),
-                                    drilldown: "14h"
-                                },
-                                {
-                                    name: "15h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance16).ToString().Replace(",",".")),
-                                    drilldown: "15h"
-                                },
-                                {
-                                    name: "16h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance17).ToString().Replace(",",".")),
-                                    drilldown: "16h"
-                                },
-                                {
-                                    name: "17h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance18).ToString().Replace(",",".")),
-                                    drilldown: "17h"
-                                },
-                                {
-                                    name: "18h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance19).ToString().Replace(",",".")),
-                                    drilldown: "18h"
-                                },
-                                {
-                                    name: "19h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance20).ToString().Replace(",",".")),
-                                    drilldown: "19h"
-                                },
-                                {
-                                    name: "20h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance21).ToString().Replace(",",".")),
-                                    drilldown: "20h"
-                                },
-                                {
-                                    name: "21h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance22).ToString().Replace(",",".")),
-                                    drilldown: "21h"
-                                },
-                                {
-                                    name: "22h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance23).ToString().Replace(",",".")),
-                                    drilldown: "22h"
-                                }
-                                ,
-                                {
-                                    name: "23h",
-                                    y: parseFloat(@Html.Raw(Model.NhietDo.Distance24).ToString().Replace(",",".")),
-                                    drilldown: "23h"
-                                }
-                            ]
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        min:parseFloat(@Html.Raw(ViewBag.minValueNhietDo).ToString().Replace(",",".")),
+                        title: {
+                            text: '@Html.Raw(Model.NhietDo.Title)',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            },
+                            format: ' hPA',
                         }
-                    ],
-                    drilldown: {
+                    }],
+                    tooltip: {
+                        shared: false
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        verticalAlign: 'top',
+                        floating: true,
+                        backgroundColor:
+                            Highcharts.defaultOptions.legend.backgroundColor || // theme
+                            'rgba(255,255,255,0.25)'
+                    },
+                    series: [{
+                        name: 'Nhiệt độ',
+                        type: 'column',
+                        data: [parseFloat(@Html.Raw(Model.NhietDo.Distance1).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance2).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance3).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance4).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance5).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance6).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance7).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance8).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance9).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance10).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance11).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance12).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance13).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance14).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance15).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance16).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance17).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance18).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance19).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance20).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance21).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance22).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance23).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance24).ToString().Replace(",","."))],
+                        tooltip: {
+                            valueSuffix: ' ' + '@Html.Raw(Model.NhietDo.Measure)'
+                        }
 
-                    }
+                    }, {
+                        name: 'Nhiệt độ',
+                        type: 'spline',
+                        data: [parseFloat(@Html.Raw(Model.NhietDo.Distance1).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance2).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance3).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance4).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance5).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance6).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance7).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance8).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance9).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance10).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance11).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance12).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance13).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance14).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance15).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance16).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance17).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance18).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance19).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance20).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance21).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance22).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance23).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.NhietDo.Distance24).ToString().Replace(",","."))],
+                        tooltip: {
+                            valueSuffix: ' ' + '@Html.Raw(Model.NhietDo.Measure)'
+                        }
+                    }]
                 });
             });
         </script>
@@ -679,178 +716,118 @@
             $(document).ready(function () {
                 Highcharts.chart('container' + '@Html.Raw(Model.DoAm.ReportTypeCode)', {
                 chart: {
-                        type: 'column'
-                },
-                title: {
-                        text:'@Html.Raw(Model.DoAm.ReportTypeName)'
-                },
-                subtitle: {
-                        text: 'Nguồn asm.aks.vn'
-                },
-                accessibility: {
-                        announceNewData: {
-                            enabled: true
-                        }
-                        },
-                xAxis: {
-                        type: 'category'
-                },
-                yAxis: {
-                        title: {
-                            text: '@Html.Raw(Model.DoAm.Title)'
-                        }
+                        zoomType: 'xy'
+                    },
+                    title: {
+                   text: '@Html.Raw(Model.DoAm.Title)',
+               },
+               subtitle: {
+                   text: 'Nguồn asm.aks.vn'
+               },
+               xAxis: [{
+                   categories: ['0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h',
+                       '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h'],
+                   crosshair: true
+               }],
+               plotOptions: {
 
-                        },
-                legend: {
-                        enabled: false
-                },
-                plotOptions: {
-                        series: {
-                            borderWidth: 0,
-                        dataLabels: {
-                                enabled: true,
-                            format: '{point.y:.1f}'
-                        }
-                            }
-                        },
+                   series: {
+                       dataLabels: {
+                           enabled: true,
 
-                tooltip: {
-                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f} ' + '@Html.Raw(Model.DoAm.Measure)' + '</b>'
-                },
+                       }
+                   }
+               },
+               yAxis: [{ // Primary yAxis
+                   labels: {
+                       format: '{value}',
+                       style: {
+                           color: Highcharts.getOptions().colors[1]
+                       }
+                   },
+                   min:parseFloat(@Html.Raw(ViewBag.minValueDoAm).ToString().Replace(",",".")),
+                   title: {
+                       text: '@Html.Raw(Model.DoAm.Title)',
+                       style: {
+                           color: Highcharts.getOptions().colors[1]
+                       },
+                       format: ' hPA',
+                   }
+               }],
+               tooltip: {
+                   shared: false
+               },
+               legend: {
+                   layout: 'vertical',
+                   align: 'left',
+                   verticalAlign: 'top',
+                   floating: true,
+                   backgroundColor:
+                       Highcharts.defaultOptions.legend.backgroundColor || // theme
+                       'rgba(255,255,255,0.25)'
+               },
+               series: [{
+                   name: 'Độ ẩm',
+                   type: 'column',
+                   data: [parseFloat(@Html.Raw(Model.DoAm.Distance1).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance2).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance3).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance4).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance5).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance6).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance7).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance8).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance9).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance10).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance11).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance12).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance13).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance14).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance15).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance16).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance17).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance18).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance19).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance20).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance21).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance22).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance23).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance24).ToString().Replace(",","."))],
+                   tooltip: {
+                       valueSuffix: ' ' + '@Html.Raw(Model.DoAm.Measure)'
+                   }
 
-                series: [
-                           {
-                        name: '@Html.Raw(Model.DoAm.ReportTypeName)',
-                        colorByPoint: false,
-                        data: [
-                            {
-                                    name: "0h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance1).ToString().Replace(",",".")),
-                                    drilldown: "0h"
-                                },
-                                {
-                                    name: "1h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance2).ToString().Replace(",",".")),
-                                    drilldown: "1h"
-                                },
-                                {
-                                    name: "2h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance3).ToString().Replace(",",".")),
-                                    drilldown: "2h"
-                                },
-                                {
-                                    name: "3h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance4).ToString().Replace(",",".")),
-                                    drilldown: "3h"
-                                },
-                                {
-                                    name: "4h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance5).ToString().Replace(",",".")),
-                                    drilldown: "4h"
-                                },
-                                {
-                                    name: "5h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance6).ToString().Replace(",",".")),
-                                    drilldown: "5h"
-                                },
-                                {
-                                    name: "6h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance7).ToString().Replace(",",".")),
-                                    drilldown: "6h"
-                                },
-                                {
-                                    name: "7h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance8).ToString().Replace(",",".")),
-                                    drilldown: "7h"
-                                },
-                                {
-                                    name: "8h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance9).ToString().Replace(",",".")),
-                                    drilldown: "8h"
-                                },
-                                {
-                                    name: "9h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance10).ToString().Replace(",",".")),
-                                    drilldown: "9h"
-                                },
-                                {
-                                    name: "10h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance11).ToString().Replace(",",".")),
-                                    drilldown: "20h"
-                                },
-                                {
-                                    name: "11h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance12).ToString().Replace(",",".")),
-                                    drilldown: "11h"
-                                },
-                                {
-                                    name: "12h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance13).ToString().Replace(",",".")),
-                                    drilldown: "12h"
-                                },
-                                {
-                                    name: "13h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance14).ToString().Replace(",",".")),
-                                    drilldown: "13h"
-                                },
-                                {
-                                    name: "14h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance15).ToString().Replace(",",".")),
-                                    drilldown: "14h"
-                                },
-                                {
-                                    name: "15h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance16).ToString().Replace(",",".")),
-                                    drilldown: "15h"
-                                },
-                                {
-                                    name: "16h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance17).ToString().Replace(",",".")),
-                                    drilldown: "16h"
-                                },
-                                {
-                                    name: "17h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance18).ToString().Replace(",",".")),
-                                    drilldown: "17h"
-                                },
-                                {
-                                    name: "18h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance19).ToString().Replace(",",".")),
-                                    drilldown: "18h"
-                                },
-                                {
-                                    name: "19h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance20).ToString().Replace(",",".")),
-                                    drilldown: "19h"
-                                },
-                                {
-                                    name: "20h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance21).ToString().Replace(",",".")),
-                                    drilldown: "20h"
-                                },
-                                {
-                                    name: "21h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance22).ToString().Replace(",",".")),
-                                    drilldown: "21h"
-                                },
-                                {
-                                    name: "22h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance23).ToString().Replace(",",".")),
-                                    drilldown: "22h"
-                                }
-                                ,
-                                {
-                                    name: "23h",
-                                    y: parseFloat(@Html.Raw(Model.DoAm.Distance24).ToString().Replace(",",".")),
-                                    drilldown: "23h"
-                                }
-                        ]
-                    }
-                ],
-                drilldown: {
-
-                }
+               }, {
+                   name: 'Độ ẩm',
+                   type: 'spline',
+                   data: [parseFloat(@Html.Raw(Model.DoAm.Distance1).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance2).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance3).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance4).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance5).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance6).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance7).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance8).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance9).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance10).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance11).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance12).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance13).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance14).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance15).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance16).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance17).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance18).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance19).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance20).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance21).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance22).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance23).ToString().Replace(",",".")),
+                   parseFloat(@Html.Raw(Model.DoAm.Distance24).ToString().Replace(",","."))],
+                   tooltip: {
+                       valueSuffix: ' ' + '@Html.Raw(Model.DoAm.Measure)'
+                   }
+               }]
              });
             })
         </script>
@@ -859,182 +836,122 @@
     {
         <script type="text/javascript">
             $(document).ready(function () {
-                 Highcharts.chart('container' + '@Html.Raw(Model.ApSuat.ReportTypeCode)', {
+                Highcharts.chart('container' + '@Html.Raw(Model.ApSuat.ReportTypeCode)', {
                     chart: {
-                        type: 'column'
+                        zoomType: 'xy'
                     },
-                title: {
-                        text:'@Html.Raw(Model.ApSuat.ReportTypeName)'
-                },
-                subtitle: {
+                    title: {
+                        text: '@Html.Raw(Model.ApSuat.Title)',
+                    },
+                    subtitle: {
                         text: 'Nguồn asm.aks.vn'
-                },
-                accessibility: {
-                        announceNewData: {
-                            enabled: true
-                        }
-                        },
-                xAxis: {
-                        type: 'category'
-                },
-                yAxis: {
-                        title: {
-                            text: '@Html.Raw(Model.ApSuat.Title)'
-                        }
+                    },
+                    xAxis: [{
+                        categories: ['0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h',
+                            '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h'],
+                        crosshair: true
+                    }],
+                    plotOptions: {
 
-                        },
-                legend: {
-                        enabled: false
-                },
-                plotOptions: {
                         series: {
-                            borderWidth: 0,
-                        dataLabels: {
+                            dataLabels: {
                                 enabled: true,
-                            format: '{point.y:.1f}'
+
+                            }
                         }
+                    },
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
                             }
                         },
+                        min:parseFloat(@Html.Raw(ViewBag.minValueApSuat).ToString().Replace(",",".")),
+                        title: {
+                            text: '@Html.Raw(Model.ApSuat.Title)',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            },
+                            format: ' hPA',
+                        }
+                    }],
+                    tooltip: {
+                        shared: false
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        verticalAlign: 'top',
+                        floating: true,
+                        backgroundColor:
+                            Highcharts.defaultOptions.legend.backgroundColor || // theme
+                            'rgba(255,255,255,0.25)'
+                    },
+                    series: [{
+                        name: 'Áp suất',
+                        type: 'column',
+                        data: [parseFloat(@Html.Raw(Model.ApSuat.Distance1).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance2).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance3).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance4).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance5).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance6).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance7).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance8).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance9).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance10).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance11).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance12).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance13).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance14).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance15).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance16).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance17).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance18).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance19).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance20).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance21).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance22).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance23).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance24).ToString().Replace(",","."))],
+                        tooltip: {
+                            valueSuffix: ' ' + '@Html.Raw(Model.ApSuat.Measure)'
+                        }
 
-                tooltip: {
-                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f} ' + '@Html.Raw(Model.ApSuat.Measure)' + '</b>'
-                },
-
-                series: [
-                          {
-                        name: '@Html.Raw(Model.ApSuat.ReportTypeName)',
-                        colorByPoint: false,
-                        data: [
-                             {
-                                    name: "0h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance1).ToString().Replace(",",".")),
-                                    drilldown: "0h"
-                                },
-                                {
-                                    name: "1h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance2).ToString().Replace(",",".")),
-                                    drilldown: "1h"
-                                },
-                                {
-                                    name: "2h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance3).ToString().Replace(",",".")),
-                                    drilldown: "2h"
-                                },
-                                {
-                                    name: "3h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance4).ToString().Replace(",",".")),
-                                    drilldown: "3h"
-                                },
-                                {
-                                    name: "4h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance5).ToString().Replace(",",".")),
-                                    drilldown: "4h"
-                                },
-                                {
-                                    name: "5h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance6).ToString().Replace(",",".")),
-                                    drilldown: "5h"
-                                },
-                                {
-                                    name: "6h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance7).ToString().Replace(",",".")),
-                                    drilldown: "6h"
-                                },
-                                {
-                                    name: "7h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance8).ToString().Replace(",",".")),
-                                    drilldown: "7h"
-                                },
-                                {
-                                    name: "8h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance9).ToString().Replace(",",".")),
-                                    drilldown: "8h"
-                                },
-                                {
-                                    name: "9h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance10).ToString().Replace(",",".")),
-                                    drilldown: "9h"
-                                },
-                                {
-                                    name: "10h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance11).ToString().Replace(",",".")),
-                                    drilldown: "20h"
-                                },
-                                {
-                                    name: "11h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance12).ToString().Replace(",",".")),
-                                    drilldown: "11h"
-                                },
-                                {
-                                    name: "12h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance13).ToString().Replace(",",".")),
-                                    drilldown: "12h"
-                                },
-                                {
-                                    name: "13h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance14).ToString().Replace(",",".")),
-                                    drilldown: "13h"
-                                },
-                                {
-                                    name: "14h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance15).ToString().Replace(",",".")),
-                                    drilldown: "14h"
-                                },
-                                {
-                                    name: "15h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance16).ToString().Replace(",",".")),
-                                    drilldown: "15h"
-                                },
-                                {
-                                    name: "16h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance17).ToString().Replace(",",".")),
-                                    drilldown: "16h"
-                                },
-                                {
-                                    name: "17h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance18).ToString().Replace(",",".")),
-                                    drilldown: "17h"
-                                },
-                                {
-                                    name: "18h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance19).ToString().Replace(",",".")),
-                                    drilldown: "18h"
-                                },
-                                {
-                                    name: "19h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance20).ToString().Replace(",",".")),
-                                    drilldown: "19h"
-                                },
-                                {
-                                    name: "20h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance21).ToString().Replace(",",".")),
-                                    drilldown: "20h"
-                                },
-                                {
-                                    name: "21h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance22).ToString().Replace(",",".")),
-                                    drilldown: "21h"
-                                },
-                                {
-                                    name: "22h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance23).ToString().Replace(",",".")),
-                                    drilldown: "22h"
-                                }
-                                ,
-                                {
-                                    name: "23h",
-                                    y: parseFloat(@Html.Raw(Model.ApSuat.Distance24).ToString().Replace(",",".")),
-                                    drilldown: "23h"
-                                }
-                        ]
-                    }
-                ],
-                drilldown: {
-
-                }
-            });
-            });
+                    }, {
+                        name: 'Áp suất',
+                        type: 'spline',
+                        data: [parseFloat(@Html.Raw(Model.ApSuat.Distance1).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance2).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance3).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance4).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance5).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance6).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance7).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance8).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance9).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance10).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance11).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance12).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance13).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance14).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance15).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance16).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance17).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance18).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance19).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance20).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance21).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance22).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance23).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.ApSuat.Distance24).ToString().Replace(",","."))],
+                        tooltip: {
+                            valueSuffix: ' ' + '@Html.Raw(Model.ApSuat.Measure)'
+                        }
+                    }]
+                });
+            })
         </script>
     }
     @if (Model.MucNuoc != null)
@@ -1656,5 +1573,248 @@
             });
         </script>
     }
+    @if (Model.TocDoDongChay != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                Highcharts.chart('container' + '@Html.Raw(Model.TocDoDongChay.ReportTypeCode)', {
+                    chart: {
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: '@Html.Raw(Model.TocDoDongChay.Title)',
+                    },
+                    subtitle: {
+                        text: 'Nguồn asm.aks.vn'
+                    },
+                    xAxis: [{
+                        categories: ['0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h',
+                            '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h'],
+                        crosshair: true
+                    }],
+                    plotOptions: {
 
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+
+                            }
+                        }
+                    },
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        min:parseFloat(@Html.Raw(ViewBag.minTocDoDongChay).ToString().Replace(",",".")),
+                        title: {
+                            text: '@Html.Raw(Model.TocDoDongChay.Title)',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            },
+                            format: ' m/s',
+                        }
+                    }],
+                    tooltip: {
+                        shared: false
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        verticalAlign: 'top',
+                        floating: true,
+                        backgroundColor:
+                            Highcharts.defaultOptions.legend.backgroundColor || // theme
+                            'rgba(255,255,255,0.25)'
+                    },
+                    series: [{
+                        name: 'Tốc độ dòng chảy',
+                        type: 'column',
+                        data: [parseFloat(@Html.Raw(Model.TocDoDongChay.Distance1).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance2).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance3).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance4).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance5).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance6).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance7).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance8).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance9).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance10).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance11).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance12).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance13).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance14).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance15).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance16).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance17).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance18).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance19).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance20).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance21).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance22).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance23).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance24).ToString().Replace(",","."))],
+                        tooltip: {
+                            valueSuffix: ' ' + '@Html.Raw(Model.TocDoDongChay.Measure)'
+                        }
+
+                    }, {
+                            name: 'Tốc độ dòng chảy',
+                        type: 'spline',
+                        data: [parseFloat(@Html.Raw(Model.TocDoDongChay.Distance1).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance2).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance3).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance4).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance5).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance6).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance7).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance8).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance9).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance10).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance11).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance12).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance13).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance14).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance15).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance16).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance17).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance18).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance19).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance20).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance21).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance22).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance23).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.TocDoDongChay.Distance24).ToString().Replace(",","."))],
+                        tooltip: {
+                            valueSuffix: ' ' + '@Html.Raw(Model.TocDoDongChay.Measure)'
+                        }
+                    }]
+                });
+            })
+        </script>
+    }
+    @if (Model.LuuLuongDongChay != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                Highcharts.chart('container' + '@Html.Raw(Model.LuuLuongDongChay.ReportTypeCode)', {
+                    chart: {
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: '@Html.Raw(Model.LuuLuongDongChay.Title)',
+                    },
+                    subtitle: {
+                        text: 'Nguồn asm.aks.vn'
+                    },
+                    xAxis: [{
+                        categories: ['0h', '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', '11h',
+                            '12h', '13h', '14h', '15h', '16h', '17h', '18h', '19h', '20h', '21h', '22h', '23h'],
+                        crosshair: true
+                    }],
+                    plotOptions: {
+
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+
+                            }
+                        }
+                    },
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        min:parseFloat(@Html.Raw(ViewBag.minLuuLuongDongChay).ToString().Replace(",",".")),
+                        title: {
+                            text: '@Html.Raw(Model.TocDoDongChay.Title)',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            },
+                            format: ' m/s',
+                        }
+                    }],
+                    tooltip: {
+                        shared: false
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        verticalAlign: 'top',
+                        floating: true,
+                        backgroundColor:
+                            Highcharts.defaultOptions.legend.backgroundColor || // theme
+                            'rgba(255,255,255,0.25)'
+                    },
+                    series: [{
+                        name: 'Lưu lượng dòng chảy',
+                        type: 'column',
+                        data: [parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance1).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance2).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance3).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance4).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance5).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance6).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance7).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance8).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance9).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance10).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance11).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance12).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance13).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance14).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance15).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance16).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance17).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance18).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance19).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance20).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance21).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance22).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance23).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance24).ToString().Replace(",","."))],
+                        tooltip: {
+                            valueSuffix: ' ' + '@Html.Raw(Model.LuuLuongDongChay.Measure)'
+                        }
+
+                    }, {
+                            name: 'Lưu lượng dòng chảy',
+                        type: 'spline',
+                        data: [parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance1).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance2).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance3).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance4).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance5).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance6).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance7).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance8).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance9).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance10).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance11).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance12).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance13).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance14).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance15).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance16).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance17).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance18).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance19).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance20).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance21).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance22).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance23).ToString().Replace(",",".")),
+                        parseFloat(@Html.Raw(Model.LuuLuongDongChay.Distance24).ToString().Replace(",","."))],
+                        tooltip: {
+                            valueSuffix: ' ' + '@Html.Raw(Model.LuuLuongDongChay.Measure)'
+                        }
+                    }]
+                });
+            })
+        </script>
+    }
 }

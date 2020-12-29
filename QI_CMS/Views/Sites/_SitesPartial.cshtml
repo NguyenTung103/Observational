@@ -21,12 +21,10 @@
                         {
                             if (item.Id == Model.Group_Id)
                             {
-                                <option value="@item.Id" selected="selected">@item.Name</option>
-                            }
+        <option value="@item.Id" selected="selected">@item.Name</option> }
                             else
                             {
-                                <option value="@item.Id">@item.Name</option>
-                            }
+        <option value="@item.Id">@item.Name</option>}
                         }
                     }
                 </select>
@@ -44,12 +42,10 @@
                         {
                             if (item.Id == Model.Area_Id)
                             {
-                                <option value="@item.Id" selected="selected">@item.Name</option>
-                            }
+        <option value="@item.Id" selected="selected">@item.Name</option> }
                             else
                             {
-                                <option value="@item.Id">@item.Name</option>
-                            }
+        <option value="@item.Id">@item.Name</option>}
                         }
                     }
                 </select>
@@ -73,12 +69,35 @@
         </div>
         <div class="form-group">
             <div class="col-sm-1"></div>
+            <label class="col-sm-2 control-label" for="form-field-1">Kiểu trạm</label>
+            <div class="col-sm-8">
+                <select class="form-control search-select" id="TypeSiteId" name="TypeSiteId">
+                    @if (ViewBag.LstCategoryTypeSite != null)
+                    {
+                        foreach (var type in ViewBag.LstCategoryTypeSite)
+                        {
+                            if (type.Id == Model.TypeSiteId)
+                            {
+            <option value="@type.Id" selected="selected">@type.Name</option>
+ }
+                                else
+                                {
+            <option value="@type.Id">@type.Name</option>
+}
+    }
+}
+                </select>
+                @Html.ValidationMessageFor(item => item.TypeSiteId)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-1"></div>
             <label class="col-sm-2 control-label" for="form-field-1">Địa chỉ<span class="symbol required"></span></label>
             <div class="col-sm-8">
                 @Html.TextBoxFor(item => item.Address, new { @class = "form-control", @placeholder = "Nhập địa chỉ" })
                 @Html.ValidationMessageFor(item => item.Address)
             </div>
-        </div>        
+        </div>
         <div class="form-group">
             <div class="col-sm-1"></div>
             <label class="col-sm-2 control-label" for="form-field-1">Múi giờ<span class="symbol required"></span></label>

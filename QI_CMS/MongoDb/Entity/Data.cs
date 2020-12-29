@@ -110,5 +110,7 @@ namespace ES_CapDien.Models.Entity
 
         [BsonElement("BWS")]
         public double BWS { get; set; }
+        [BsonElement("BVC")]
+        public double BVC { get; set; }
     }
 }

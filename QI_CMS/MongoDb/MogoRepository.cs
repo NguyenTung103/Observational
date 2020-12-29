@@ -82,12 +82,12 @@ namespace Qi.Data
         public virtual async Task<Entity> FindByKeyAsync(object pk)
         {
             return (await Entitys.FindAsync(q => q._id == pk.ToString())).FirstOrDefault();
-        }              
+        }
         /// <summary>
         /// Lấy toàn bộ tập hợp các đối tượng
         /// </summary>
         /// <returns>IQueryable Entity</returns>
-        public virtual IEnumerable<Entity> FindPagingOption(Expression<Func<Entity, bool>> predicate,int limit, int skip, out long total)
+        public virtual IEnumerable<Entity> FindPagingOption(Expression<Func<Entity, bool>> predicate, int limit, int skip, out long total)
         {
             var query = Entitys.Find(predicate);
             query = query.SortByDescending(i => i._id);
@@ -98,10 +98,20 @@ namespace Qi.Data
         /// Lấy toàn bộ tập hợp các đối tượng
         /// </summary>
         /// <returns>IQueryable Entity</returns>
+        public virtual IEnumerable<Entity> FindBase(Expression<Func<Entity, bool>> predicate)
+        {
+            var find = Entitys.Find(predicate);
+            var query = find.ToEnumerable();
+            return query;
+        }
+        /// <summary>
+        /// Lấy toàn bộ tập hợp các đối tượng
+        /// </summary>
+        /// <returns>IQueryable Entity</returns>
         public virtual async Task<IEnumerable<Entity>> FindOption(Expression<Func<Entity, bool>> predicate)
         {
-            var find = await  Entitys.FindAsync(predicate);          
-            var  query = find.ToEnumerable();            
+            var find = await Entitys.FindAsync(predicate);
+            var query = find.ToEnumerable();
             return query;
         }
         /// <summary>

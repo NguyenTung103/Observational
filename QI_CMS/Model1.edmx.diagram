@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2ec993651b9146c2a637835c52211acf" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="ObservationModel.C__MigrationHistory" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.Administrator_Menu" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.Administrator_Notifications" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.Administrator_Pages" Width="1.5" PointX="1.5" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.Administrator_RoleGroups" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.Alarm" Width="1.5" PointX="9.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.Area" Width="1.5" PointX="5.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.CategoryTypeSite" Width="1.5" PointX="9.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.Command" Width="1.5" PointX="7.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.DataAlarm" Width="1.5" PointX="9.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.DataObservation" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.Device" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.Observation" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.RegionalGroup" Width="1.5" PointX="11.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.RegisterSMS" Width="1.5" PointX="11.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyApSuat" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyDoAm" Width="1.5" PointX="4.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyHuongGio" Width="1.5" PointX="6.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyLuongMua" Width="1.5" PointX="13.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyLuuLuongDongChay" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyMucNuoc" Width="1.5" PointX="8.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyNhietDo" Width="1.5" PointX="15.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyTocDoDongChay" Width="1.5" PointX="10.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.ReportDailyTocDoGio" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.ReportType" Width="1.5" PointX="17.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.SiteAdminLog" Width="1.5" PointX="17.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.SmsServer" Width="1.5" PointX="12.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.UserProfile" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.UserWebsite_Category" Width="1.5" PointX="14.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.webpages_Membership" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.webpages_OAuthMembership" Width="1.5" PointX="0.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.webpages_Roles" Width="1.5" PointX="3.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.webpages_UsersInRoles" Width="1.5" PointX="6" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObservationModel.WT_SystemRules" Width="1.5" PointX="19.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="ObservationModel.FK_dbo_Administrator_Notifications_dbo_UserProfile_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObservationModel.fk_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObservationModel.fk_RoleId" ManuallyRouted="false" />
+        <AssociationConnector Association="ObservationModel.Administrator_PageInRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ObservationModel.Site" Width="1.5" PointX="18.375" PointY="12.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

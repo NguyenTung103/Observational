@@ -3,6 +3,7 @@ using ES_CapDien.AppCode;
 using ES_CapDien.Helpers;
 using ES_CapDien.Models;
 using HelperLibrary;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace ES_CapDien.Controllers
         private readonly AreasService areasService;
         private readonly GroupService groupService;
         private readonly SitesService sitesService;
+        private readonly CategoryTypeSiteService categoryTypeSiteService;
         private readonly UserProfileService userProfileService;
         public SitesController()
         {
@@ -27,6 +29,7 @@ namespace ES_CapDien.Controllers
             groupService = new GroupService();
             userProfileService = new UserProfileService();
             sitesService = new SitesService();
+            categoryTypeSiteService = new CategoryTypeSiteService();
         }
 
         /// <summary>
@@ -37,7 +40,7 @@ namespace ES_CapDien.Controllers
         /// <param name="title">title trang web</param>
         /// <returns></returns>
         [AuthorizeRoles]
-        public ActionResult SitesManagement(int page = 1, int pageSize = 50, string title = "", int? areaId=null)
+        public ActionResult SitesManagement(int page = 1, int pageSize = 50, int type=0, string title = "", int? areaId=null )
         {
             ViewBag.Title = "";
             ViewBag.MessageStatus = TempData["MessageStatus"];
@@ -52,16 +55,18 @@ namespace ES_CapDien.Controllers
             int skip = (page - 1) * pageSize;
             int totalRows = 0;
             List<SiteModel> list = new List<SiteModel>();
-
+            List<CategoryTypeSite> lstCategoryTypeSites = categoryTypeSiteService.categoryTypeSiteRepository.GetAll().ToList();
+            ViewBag.LstCategoryTypeSite = lstCategoryTypeSites;
             #region Lấy dữ liệu
             if (userName == "administrator")
             {
-                list = sitesService.GetAll(skip, pageSize, out int totalRow, title, areaId, null).AsEnumerable().Select(item => new SiteModel
+                list = sitesService.GetAll(skip, pageSize, type, out int totalRow, title, areaId, null).AsEnumerable().Select(item => new SiteModel
                 {
                     Id = item.Id,
                     Name = item.Name,
                     DeviceId = item.DeviceId,
                     Latitude = item.Latitude,
+                    NameTypeSite = lstCategoryTypeSites.FirstOrDefault(k=>k.Id==item.TypeSiteId).Name,
                     Longtitude = item.Longtitude,
                     CreateDay = item.CreateDay,
                     NguoiTao = userProfileService.userProfileResponsitory.Single(item.CreateBy).FullName,
@@ -74,7 +79,7 @@ namespace ES_CapDien.Controllers
             else
             {
                 int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
-                list = sitesService.GetAll(skip, pageSize, out int totalRow, title, areaId, groupId).AsEnumerable().Select(item => new SiteModel
+                list = sitesService.GetAll(skip, pageSize, type, out int totalRow, title, areaId, groupId).AsEnumerable().Select(item => new SiteModel
                 {
                     Id = item.Id,
                     Name = item.Name,
@@ -82,6 +87,7 @@ namespace ES_CapDien.Controllers
                     DeviceId = item.DeviceId,
                     Longtitude = item.Longtitude,
                     CreateDay = item.CreateDay,
+                    NameTypeSite = lstCategoryTypeSites.FirstOrDefault(k => k.Id == item.TypeSiteId).Name,
                     NguoiTao = userProfileService.userProfileResponsitory.Single(item.CreateBy).FullName,
                     IsActive = item.IsActive,
                     GroupsName = groupService.groupResponsitory.Single(item.Group_Id).Name,
@@ -149,7 +155,26 @@ namespace ES_CapDien.Controllers
             @ViewBag.Title = "";
             @ViewBag.MessageStatus = TempData["MessageStatus"];
             @ViewBag.Message = TempData["Message"];
-
+            int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
+            string userName = User.Identity.Name;
+            List<RegionalGroup> groups = new List<RegionalGroup>();
+            List<CategoryTypeSite> lstCategoryTypeSites = categoryTypeSiteService.categoryTypeSiteRepository.GetAll().ToList();
+            ViewBag.LstCategoryTypeSite = lstCategoryTypeSites;
+            List<Area> areas = new List<Area>();
+            if (userName == "administrator")
+            {
+                groups = groupService.groupResponsitory.GetAll().ToList();
+                areas = areasService.areaResponsitory.GetAll().ToList();
+            }
+            else
+            {
+                int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
+                RegionalGroup group = groupService.groupResponsitory.Single(groupId);
+                groups.Add(group);
+                areas = areasService.areaResponsitory.GetAll().Where(i => i.Group_Id == groupId).ToList();
+            }
+            ViewBag.listGroup = groups;
+            ViewBag.lstAreas = areas;
             Site pts = sitesService.sitesResponsitory.Single(id);
             if (pts == null)
             {
@@ -172,8 +197,18 @@ namespace ES_CapDien.Controllers
                 {
                     return RedirectToAction("SitesManagement");
                 }
-                bool checkSave = false;   
-                pts = model.ToEntity(pts);
+                bool checkSave = false;
+                pts.Name = model.Name;
+                pts.UpdateDay = DateTime.Now;
+                int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
+                pts.UpdateBy = CurrentUserId;
+                pts.Group_Id = model.Group_Id;
+                pts.Area_Id = model.Area_Id;
+                pts.Address = model.Address;
+                pts.TimeZone = model.TimeZone;
+                pts.Longtitude = model.Longtitude;
+                pts.TypeSiteId = model.TypeSiteId;
+                pts.Latitude = model.Latitude;
                 checkSave = sitesService.sitesResponsitory.Update(pts);
                 TempData["MessageStatus"] = checkSave;
                 TempData["Message"] = $"Cập nhật điểm {(checkSave ? "" : "không")} thành công";
@@ -193,9 +228,11 @@ namespace ES_CapDien.Controllers
             @ViewBag.MessageStatus = TempData["MessageStatus"];
             @ViewBag.Message = TempData["Message"];
             SiteModel model = new SiteModel();
-            List<Group> groups = new List<Group>();
+            List<RegionalGroup> groups = new List<RegionalGroup>();
             List<Area> areas = new List<Area>();
             int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
+            List<CategoryTypeSite> lstCategoryTypeSites = categoryTypeSiteService.categoryTypeSiteRepository.GetAll().ToList();
+            ViewBag.LstCategoryTypeSite = lstCategoryTypeSites;
             string userName = User.Identity.Name;
             if (userName == "administrator")
             {
@@ -205,7 +242,7 @@ namespace ES_CapDien.Controllers
             else
             {
                 int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
-                Group group = groupService.groupResponsitory.Single(groupId);
+                RegionalGroup group = groupService.groupResponsitory.Single(groupId);
                 groups.Add(group);
                 areas = areasService.areaResponsitory.GetAll().Where(i => i.Group_Id == groupId).ToList();
             }

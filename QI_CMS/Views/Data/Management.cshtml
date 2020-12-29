@@ -104,10 +104,10 @@
             <i class="fa fa-external-link-square"></i>
             <strong>Báo cáo dữ liệu</strong>
             <div class="panel-tools">
-                <a class="btn btn-primary btn-xs" href="@Url.Action("ExportExel","Data", new {siteID= Request.Params["siteID"],fromDate= Request.Params["fromDate"], toDate=Request.Params["toDate"] })">
+                @*<a class="btn btn-primary btn-xs" href="@Url.Action("ExportExel","Data", new {siteID= Request.Params["siteID"],fromDate= Request.Params["fromDate"], toDate=Request.Params["toDate"] })">
                     <i class="fa fa-plus"></i>
                     Xuất excel
-                </a>
+                </a>*@
                 <p class="btn btn-xs btn-link panel-expand1">
                     <i class="fa fa-resize-full"></i>
                 </p>
@@ -220,7 +220,7 @@
                         <button class="btn btn-primary fill-data-cus" type="submit" id="btn_Submit">
                             <i class="clip-search-2"></i>Lọc dữ liệu
                         </button>
-                        <a style="margin-left: 10px;" class="btn btn-green fill-data-cus locDuLieu" href="@Url.Action("ExportExel", "Report", new {Date = Request.Params["Date"] == null ? DateTime.Now.AddMonths(-1).ToString("dd/MM/yyyy"): Convert.ToDateTime(Request.Params["fromDate"]).ToString("dd/MM/yyyy"), deviceId = Request.Params["deviceId"]})">
+                        <a style="margin-left: 10px;" class="btn btn-green fill-data-cus locDuLieu" href="@Url.Action("ExportExel", "Data", new {Date = Request.Params["Date"] == null ? DateTime.Now.AddMonths(-1).ToString("dd/MM/yyyy"): Convert.ToDateTime(Request.Params["fromDate"]).ToString("dd/MM/yyyy"), siteID = Request.Params["siteID"], buoc = Request.Params["buoc"]})">
                             <i class="clip-file-excel"></i> Xuất excel
                         </a>
                     </div>
@@ -235,8 +235,8 @@
                         <th class="center">Thời gian</th>
                         <th class="center">Nhiệt độ môi trường (oC)</th>                        
                         <th class="center">Độ ẩm môi trường (%)</th>
-                        <th class="center">Tốc độ gió</th>
-                        <th class="center">Hướng gió</th>
+                        <th class="center">Tốc độ gió (m/s)</th>
+                        <th class="center">Hướng gió (o)</th>
                         <th class="center">Áp suất KQ (hPA)</th>
                         <th class="center">Lượng mưa (mm)</th>
                         <th class="center">Mực nước (m)</th>
@@ -248,7 +248,7 @@
                         <tr>
                             <td class="center">@(Model.DataO.ToList().IndexOf(item) + 1)</td>
                             <td class="center">@item.NameSite</td>
-                            <td>@item.DateCreate</td>
+                            <td>@item.DateCreate.Value.ToString("HH:mm")</td>
                             <td>@item.BTI</td>                            
                             <td>@item.BHU</td>
                             <td>@item.BWS</td>

@@ -9,6 +9,10 @@ using ES_CapDien.Models;
 using CaptchaMvc.HtmlHelpers;
 using System.Configuration;
 using ES_CapDien.AppCode;
+using System.Net;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ES_CapDien.Controllers
 {
@@ -26,10 +30,9 @@ namespace ES_CapDien.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {            
-            ViewBag.ReturnUrl = returnUrl;
-
+            ViewBag.ReturnUrl = returnUrl;            
             return View();
-        }
+        }        
 
         [HttpPost]
         [AllowAnonymous]
@@ -40,14 +43,16 @@ namespace ES_CapDien.Controllers
             TempData["Message"] = "";
             @ViewBag.MessageStatus = TempData["MessageStatus"];
             @ViewBag.Message = TempData["Message"];
-            using (var db = new ES_CapDien.ObservationsEntities())
+            using (var db = new ES_CapDien.ObservationEntities())
             {
                 if (this.IsCaptchaValid("Captcha is not valid"))
                 {
                     if (model.UserName.ToLower() != "administrator")
                     {
                         if (ModelState.IsValid && WebSecurity.Login(model.UserName.ToLower(), model.Password, model.RememberMe))
-                        {                           
+                        {
+                            string passwordSalt = MD5Hash(model.Password);
+                            usersProfileService.InsertPasswordSalt(passwordSalt, WebSecurity.GetUserId(model.UserName.ToLower()));
                             if (returnUrl != null)
                                 return RedirectToLocal(returnUrl);
                             else
@@ -115,7 +120,19 @@ namespace ES_CapDien.Controllers
                 VisitorsIPAddr = Request.ServerVariables["REMOTE_ADDR"];
             }
             return VisitorsIPAddr;
-        }       
+        }
+        public static string MD5Hash(string input)
+        {
+            StringBuilder hash = new StringBuilder();
+            MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
+            byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(input));
+
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                hash.Append(bytes[i].ToString("x2"));
+            }
+            return hash.ToString();
+        }
 
     }
 }

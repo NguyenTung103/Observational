@@ -3620,7 +3620,7 @@ body.error-full-page {
 
         #inline-columns blockquote:before {
             color: #666666;
-            content: "â€œ";
+            content: "Ã¢â‚¬Å“";
             font-size: 60px;
             left: -40px;
             line-height: 60px;
@@ -5544,7 +5544,7 @@ td.column-right {
         margin-top: 20px;
     }
 
-/*style trang thÃ¡i*/
+/*style trang thÃƒÂ¡i*/
 .label-state-2 {
     background: #FF2D00;
 }
@@ -5884,6 +5884,7 @@ td.column-right {
 
 #infoObservation {
     margin-top: 60px !important;
+    left: 40%;
 }
 
 #BieuDoDuLieu {

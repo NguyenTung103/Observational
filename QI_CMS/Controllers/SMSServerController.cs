@@ -141,7 +141,7 @@ namespace ES_CapDien.Controllers
             int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
             string userName = User.Identity.Name;
             List<Site> sites = new List<Site>();
-            List<Group> groups = new List<Group>();
+            List<RegionalGroup> groups = new List<RegionalGroup>();
             if (userName == "administrator")
             {
                 groups = groupService.groupResponsitory.GetAll().ToList();
@@ -150,7 +150,7 @@ namespace ES_CapDien.Controllers
             else
             {
                 int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
-                Group group = groupService.groupResponsitory.Single(groupId);
+                RegionalGroup group = groupService.groupResponsitory.Single(groupId);
                 sites = sitesService.GetBygroupId(groupId).ToList();
                 groups.Add(group);
             }
@@ -216,7 +216,7 @@ namespace ES_CapDien.Controllers
             @ViewBag.MessageStatus = TempData["MessageStatus"];
             @ViewBag.Message = TempData["Message"];
             RegisterSMSModel model = new RegisterSMSModel();
-            List<Group> groups = new List<Group>();
+            List<RegionalGroup> groups = new List<RegionalGroup>();
             List<Site> sites = new List<Site>();
             int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
             string userName = User.Identity.Name;
@@ -228,7 +228,7 @@ namespace ES_CapDien.Controllers
             else
             {
                 int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
-                Group group = groupService.groupResponsitory.Single(groupId);
+                RegionalGroup group = groupService.groupResponsitory.Single(groupId);
                 sites = sitesService.GetBygroupId(groupId).ToList();
                 groups.Add(group);                
             }

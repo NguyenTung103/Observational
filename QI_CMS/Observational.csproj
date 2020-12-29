@@ -80,6 +80,9 @@
     <Reference Include="DotNet.Highcharts">
       <HintPath>..\..\DLL\DotNet.Highcharts.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetZip, Version=1.15.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.15.0\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EsCore_Repository.1.0.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -140,14 +143,25 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
@@ -279,20 +293,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administrator_Menu.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Administrator_Notifications.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Administrator_Pages.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Administrator_RoleGroups.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Alarm.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\CategoryTypeSiteService.cs" />
+    <Compile Include="AppCode\ReportDailyLuuLuongDongChayService.cs" />
+    <Compile Include="AppCode\ReportDailyTocDoDongChayService.cs" />
     <Compile Include="AppCode\ReportDailyMucNuocService.cs" />
     <Compile Include="AppCode\ReportDailyTocDoGioService.cs" />
     <Compile Include="AppCode\ReportDailyHuongGioService.cs" />
@@ -302,23 +319,55 @@
     <Compile Include="AppCode\ReportTypeService.cs" />
     <Compile Include="AppCode\ReportDailyApSuatService.cs" />
     <Compile Include="AppCode\AuthorizeService.cs" />
+    <Compile Include="AppCode\CommandService.cs" />
     <Compile Include="AppCode\SMSServerService.cs" />
     <Compile Include="AppCode\RegisterSMSService.cs" />
     <Compile Include="AppCode\MembershipService.cs" />
     <Compile Include="AppCode\UsersProfileService.cs" />
+    <Compile Include="Area.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="CacheCore\Cache_BO.cs" />
     <Compile Include="CacheCore\Cache_Provider.cs" />
+    <Compile Include="CategoryTypeSite.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Command.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\AuthorizeController.cs" />
     <Compile Include="Controllers\BaseMongoController.cs" />
+    <Compile Include="Controllers\CommandController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SMSServerController.cs" />
-    <Compile Include="Data.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+    <Compile Include="C__MigrationHistory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAlarm.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObservation.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Device.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="MongoDb\Entity\DataAlarm.cs" />
     <Compile Include="MongoDb\Interface\IDataAlarmService.cs" />
@@ -337,12 +386,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Area.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Command.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\LoginAccountController.cs" />
     <Compile Include="Controllers\SitesController.cs" />
@@ -352,17 +395,8 @@
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\ObservationalController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
-    <Compile Include="C__MigrationHistory.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Device.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Group.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CMSHelper.cs" />
     <Compile Include="Helpers\ClsSendEmailSMTP.cs" />
@@ -374,22 +408,7 @@
     <Compile Include="MongoDb\Service\DataAlarmMongoService.cs" />
     <Compile Include="MongoDb\Service\DataObservationMongoService.cs" />
     <Compile Include="Observation.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ObservationEntitries.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ObservationEntitries.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ObservationEntitries.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ObservationEntitries.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ObservationEntitries.edmx</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -397,32 +416,41 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RegionalGroup.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="RegisterSMS.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyApSuat.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyDoAm.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyHuongGio.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyLuongMua.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDailyLuuLuongDongChay.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyMucNuoc.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyNhietDo.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDailyTocDoDongChay.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyTocDoGio.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportType.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Repository\BaseController.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
@@ -436,19 +464,19 @@
     <Compile Include="Repository\UnitOfWork.cs" />
     <Compile Include="Repository\UserActionLogInfo.cs" />
     <Compile Include="Site.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="SiteAdminLog.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="SmsServer.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="UserProfile.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="UserWebsite_Category.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Web References\Service_CapDien\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -461,19 +489,19 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="webpages_Membership.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="webpages_OAuthMembership.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="webpages_Roles.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="webpages_UsersInRoles.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="WT_SystemRules.cs">
-      <DependentUpon>ObservationEntitries.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -3715,15 +3743,15 @@
     <Content Include="Images\place_grey.png" />
     <Content Include="Images\thongbao.png" />
     <Content Include="Images\tải xuống.png" />
-    <Content Include="ObservationEntitries.Context.tt">
+    <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ObservationEntitries.edmx</DependentUpon>
-      <LastGenOutput>ObservationEntitries.Context.cs</LastGenOutput>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="ObservationEntitries.tt">
+    <Content Include="Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ObservationEntitries.edmx</DependentUpon>
-      <LastGenOutput>ObservationEntitries.cs</LastGenOutput>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -3734,14 +3762,14 @@
     <Content Include="Scripts\chromagallery-master\fonts\chroma-ui\chroma-ui.eot" />
     <Content Include="Scripts\chromagallery-master\fonts\chroma-ui\chroma-ui.ttf" />
     <Content Include="Scripts\chromagallery-master\fonts\chroma-ui\chroma-ui.woff" />
-    <EntityDeploy Include="ObservationEntitries.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ObservationEntitries.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="ObservationEntitries.edmx.diagram">
-      <DependentUpon>ObservationEntitries.edmx</DependentUpon>
-    </Content>
     <Content Include="bin\ES_CapDien.dll.config" />
+    <EntityDeploy Include="Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\chromagallery-master\chromagallery.css" />
@@ -4014,11 +4042,7 @@
     <Content Include="Style\mobile\fonts\fontawesome-webfont3295.woff" />
     <Content Include="Style\mobile\fonts\fontawesome-webfont3295.woff2" />
     <Content Include="Style\mobile\fonts\fontawesome-webfontd41d.eot" />
-    <Content Include="Views\Point\Management.cshtml" />
     <Content Include="Views\Notification\Management.cshtml" />
-    <Content Include="Views\Point\_PointPartialView.cshtml" />
-    <Content Include="Views\Point\Update.cshtml" />
-    <Content Include="Views\Point\Create.cshtml" />
     <Content Include="Views\Groups\Create.cshtml" />
     <Content Include="Views\Groups\GroupsManagement.cshtml" />
     <Content Include="Views\Groups\Update.cshtml" />
@@ -4039,10 +4063,10 @@
     <Content Include="Views\Data\Management.cshtml" />
     <Content Include="Views\Data\_SitePartialView.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Management.cshtml" />
+    <Content Include="Views\Home\QuanLyKhiTuong.cshtml" />
     <Content Include="Views\Home\_DataAlarmPartialView.cshtml" />
-    <Content Include="Views\Home\_DataObservationParialView.cshtml" />
-    <Content Include="Views\Home\_DataTablePartialView.cshtml" />
+    <Content Include="Views\Home\_HomeDataObservationParialView.cshtml" />
+    <Content Include="Views\Home\_DataTableKhiTuongPartialView.cshtml" />
     <Content Include="Views\Home\_DetailAlarm.cshtml" />
     <Content Include="Views\Home\_ListSitePartialView.cshtml" />
     <Content Include="Views\Home\_ListSiteSearchPartialView.cshtml" />
@@ -4063,6 +4087,12 @@
     <Content Include="Views\Report\Daily.cshtml" />
     <Content Include="Views\Report\MonthLy.cshtml" />
     <Content Include="Views\Report\_ListSitePartialView.cshtml" />
+    <Content Include="Views\Command\Management.cshtml" />
+    <Content Include="Views\Command\_SitePartialView.cshtml" />
+    <Content Include="Views\Command\Create.cshtml" />
+    <Content Include="Views\Command\_CommandPartialView.cshtml" />
+    <Content Include="Views\Home\QuanLyThuyVan.cshtml" />
+    <Content Include="Views\Home\_DataTableThuyVanPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

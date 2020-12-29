@@ -145,7 +145,20 @@ namespace ES_CapDien.Controllers
             @ViewBag.Title = "";
             @ViewBag.MessageStatus = TempData["MessageStatus"];
             @ViewBag.Message = TempData["Message"];
-
+            List<RegionalGroup> groups = new List<RegionalGroup>();
+            int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
+            string userName = User.Identity.Name;
+            if (userName == "administrator")
+            {
+                groups = groupService.groupResponsitory.GetAll().ToList();
+            }
+            else
+            {
+                int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
+                RegionalGroup group = groupService.groupResponsitory.Single(groupId);
+                groups.Add(group);
+            }
+            ViewBag.listGroup = groups;
             Area pts = areasService.areaResponsitory.Single(id);
             if (pts == null)
             {
@@ -168,8 +181,12 @@ namespace ES_CapDien.Controllers
                 {
                     return RedirectToAction("AreasManagement");
                 }
-                bool checkSave = false;   
-                pts = model.ToEntity(pts);
+                bool checkSave = false;
+                pts.Group_Id = model.Group_Id;
+                pts.Name = model.Name;
+                pts.Longtitude = model.Longtitude;
+                pts.Latitude = model.Latitude;
+                pts.UpdateDay = DateTime.Now;
                 checkSave = areasService.areaResponsitory.Update(pts);
                 TempData["MessageStatus"] = checkSave;
                 TempData["Message"] = $"Cập nhật khu vực {(checkSave ? "" : "không")} thành công";
@@ -189,7 +206,7 @@ namespace ES_CapDien.Controllers
             @ViewBag.MessageStatus = TempData["MessageStatus"];
             @ViewBag.Message = TempData["Message"];
             AreaModel model = new AreaModel();
-            List<Group> groups = new List<Group>();
+            List<RegionalGroup> groups = new List<RegionalGroup>();
             int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
             string userName = User.Identity.Name;
             if (userName == "administrator")
@@ -199,7 +216,7 @@ namespace ES_CapDien.Controllers
             else
             {
                 int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
-                Group group = groupService.groupResponsitory.Single(groupId);
+                RegionalGroup group = groupService.groupResponsitory.Single(groupId);
                 groups.Add(group);
             }
             ViewBag.listGroup = groups;

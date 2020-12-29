@@ -21,7 +21,7 @@ namespace ES_CapDien.Controllers
                 string identityUserName = User?.Identity?.Name;
                 if (!string.IsNullOrEmpty(identityUserName))
                 {
-                    ObservationsEntities db = new ObservationsEntities();
+                    ObservationEntities db = new ObservationEntities();
                     return db.UserProfiles.FirstOrDefault(i => i.UserName == identityUserName);
                 }
                 return null;

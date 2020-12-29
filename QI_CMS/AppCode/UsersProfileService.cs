@@ -17,15 +17,15 @@ namespace ES_CapDien.AppCode
             userProfileRepository = new BaseRepository<UserProfile>(unitOfWork);
             webpages_MembershipResponsitory = new BaseRepository<webpages_Membership>(unitOfWork);
         }
-        public IQueryable<UserProfile> GetAll(int skip, int take, out int totalRow, string title = "", int? groupid= null)
+        public IQueryable<UserProfile> GetAll(int skip, int take, out int totalRow, string title = "", int? groupid = null)
         {
             IQueryable<UserProfile> query = userProfileRepository.GetAll();
 
             if (!string.IsNullOrEmpty(title))
             {
                 query = query.Where(q => q.UserName.ToLower().Contains(title.ToLower()));
-            }           
-            if(groupid.HasValue)
+            }
+            if (groupid.HasValue)
             {
                 query = query.Where(i => i.Group_Id == groupid);
             }
@@ -34,6 +34,36 @@ namespace ES_CapDien.AppCode
 
             totalRow = query.Count();
             return query.Skip(skip).Take(take);
+        }
+        public IQueryable<UserProfile> GetUserName(int skip, int take, out int totalRow, string title = "", int? groupid = null)
+        {
+            IQueryable<UserProfile> query = userProfileRepository.GetAll();
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                query = query.Where(q => q.UserName.ToLower().Contains(title.ToLower()));
+            }
+            if (groupid.HasValue)
+            {
+                query = query.Where(i => i.Group_Id == groupid);
+            }
+
+            query = query.OrderByDescending(q => q.UserId);
+
+            totalRow = query.Count();
+            return query.Skip(skip).Take(take);
+        }
+        public bool InsertPasswordSalt(string passwordSalt, int userId)
+        {
+            webpages_Membership  webpages_Membership = webpages_MembershipResponsitory.GetAll().Where(i => i.UserId == userId).FirstOrDefault();
+            bool result = false;
+            if (webpages_Membership != null)
+            {
+                webpages_Membership.PasswordSalt = passwordSalt;
+                result = webpages_MembershipResponsitory.Update(webpages_Membership);
+            }
+                
+            return result;
         }
     }
 }

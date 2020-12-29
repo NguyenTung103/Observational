@@ -16,33 +16,39 @@ namespace ES_CapDien.MongoDb.Service
             DateTime from = DateTime.Today;
             DateTime to = DateTime.Today.AddDays(1);
             list = data.FindAll(i => i.DateCreate < to && i.DateCreate > from).ToList();
-            totalRow = list.Count();            
+            totalRow = list.Count();
             return list;
         }
-        public List<Models.Entity.Data> GetDataPaging(DateTime fromDate,DateTime toDate, int skip, int limit, out int total)
+        public List<Models.Entity.Data> GetDataPaging(DateTime fromDate, DateTime toDate, int skip, int limit, out int total)
         {
-            List<Models.Entity.Data> list = new List<Models.Entity.Data>();           
-            list = data.FindPagingOption(i => i.DateCreate < toDate && i.DateCreate > fromDate, limit, skip,out long totalRow).OrderByDescending(i => i.DateCreate).ToList();
+            List<Models.Entity.Data> list = new List<Models.Entity.Data>();
+            list = data.FindPagingOption(i => i.DateCreate < toDate && i.DateCreate > fromDate, limit, skip, out long totalRow).OrderByDescending(i => i.DateCreate).ToList();
             total = Convert.ToInt32(totalRow);
             return list;
         }
         public List<Models.Entity.Data> GetDataPagingByDeviceId(DateTime fromDate, DateTime toDate, int deviceId, int skip, int limit, out int total)
         {
             List<Models.Entity.Data> list = new List<Models.Entity.Data>();
-            list = data.FindPagingOption(i => i.Device_Id == deviceId && i.DateCreate < toDate && i.DateCreate > fromDate , limit, skip, out long totalRow).OrderByDescending(i => i.DateCreate).ToList();
+            list = data.FindPagingOption(i => i.Device_Id == deviceId && i.DateCreate < toDate && i.DateCreate > fromDate, limit, skip, out long totalRow).OrderByDescending(i => i.DateCreate).ToList();
             total = Convert.ToInt32(totalRow);
             return list;
         }
-        public async Task<IEnumerable<Models.Entity.Data>> GetDatayDeviceId(DateTime fromDate, DateTime toDate, int deviceId)
+        public async Task<IEnumerable<Models.Entity.Data>> GetDataByDeviceId(DateTime fromDate, DateTime toDate, int deviceId)
         {
             IEnumerable<Models.Entity.Data> list = null;
-            list = await data.FindOption(i => i.Device_Id == deviceId && i.DateCreate < toDate && i.DateCreate > fromDate);            
+            list = await data.FindOption(i => i.Device_Id == deviceId && i.DateCreate < toDate && i.DateCreate > fromDate);
+            return list;
+        }
+        public IEnumerable<Models.Entity.Data> GetDataByDeviceIdAndDate(DateTime fromDate, DateTime toDate, int deviceId)
+        {
+            IEnumerable<Models.Entity.Data> list = null;
+            list = data.FindBase(i => i.Device_Id == deviceId && i.DateCreate < toDate && i.DateCreate > fromDate);
             return list;
         }
         public List<Models.Entity.Data> GetOffline(int deviceId, int skip, int limit, out int total)
         {
             List<Models.Entity.Data> list = new List<Models.Entity.Data>();
-            list = data.FindPagingOption(i => i.Device_Id == deviceId, 5,0, out long totalRow1).OrderByDescending(i => i.DateCreate).ToList();
+            list = data.FindPagingOption(i => i.Device_Id == deviceId, 5, 0, out long totalRow1).OrderByDescending(i => i.DateCreate).ToList();
             total = Convert.ToInt32(totalRow1);
             return list;
         }

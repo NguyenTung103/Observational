@@ -41,7 +41,7 @@ namespace ES_CapDien
         {
             public SimpleMembershipInitializer()
             {
-                using (var context = new ObservationsEntities())
+                using (var context = new ObservationEntities())
                     context.UserProfiles.Find(1);
 
                 if (!WebSecurity.Initialized)

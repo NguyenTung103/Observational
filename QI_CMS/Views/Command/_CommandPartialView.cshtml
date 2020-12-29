@@ -1,0 +1,79 @@
+﻿@using ES_CapDien.Models
+@model CommandModel
+<style type="text/css">
+    select option {
+        color: #01054f;
+    }
+
+    select.form-control {
+        color: #01054f;
+    }
+
+    .invalid {
+        border-color: #E9322D !important;
+        box-shadow: 0 0 6px #F8B9B7 !important;
+    }
+</style>
+<form class="form-horizontal col-sm-8">
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="form-field-1">Tên trạm <span class="symbol required"></span></label>
+        <div class="col-sm-9">
+            <select id="Device_Id" class="form-control search-select" name="Device_Id">
+                @if (ViewBag.listSite != null)
+                {
+                    foreach (var item in ViewBag.listSite)
+                    {
+                        if (item.DeviceId == Model.Device_Id)
+                        {
+                            <option value="@item.DeviceId" selected="selected">@item.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@item.DeviceId">@item.Name</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+    </div>    
+    <div class="form-group">
+        <input type="hidden" id="page" value="@Request.Params["page"]" name="page" />
+        <input type="hidden" id="pageSize" value="@Request.Params["pageSize"]" name="pageSize" />
+        <input type="hidden" id="title" value="@Request.Params["title"]" name="title" />        
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="form-field-1">Lệnh</label>
+        <div class="col-sm-9">
+            @Html.TextAreaFor(item => item.Command_Content, new { @class = "form-control", @placeholder = "Mô tả", @cols = "10", @rows = "3" })
+            @Html.ValidationMessageFor(item => item.Command_Content)
+        </div>
+    </div>    
+    <div class="form-group grckbox-detail">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-3 control-label" for="form-field-1">
+                    <label class="checkbox-inline">
+                        @Html.EditorFor(q => q.Status)
+                        Hoạt động
+                    </label>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr>
+        </div>
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4">
+            <input class="btn btn-primary" type="submit" value="Lưu" id="btnAdd" style="width: 100px;" />
+            <a class="btn btn-dark-grey" href="@Url.Action("Management",new { page  = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"], typeNews=Request.Params["typeNews"]})" style="width: 100px;">
+                Thoát
+                <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+</form>

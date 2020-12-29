@@ -12,7 +12,7 @@ namespace ES_CapDien.AppCode
     public class GroupService
     {
         private readonly IUnitOfWork unitOfWork;
-        public readonly BaseRepository<Group> groupResponsitory;
+        public readonly BaseRepository<RegionalGroup> groupResponsitory;
 
         /// <summary>
         /// Khởi tạo dữ liệu
@@ -20,7 +20,7 @@ namespace ES_CapDien.AppCode
         public GroupService()
         {
             unitOfWork = new UnitOfWork();
-            groupResponsitory = new BaseRepository<Group>(unitOfWork);
+            groupResponsitory = new BaseRepository<RegionalGroup>(unitOfWork);
         }
 
         /// <summary>
@@ -31,9 +31,9 @@ namespace ES_CapDien.AppCode
         /// <param name="totalRow">tổng số hàng</param>
         /// <param name="title">title trang web</param>
         /// <returns></returns>
-        public IQueryable<Group> GetAll(int skip, int take, out int totalRow, string title = "")
+        public IQueryable<RegionalGroup> GetAll(int skip, int take, out int totalRow, string title = "")
         {
-            IQueryable<Group> query = groupResponsitory.GetAll(); //Query lấy điều kiện dữ liệu
+            IQueryable<RegionalGroup> query = groupResponsitory.GetAll(); //Query lấy điều kiện dữ liệu
 
             if (!string.IsNullOrEmpty(title))
             {
@@ -51,9 +51,9 @@ namespace ES_CapDien.AppCode
         /// <param name="totalRow">tổng số hàng</param>
         /// <param name="title">title trang web</param>
         /// <returns></returns>
-        public IQueryable<Group> GetGroups(int?groupId=null)
+        public IQueryable<RegionalGroup> GetGroups(int?groupId=null)
         {
-            IQueryable<Group> query = groupResponsitory.GetAll(); //Query lấy điều kiện dữ liệu
+            IQueryable<RegionalGroup> query = groupResponsitory.GetAll(); //Query lấy điều kiện dữ liệu
 
             if (groupId.HasValue)
             {

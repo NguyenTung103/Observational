@@ -6,11 +6,11 @@ namespace ES_CapDien.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private TransactionScope _transaction;
-        private readonly ObservationsEntities _db;//todo: change DBcontext => your context
+        private readonly ObservationEntities _db;//todo: change DBcontext => your context
 
         public UnitOfWork()
         {
-            _db = new ObservationsEntities();
+            _db = new ObservationEntities();
         }
 
         public void Dispose()

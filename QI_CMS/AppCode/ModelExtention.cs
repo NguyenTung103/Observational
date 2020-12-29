@@ -1,5 +1,6 @@
 ﻿using ES_CapDien.Models;
 using ES_CapDien.Models.Entity;
+using System;
 using System.Text.RegularExpressions;
 
 namespace ES_CapDien.AppCode
@@ -7,7 +8,7 @@ namespace ES_CapDien.AppCode
     public static class ModelExtention
     {
         #region Gruops
-        public static GroupModel ToModel(this Group entity)
+        public static GroupModel ToModel(this RegionalGroup entity)
         {
             return new GroupModel()
             {
@@ -24,11 +25,11 @@ namespace ES_CapDien.AppCode
                 IsActive = entity.IsActive
             };
         }
-        public static Group ToEntity(this GroupModel model, Group source = null)
+        public static RegionalGroup ToEntity(this GroupModel model, RegionalGroup source = null)
         {
             if (source == null)
             {
-                source = new Group
+                source = new RegionalGroup
                 {
                     Id = source.Id,
                     Name = source.Name,
@@ -125,6 +126,7 @@ namespace ES_CapDien.AppCode
                 Area_Id = entity.Area_Id,
                 DeviceId = entity.DeviceId,
                 TimeZone = entity.TimeZone,
+                TypeSiteId = entity.TypeSiteId,
                 Address = entity.Address
             };
         }
@@ -147,14 +149,15 @@ namespace ES_CapDien.AppCode
                     Address = source.Address,
                     DeviceId = source.DeviceId,
                     Area_Id = source.Area_Id,
-                    TimeZone = source.TimeZone,                    
+                    TimeZone = source.TimeZone,
+                    TypeSiteId = source.TypeSiteId,
                 };
             }
             source.Id = model.Id;
             source.Name = model.Name;
             source.Longtitude = model.Longtitude;
             source.Latitude = model.Latitude;
-            source.CreateDay = model.CreateDay;
+            source.CreateDay = model.CreateDay == null ? DateTime.Now : model.CreateDay.Value;
             source.UpdateDay = model.UpdateDay;
             source.UpdateBy = model.UpdateBy;
             source.CreateBy = model.CreateBy;
@@ -163,12 +166,57 @@ namespace ES_CapDien.AppCode
             source.Address = model.Address;
             source.DeviceId = model.DeviceId;
             source.Area_Id = model.Area_Id;
+            source.TypeSiteId = model.TypeSiteId;
             source.TimeZone = model.TimeZone;
             return source;
         }
         #endregion
+        #region Sites
+        public static CommandModel ToModel(this Command entity)
+        {
+            return new CommandModel()
+            {
+                Id = entity.Id,               
+                CreateDay = entity.CreateDay,
+                UpdateDay = entity.UpdateDay,
+                CreateBy = entity.CreateBy,
+                UpdateBy = entity.UpdateBy,
+                GroupId = entity.GroupId,
+                Status = entity.Status,
+                Device_Id = entity.Device_Id,
+            };
+        }
+        public static Command ToEntity(this CommandModel model, Command source = null)
+        {
+            if (source == null)
+            {
+                source = new Command
+                {
+                    Id = source.Id,
+                    CreateDay = source.CreateDay,
+                    UpdateDay = source.UpdateDay,
+                    CreateBy = source.CreateBy,
+                    UpdateBy = source.UpdateBy,
+                    Command_Content = source.Command_Content,
+                    GroupId = source.GroupId,
+                    Status = source.Status,
+                    Device_Id = source.Device_Id,
+                };
+            }
+            source.Id = model.Id;           
+            source.CreateDay = model.CreateDay == null ? DateTime.Now : model.CreateDay.Value;
+            source.UpdateDay = model.UpdateDay;
+            source.UpdateBy = model.UpdateBy;
+            source.CreateBy = model.CreateBy;
+            source.Command_Content = model.Command_Content;
+            source.GroupId = model.GroupId;
+            source.Status = model.Status;
+            source.Device_Id = model.Device_Id;            
+            return source;
+        }
+        #endregion
 
-        #region RegisterSMS
+        #region RegisterSms
         public static RegisterSMSModel ToModel(this RegisterSMS entity)
         {
             return new RegisterSMSModel()
@@ -179,7 +227,7 @@ namespace ES_CapDien.AppCode
                 DeviceId = entity.DeviceId,
                 DateCreate = entity.DateCreate,
                 GroupId = entity.GroupId,
-                SMSServerId = entity.SMSServerId,               
+                SMSServerId = entity.SMSServerId,
             };
         }
         public static RegisterSMS ToEntity(this RegisterSMSModel model, RegisterSMS source = null)
@@ -203,7 +251,7 @@ namespace ES_CapDien.AppCode
             source.DeviceId = model.DeviceId;
             source.DateCreate = model.DateCreate;
             source.GroupId = model.GroupId;
-            source.SMSServerId = model.SMSServerId;           
+            source.SMSServerId = model.SMSServerId;
             return source;
         }
         #endregion
@@ -268,30 +316,31 @@ namespace ES_CapDien.AppCode
                 BAV = entity.BAV,
                 BAF = entity.BAF,
                 BAC = entity.BAC,
-                BA1= entity.BA1,
-                BA2= entity.BA2,
-                BA3= entity.BA3,
-                BA4= entity.BA4,
-                BB1= entity.BB1,
-                BB2= entity.BB2,
-                BB3= entity.BB3,
-                BB4= entity.BB4,
-                BC1= entity.BC1,
-                BC2= entity.BC2,
-                BDR= entity.BDR,
-                BFA= entity.BFA,
-                BFD= entity.BFD,
-                BFL= entity.BFL,
-                BFR= entity.BFR,
-                BPS= entity.BPS,
-                BPW= entity.BPW,
-                BSE= entity.BSE,
-                BT1= entity.BT1,
-                BT2= entity.BT2,
-                BV1= entity.BV1,
-                BV2= entity.BV2,
-                Device_Id= entity.Device_Id,
-                IsSEQ= entity.IsSEQ
+                BA1 = entity.BA1,
+                BA2 = entity.BA2,
+                BA3 = entity.BA3,
+                BA4 = entity.BA4,
+                BB1 = entity.BB1,
+                BB2 = entity.BB2,
+                BB3 = entity.BB3,
+                BB4 = entity.BB4,
+                BC1 = entity.BC1,
+                BC2 = entity.BC2,
+                BDR = entity.BDR,
+                BFA = entity.BFA,
+                BFD = entity.BFD,
+                BFL = entity.BFL,
+                BFR = entity.BFR,
+                BPS = entity.BPS,
+                BPW = entity.BPW,
+                BSE = entity.BSE,
+                BT1 = entity.BT1,
+                BT2 = entity.BT2,
+                BV1 = entity.BV1,
+                BVC = entity.BVC,
+                BV2 = entity.BV2,
+                Device_Id = entity.Device_Id,
+                IsSEQ = entity.IsSEQ
             };
         }
         #endregion
@@ -302,7 +351,7 @@ namespace ES_CapDien.AppCode
             {
                 Id = role.RoleId,
                 RoleName = role.RoleName,
-                Description = role.Description,                
+                Description = role.Description,
             };
         }
         public static webpages_Roles ToEntity(this RoleModel model)
@@ -311,7 +360,7 @@ namespace ES_CapDien.AppCode
             {
                 RoleId = model.Id,
                 RoleName = model.RoleName,
-                Description = model.Description,                
+                Description = model.Description,
             };
         }
         #endregion

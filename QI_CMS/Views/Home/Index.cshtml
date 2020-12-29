@@ -15,7 +15,6 @@
                 allowClear: true
             });
         };
-
         $(document).ready(function () {
             var myVar;
             $("#ViewBieuDo").click(function () {
@@ -41,14 +40,30 @@
                     dataType: "html",
                     success: function (resuilt) {
                         $("#getListSite").css("display", "block")
-                        $("#listAddsSite").html(resuilt);                       
+                        $("#listAddsSite").html(resuilt);
                     },
                     error: function () {
                     }
                 });
-
             });
-            $("#listAddsSite").change(function () {                
+            $("#type").change(function () {
+                var key = document.getElementById("addsArea").value;
+                var type = document.getElementById("type").value;
+                $.ajax({
+                    type: "GET",
+                    url: '/Home/GetSite',
+                    data: { idArea: key, type: type },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (resuilt) {
+                        $("#getListSite").css("display", "block")
+                        $("#listAddsSite").html(resuilt);
+                    },
+                    error: function () {
+                    }
+                });
+            });
+            $("#listAddsSite").change(function () {
                 var siteID = document.getElementById("listAddsSite").value;
                 $.ajax({
                     type: "GET",
@@ -57,8 +72,8 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "html",
                     success: function (resuilt) {
-                        var json = JSON.parse(resuilt);                        
-                        $("#clickInfoBieuDo").css("display", "block");                                               
+                        var json = JSON.parse(resuilt);
+                        $("#clickInfoBieuDo").css("display", "block");
                         var map;
                         /* Set các thuộc tính của map bao gồm tọa độ và view trung tâm bản đồ */
                         map = new google.maps.Map(document.getElementById('map'));
@@ -75,7 +90,7 @@
                             id: json.listData.Device_Id,
                             title: json.listData.Address,
                         });
-                        var contentString = '<div><strong>' + json.listData.Name + '</strong><p style="margin:6px 0">Địa chỉ: ' + json.listData.Address + '</p><button onclick="GetDataTable(' + json.listData.DeviceId + ')" class="btn-detail btn btn-xs btn-primary">Xem chi tiết</button></div>';                        
+                        var contentString = '<div><strong>' + json.listData.Name + '</strong><p style="margin:6px 0">Địa chỉ: ' + json.listData.Address + '</p><button onclick="GetDataTable(' + json.listData.DeviceId + ')" class="btn-detail btn btn-xs btn-primary">Xem chi tiết</button></div>';
                         var infowindow = new google.maps.InfoWindow({
                             content: contentString
                         });
@@ -112,29 +127,23 @@
                     while (val.length < len) val = "0" + val;
                     return val;
                 };
-
             // Regexes and supporting functions are cached through closure
             return function (date, mask, utc) {
                 var dF = dateFormat;
-
                 // You can't provide utc if you skip other args (use the "UTC:" mask prefix)
                 if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
                     mask = date;
                     date = undefined;
                 }
-
                 // Passing date through Date applies Date.parse, if necessary
                 date = date ? new Date(date) : new Date;
                 if (isNaN(date)) throw SyntaxError("invalid date");
-
                 mask = String(dF.masks[mask] || mask || dF.masks["default"]);
-
                 // Allow setting the utc argument via the mask
                 if (mask.slice(0, 4) == "UTC:") {
                     mask = mask.slice(4);
                     utc = true;
                 }
-
                 var _ = utc ? "getUTC" : "get",
                     d = date[_ + "Date"](),
                     D = date[_ + "Day"](),
@@ -174,13 +183,11 @@
                         o: (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
                         S: ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
                     };
-
                 return mask.replace(token, function ($0) {
                     return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
                 });
             };
         }();
-
         // Some common format strings
         dateFormat.masks = {
             "default": "ddd mmm dd yyyy HH:MM:ss",
@@ -196,7 +203,6 @@
             isoDateTime: "yyyy-mm-dd'T'HH:MM:ss",
             isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
         };
-
         // Internationalization strings
         dateFormat.i18n = {
             dayNames: [
@@ -208,7 +214,6 @@
                 "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
             ]
         };
-
         // For convenience...
         Date.prototype.format = function (mask, utc) {
             return dateFormat(this, mask, utc);
@@ -232,7 +237,7 @@
                         var date = jsonData.listData[k].DateCreate;
                         var nowDate = new Date(parseInt(date.substr(6)));
                         var result = "";
-                        result += nowDate.format("dd mm yyyy HH:MM:ss");                        
+                        result += nowDate.format("dd mm yyyy HH:MM:ss");
                         category.push(result);
                         bti.push(parseFloat(jsonData.listData[k].BTI));
                         bhu.push(parseFloat(jsonData.listData[k].BHU));
@@ -382,7 +387,7 @@
         }
         function GetDataTable(id) {
             $('#clickInfo').trigger('click');
-            $(".main-container").css("opacity", "0.4");              
+            $(".main-container").css("opacity", "0.4");
             $.ajax({
                 type: "GET",
                 url: '/Home/GetDataObservation',
@@ -398,13 +403,11 @@
         }
         var map;
         function initMap() {
-
             /* Set các thuộc tính của map bao gồm tọa độ và view trung tâm bản đồ */
             map = new google.maps.Map(document.getElementById('map'));
             map.setZoom(7);      // This will trigger a zoom_changed on the map
             map.setCenter(new google.maps.LatLng(20.00725216541522, 104.7710132814941));
             map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-
             var array = @Html.Raw(
                 Json.Encode(
                     ((IEnumerable<ES_CapDien.Site >)ViewBag.listSite).Select(item => new
@@ -420,9 +423,9 @@
             );
             var image1 = '/Images/place_green.png';
             var image2 = '/Images/place_grey.png';
-            
+
             array.forEach(function (element) {
-                
+
                 var marker = new google.maps.Marker({
                     position: { lat: parseFloat(element.Latitude), lng: parseFloat(element.Longtitude) },
                     map: map,
@@ -431,13 +434,13 @@
                     id: element.Device_Id,
                     title: element.Name
                 });
-                
+
                 var contentString = '<div><strong>Tên trạm:' + element.Name + '</strong><p style="margin:6px 0">Thiết bị: ' + element.Device_Id + '</p><button onclick="GetDataTable(' + element.Device_Id + ')" class="btn-detail btn btn-xs btn-primary">Xem chi tiết</button></div>';
-                
+
                 var infowindow = new google.maps.InfoWindow({
                     content: contentString
                 });
-                
+
                 google.maps.event.addListener(marker, 'click', function () {
                     infowindow.open(map, marker);
                 });
@@ -446,7 +449,6 @@
                     document.getElementById("KinhDoId").value = event.latLng.lng();
                 });
             });
-
         }
         function GetDetailAlarm(alermID) {
             $.ajax({
@@ -500,7 +502,7 @@
         font-size: 15px;
     }
 </style>
-<div class="container" style="border-bottom:none!important; border-left:none!important;">    
+<div class="container" style="border-bottom:none!important; border-left:none!important;">
     <div class="col-md-12">
         @Html.Partial("~/Views/Shared/_MessagePartial.cshtml")
         <div class="panel panel-default">
@@ -562,9 +564,26 @@
                                         <div class="textInfoNumber"></div>
                                     </div>
                                 </div>
-                                <div class="row">                                   
+                                <div class="row">
+                                    <div class="col-md-2 col-lg-2 col-sm-2">
+                                        Kiểu trạm:
+                                    </div>
+                                    <div class="col-md-10 col-lg-10 col-sm-10">
+                                        <select class="form-control search-select" id="type" name="type">
+                                            <option value="0">--- Tất cả ---</option>
+                                            @if (ViewBag.LstCategoryTypeSite != null)
+                                            {
+                                                foreach (var type in ViewBag.LstCategoryTypeSite)
+                                                {
+                                                    <option value="@type.Id">@type.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-sm-12" style="color:black; display:none;" id="getListSite">
-                                        @Html.Action("GetSite", "Home", new { idArea = 2 })                                       
+                                        @Html.Action("GetSite", "Home", new { idArea = 2 })
                                     </div>
                                 </div>
                             </div>

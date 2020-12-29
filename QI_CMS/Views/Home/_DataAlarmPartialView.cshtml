@@ -18,7 +18,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.TimeSend</td>
+                        <td class="center">@item.TimeSend.ToString("HH:mm:ss")</td>
                         <td class="hidden-xs">
                             @if (item.AMAFR.Contains("1-1") == true)
                             {

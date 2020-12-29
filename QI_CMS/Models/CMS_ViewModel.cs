@@ -11,25 +11,27 @@ namespace ES_CapDien.Models
     /// </summary>
     public class GroupsViewModel
     {
-        public StaticPagedList<GroupModel> Groups { get; set; }           
+        public StaticPagedList<GroupModel> Groups { get; set; }
         public PagingInfo PagingInfo { get; set; }
     }
     /// <summary>
     /// Hiển thị dữ liệu và phân trang
     /// </summary>
     public class ReportDailyViewModel
-    {        
+    {
         public DateTime Date { get; set; }
         public int? DeviceId { get; set; }
         public int? AreaId { get; set; }
         public int? GroupId { get; set; }
-        public Report_NhietDo_DoAm_ApSuat_DailyModel ApSuat { get; set; }
-        public Report_NhietDo_DoAm_ApSuat_DailyModel DoAm { get; set; }
+        public Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel ApSuat { get; set; }
+        public Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel DoAm { get; set; }
+        public Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel TocDoDongChay { get; set; }
+        public Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel LuuLuongDongChay { get; set; }
         public Report_HuongGio_DailyModel HuongGio { get; set; }
         public Report_LuongMuc_DailyModel LuongMua { get; set; }
         public Report_MucNuoc_DailyModel MucNuoc { get; set; }
         public Report_TocDoGio_DailyModel TocDoGio { get; set; }
-        public Report_NhietDo_DoAm_ApSuat_DailyModel NhietDo { get; set; }
+        public Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel NhietDo { get; set; }
     }
     /// <summary>
     /// Hiển thị dữ liệu và phân trang
@@ -39,7 +41,7 @@ namespace ES_CapDien.Models
         public DateTime Date { get; set; }
         public int? DeviceId { get; set; }
         public int? AreaId { get; set; }
-        public int? GroupId { get; set; }   
+        public int? GroupId { get; set; }
         public ReportMonthlyModel data { get; set; }
     }
     /// <summary>
@@ -68,10 +70,15 @@ namespace ES_CapDien.Models
         public StaticPagedList<RegisterSMSModel> RG { get; set; }
         public PagingInfo PagingInfo { get; set; }
     }
+    public class CommandViewModel
+    {
+        public StaticPagedList<CommandModel> Command { get; set; }
+        public PagingInfo PagingInfo { get; set; }
+    }
     public class UserProfileViewModel
     {
         public StaticPagedList<UserProfileModel> UsP { get; set; }
-        public PagingInfo PagingInfo { get; set; }        
+        public PagingInfo PagingInfo { get; set; }
     }
     public class RoleViewModel
     {

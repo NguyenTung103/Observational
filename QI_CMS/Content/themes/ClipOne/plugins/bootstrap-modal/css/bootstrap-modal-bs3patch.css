@@ -17,7 +17,7 @@ body.modal-open,
 .modal {
   left: 50%;
   bottom: auto;
-  right: auto;
+  right: inherit;
   padding: 0;
   width: 500px;
   margin-left: -250px;
