@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -98,19 +99,19 @@ public class Cache_BO
         }
         return model;
     }
-    public List<DataObservationModel> GetData(DateTime from, DateTime to, int groupId, int? buoc = null, int? siteID = null)
+    public List<DataObservationModel> GetDataTheoBuoc(DateTime from, DateTime to, int groupId, int? buoc = null, int? siteID = null)
     {
         var QICache = new Cache_Provider();
-        string strSession = "GetData_" + from + to + groupId + buoc + siteID;
+        string strSession = "GetDataTheoBuoc_" + from + to + groupId + buoc + siteID;
         List<DataObservationModel> list = new List<DataObservationModel>();
         List<DataObservationModel> result = new List<DataObservationModel>();
         if (!QICache.IsSet(strSession))
         {
             if (siteID.HasValue)
             {
+                var lstSite = sitesService.sitesResponsitory.GetAll().ToList();
                 int deviceId = sitesService.sitesResponsitory.Single(siteID).DeviceId.Value;
-
-                list = (dataObservationMongoService.GetDataByDeviceIdAndDate(from, to, deviceId)).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
+                list = (dataObservationMongoService.GetDataByDeviceIdAndDate(from, to, deviceId)).Where(i => i.DateCreate != null).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
                 {
                     BTI = x.BTI,
                     BTO = x.BTO,
@@ -120,7 +121,8 @@ public class Cache_BO
                     BAV = x.BAV,
                     BAC = x.BAC,
                     BAF = x.BAF,
-                    NameSite = sitesService.sitesResponsitory.GetAll().Where(i => i.DeviceId == x.Device_Id).FirstOrDefault().Name,
+                    BPR = x.BPR,
+                    NameSite = lstSite.FirstOrDefault(i => i.DeviceId == x.Device_Id).Name,
                     DateCreate = x.DateCreate
                 }).ToList();
                 if (buoc.HasValue)
@@ -144,7 +146,7 @@ public class Cache_BO
                 List<Site> lstSite = sitesService.GetBygroupId(groupId).ToList();
                 foreach (var site in lstSite)
                 {
-                    list.AddRange((dataObservationMongoService.GetDataByDeviceIdAndDate(from, to, site.DeviceId.Value)).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
+                    list.AddRange((dataObservationMongoService.GetDataByDeviceIdAndDate(from, to, site.DeviceId.Value)).Where(i => i.DateCreate != null).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
                     {
                         BTI = x.BTI,
                         BTO = x.BTO,
@@ -186,8 +188,183 @@ public class Cache_BO
                 QICache.Invalidate(strSession);
             }
         }
-
         return result.OrderByDescending(o => o.DateCreate).ToList();
+    }
+    public List<DataObservationModel> GetDataTheoGio(DateTime from, DateTime to, int groupId, int? siteID = null)
+    {
+        var QICache = new Cache_Provider();
+        string strSession = "GetDataTheoGio_" + from + to + groupId + siteID;
+        List<DataObservationModel> list = new List<DataObservationModel>();
+        List<DataObservationModel> result = new List<DataObservationModel>();
+        if (!QICache.IsSet(strSession))
+        {
+            if (siteID.HasValue)
+            {
+                var lstSite = sitesService.sitesResponsitory.GetAll().ToList();
+                int deviceId = sitesService.sitesResponsitory.Single(siteID).DeviceId.Value;
+                list = (dataObservationMongoService.GetDataByDeviceIdAndDate(from, to, deviceId)).Where(i => i.DateCreate != null).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
+                {
+                    BTI = x.BTI,
+                    BTO = x.BTO,
+                    BHU = x.BHU,
+                    BWS = x.BWS,
+                    BAP = x.BAP,
+                    BAV = x.BAV,
+                    BAC = x.BAC,
+                    BAF = x.BAF,
+                    BPR = x.BPR,
+                    NameSite = lstSite.FirstOrDefault(i => i.DeviceId == x.Device_Id).Name,
+                    DateCreate = x.DateCreate
+                }).ToList();
+                if (list != null)
+                    result.AddRange(GetDataTrungBinhTheoGio(list, from, to));
+            }
+            else
+            {
+                List<Site> lstSite = sitesService.GetBygroupId(groupId).ToList();
+                foreach (var site in lstSite)
+                {
+                    var lstDataBySite = (dataObservationMongoService.GetDataByDeviceIdAndDate(from, to, site.DeviceId.Value)).Where(i => i.DateCreate != null).OrderByDescending(i => i.DateCreate).Select(x => new DataObservationModel
+                    {
+                        BTI = x.BTI,
+                        BTO = x.BTO,
+                        BHU = x.BHU,
+                        BWS = x.BWS,
+                        BAP = x.BAP,
+                        BAV = x.BAV,
+                        BAC = x.BAC,
+                        BAF = x.BAF,
+                        BPR = x.BPR,
+                        NameSite = site.Name,
+                        DateCreate = x.DateCreate
+                    }).ToList();
+                    if (lstDataBySite != null)
+                        result.AddRange(GetDataTrungBinhTheoGio(lstDataBySite, from,to));
+                }                
+            }
+            result = result.OrderByDescending(i => i.Date).ThenByDescending(i=>i.Hours).ToList();
+            QICache.Set(strSession, result, int.Parse(ConfigurationManager.AppSettings["timeout_cacheserver"]));
+        }
+        else
+        {
+            try
+            {
+                result = QICache.Get(strSession) as List<DataObservationModel>;
+            }
+            catch
+            {
+                QICache.Invalidate(strSession);
+            }
+        }       
+        return result.ToList();
+    }
+    public List<DataObservationModel> GetDataTrungBinhTheoGio(List<DataObservationModel> list, DateTime fromDay, DateTime toDay)
+    {
+        List<DataObservationModel> result = new List<DataObservationModel>();
+        double numberDay = (toDay - fromDay).TotalDays;        
+        for(int j=0; j<numberDay; j++)
+        {
+            DateTime startDay = fromDay.AddDays(j);
+            DateTime endDay = fromDay.AddDays(j+1);
+            var listData = list.Where(k => k.DateCreate >= startDay && k.DateCreate <= endDay).ToList();
+            string nameSite = list.FirstOrDefault().NameSite;
+            if (listData.FirstOrDefault() != null)
+            {
+                DateTime endTimeList = listData.FirstOrDefault().DateCreate.Value;
+                for (int i = 1; i <= 24; i++)
+                {
+                    DateTime start = startDay.AddHours(i - 1);
+                    if (start < endTimeList)
+                    {
+                        DataObservationModel trungBinhTheoGio = new DataObservationModel();
+                        DateTime end = startDay.AddHours(i);
+                        var lst = list.Where(x => x.DateCreate >= start && x.DateCreate <= end);
+                        if (lst != null && lst.Count() > 0)
+                        {
+                            lst.ToList().ForEach(delegate (DataObservationModel item)
+                            {
+                                trungBinhTheoGio.BTI += item.BTI;
+                                trungBinhTheoGio.BTO += item.BTO;
+                                trungBinhTheoGio.BHU += item.BHU;
+                                trungBinhTheoGio.BWS += item.BWS;
+                                trungBinhTheoGio.BAP += item.BAP;
+                                trungBinhTheoGio.BAV += item.BAV;
+                                trungBinhTheoGio.BAC += item.BAC;
+                                trungBinhTheoGio.BAF += item.BAF;
+                                trungBinhTheoGio.BPR += item.BPR;
+                                trungBinhTheoGio.NameSite = nameSite;
+                            });
+                            int totalCount = lst.Count();
+                            trungBinhTheoGio.BTI = Math.Round((trungBinhTheoGio.BTI / totalCount), 1);
+                            trungBinhTheoGio.BTO = Math.Round((trungBinhTheoGio.BTO / totalCount), 1);
+                            trungBinhTheoGio.BHU = Math.Round((trungBinhTheoGio.BHU / totalCount), 1);
+                            trungBinhTheoGio.BWS = Math.Round((trungBinhTheoGio.BWS / totalCount), 1);
+                            trungBinhTheoGio.BAP = Math.Round((trungBinhTheoGio.BAP / totalCount), 1);
+                            trungBinhTheoGio.BAV = Math.Round((trungBinhTheoGio.BAV / totalCount), 1);
+                            trungBinhTheoGio.BAC = Math.Round((trungBinhTheoGio.BAC / totalCount), 1);
+                            trungBinhTheoGio.BAF = Math.Round((trungBinhTheoGio.BAF / totalCount), 1);
+                            trungBinhTheoGio.BPR = Math.Round((trungBinhTheoGio.BPR / totalCount), 1);
+                            trungBinhTheoGio.NameSite = nameSite;
+                            trungBinhTheoGio.Date = start.Date;
+                            trungBinhTheoGio.Hours = start.Hour;
+                            trungBinhTheoGio.DateCreate = start;
+                            result.Add(trungBinhTheoGio);
+                        }
+                        else
+                        {
+                            trungBinhTheoGio.NameSite = nameSite;
+                            trungBinhTheoGio.DateCreate = start;
+                            trungBinhTheoGio.Date = start.Date;
+                            trungBinhTheoGio.Hours = start.Hour;
+                            result.Add(trungBinhTheoGio);
+                        }
+
+                    }
+                }
+            }
+        }    
+              
+        return result;
+    }
+    public DataObservationModel GetDataReport(DateTime date, double addSecond, int i, List<DataObservationModel> list)
+    {
+        DataObservationModel duLieuThemVaoListKetQua = new DataObservationModel();
+
+        try
+        {
+            DateTime dateStart = new DateTime();
+            DateTime dateEnd = new DateTime();
+            dateEnd = date.AddSeconds(addSecond);
+            dateStart = date;
+            duLieuThemVaoListKetQua = list.FirstOrDefault(k => k.DateCreate >= dateEnd && k.DateCreate <= dateStart);
+            if (duLieuThemVaoListKetQua == null)
+            {
+                duLieuThemVaoListKetQua = GetDataReport(dateEnd, addSecond, i++, list);
+            }
+            else
+            {
+                duLieuThemVaoListKetQua.DateCreate = dateStart;
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+        return duLieuThemVaoListKetQua;
+    }
+    public double GetTotalSeconds(DateTime date)
+    {
+        double result = 0;
+        double soGiayTrongThang = 0;
+        for (int i = date.Month - 1; i > 0; i--)
+        {
+            int day = CultureInfo.CurrentCulture.Calendar.GetDaysInMonth(date.Year, date.Month);
+            soGiayTrongThang += (day * 86400);
+        }
+
+        double soGiayTrongNgay = date.Day * 86400 + date.Hour * 3600 + date.Minute * 60 + date.Second;
+        result += soGiayTrongThang + soGiayTrongNgay;
+        return result;
     }
     #endregion
 }

@@ -66,12 +66,75 @@ namespace ES_CapDien.Controllers
             }
             List<DataObservationModel> list = new List<DataObservationModel>();
             int totalRows = 0;
-            list = cacheBO.GetData(from, to, groupId, buoc, siteID);            
+            list = cacheBO.GetDataTheoBuoc(from, to, groupId, buoc, siteID);
             totalRows = await GetCountData(from, to, groupId, buoc, siteID);
+            int typeSite = 0;
+            if (siteID.HasValue)
+            {
+                typeSite = sitesService.sitesResponsitory.Single(siteID).TypeSiteId;
+            }
+            ViewBag.TypeSite = typeSite;
             #region Hiển thị dữ liệu và phân trang
             DataObservationViewModel viewModel = new DataObservationViewModel
             {
                 DataO = new StaticPagedList<DataObservationModel>(list.Skip(skip).Take(pageSize), page, pageSize, totalRows),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = totalRows
+                },
+                From = from,
+                To = to,
+            };
+            #endregion
+            return View(viewModel);
+        }
+        public ActionResult ManagementByHours(int page = 1, int pageSize = 50, string title = "", int? areaId = null, string fromDate = "", string toDate = "", int? siteID = null)
+        {
+            ViewBag.Title = "";
+            ViewBag.MessageStatus = TempData["MessageStatus"];
+            ViewBag.Message = TempData["Message"];
+            if (pageSize == 1)
+            {
+                pageSize = CMSHelper.pageSizes[0];
+            }
+            @ViewBag.PageSizes = CMSHelper.pageSizes;
+
+            int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
+            int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
+            List<Site> lstSite = sitesService.GetBygroupId(groupId).ToList();
+            ViewBag.lstTram = lstSite;
+            string userName = User.Identity.Name;
+            int skip = (page - 1) * pageSize;
+            DateTime from = DateTime.Today;
+            DateTime to = from.AddDays(1);
+            int typeSite = 0;
+            if (siteID.HasValue)
+            {
+                typeSite = sitesService.sitesResponsitory.Single(siteID).TypeSiteId;
+            }
+            else
+            {
+                siteID = lstSite.FirstOrDefault().Id;
+            }
+            if (fromDate != "")
+            {
+                try
+                {
+                    from = Convert.ToDateTime(fromDate);
+                    to = Convert.ToDateTime(toDate);
+                }
+                catch { }
+            }
+            List<DataObservationModel> list = new List<DataObservationModel>();
+            int totalRows = 0;
+            list = cacheBO.GetDataTheoGio(from, to, groupId, siteID);
+            ViewBag.TypeSite = typeSite;
+            #region Hiển thị dữ liệu và phân trang
+            DataObservationViewModel viewModel = new DataObservationViewModel
+            {
+                DataO = new StaticPagedList<DataObservationModel>(list.Skip(skip).Take(pageSize), page, pageSize, list.Count()),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
@@ -302,7 +365,7 @@ namespace ES_CapDien.Controllers
             }
             return result.Count();
         }
-        public void ExportExel(string title = "", int? areaId = null, string fromDate = "", string toDate = "", int? siteID = null, int? buoc = null)
+        public void ExportExelTheoBuoc(string title = "", int? areaId = null, string fromDate = "", string toDate = "", int? siteID = null, int? buoc = null)
         {
             try
             {
@@ -320,7 +383,7 @@ namespace ES_CapDien.Controllers
                 int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
                 int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
                 List<DataObservationModel> list = new List<DataObservationModel>();
-                list = cacheBO.GetData(from, to, groupId, buoc, siteID);                
+                list = cacheBO.GetDataTheoBuoc(from, to, groupId, buoc, siteID);
 
                 ExcelPackage pck = new ExcelPackage();
                 ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Report");
@@ -331,44 +394,244 @@ namespace ES_CapDien.Controllers
                 ws.Cells["A5"].Value = "STT";
                 ws.Cells["B5"].Value = "Trạm";
                 ws.Cells["C5"].Value = "Thời gian";
-                ws.Cells["D5"].Value = "Nhiệt độ môi trường (oC)";
-                ws.Cells["E5"].Value = "Nhiệt độ trong (oC)";
-                ws.Cells["F5"].Value = "Độ ẩm môi trường (%)";
-                ws.Cells["G5"].Value = "Tốc độ gió";
-                ws.Cells["H5"].Value = "Hướng gió";
-                ws.Cells["I5"].Value = "Áp suất KQ (hPA)";
-                ws.Cells["J5"].Value = "Lượng mưa (mm)";
-                ws.Cells["K5"].Value = "Mực nước (m)";
+                int typeSite = 0;
                 int rowsStart = 6;
                 int sTT = 1;
-                //ws.Row(5).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                //ws.Row(5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
-                foreach (var item in list)
+                if (siteID.HasValue)
                 {
-                    ws.Cells[string.Format("A{0}", rowsStart)].Value = sTT;
-                    ws.Cells[string.Format("B{0}", rowsStart)].Value = item.NameSite;
-                    ws.Cells[string.Format("C{0}", rowsStart)].Value = item.DateCreate.ToString();
-                    ws.Cells[string.Format("D{0}", rowsStart)].Value = item.BTI;
-                    ws.Cells[string.Format("E{0}", rowsStart)].Value = item.BTO;
-                    ws.Cells[string.Format("F{0}", rowsStart)].Value = item.BHU;
-                    ws.Cells[string.Format("G{0}", rowsStart)].Value = item.BWS;
-                    ws.Cells[string.Format("H{0}", rowsStart)].Value = item.BAP;
-                    ws.Cells[string.Format("I{0}", rowsStart)].Value = item.BAV;
-                    ws.Cells[string.Format("J{0}", rowsStart)].Value = item.BAC;
-                    ws.Cells[string.Format("K{0}", rowsStart)].Value = item.BAF;
-
-                    rowsStart++;
-                    sTT++;
+                    typeSite = sitesService.sitesResponsitory.Single(siteID).TypeSiteId;
                 }
-                string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" };
-                int rowStartAllTable = 5;
-                SetBorderExportExcel(ws, cellColump, list.Count, rowStartAllTable);
+                if (typeSite == 1)
+                {
+                    ws.Cells["D5"].Value = "Nhiệt độ môi trường (oC)";
+                    ws.Cells["E5"].Value = "Độ ẩm môi trường (%)";
+                    ws.Cells["F5"].Value = "Tốc độ gió";
+                    ws.Cells["G5"].Value = "Hướng gió";
+                    ws.Cells["H5"].Value = "Áp suất KQ (hPA)";
+                    ws.Cells["I5"].Value = "Lượng mưa (mm)";
+                    //ws.Row(5).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    //ws.Row(5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
+                    foreach (var item in list)
+                    {
+                        ws.Cells[string.Format("A{0}", rowsStart)].Value = sTT;
+                        ws.Cells[string.Format("B{0}", rowsStart)].Value = item.NameSite;
+                        ws.Cells[string.Format("C{0}", rowsStart)].Value = item.DateCreate.Value.ToString("dd/MM/yyyy HH:mm");
+                        ws.Cells[string.Format("D{0}", rowsStart)].Value = item.BTI;
+                        ws.Cells[string.Format("E{0}", rowsStart)].Value = item.BHU;
+                        ws.Cells[string.Format("F{0}", rowsStart)].Value = item.BWS;
+                        ws.Cells[string.Format("G{0}", rowsStart)].Value = item.BAP;
+                        ws.Cells[string.Format("H{0}", rowsStart)].Value = item.BAV;
+                        ws.Cells[string.Format("I{0}", rowsStart)].Value = item.BAC;
+
+                        rowsStart++;
+                        sTT++;
+                    }
+                    string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
+                    int rowStartAllTable = 5;
+                    SetBorderExportExcel(ws, cellColump, list.Count, rowStartAllTable);
+                }
+                else if (typeSite == 2)
+                {
+                    ws.Cells["D5"].Value = "Mực nước (m)";
+                    //ws.Row(5).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    //ws.Row(5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
+                    foreach (var item in list)
+                    {
+                        ws.Cells[string.Format("A{0}", rowsStart)].Value = sTT;
+                        ws.Cells[string.Format("B{0}", rowsStart)].Value = item.NameSite;
+                        ws.Cells[string.Format("C{0}", rowsStart)].Value = item.DateCreate.Value.ToString("dd/MM/yyyy HH:mm");
+                        ws.Cells[string.Format("D{0}", rowsStart)].Value = item.BAF;
+
+                        rowsStart++;
+                        sTT++;
+                    }
+                    string[] cellColump = { "A", "B", "C", "D" };
+                    int rowStartAllTable = 5;
+                    SetBorderExportExcel(ws, cellColump, list.Count, rowStartAllTable);
+                }
+                else
+                {
+                    ws.Cells["D5"].Value = "Nhiệt độ môi trường (oC)";
+                    ws.Cells["E5"].Value = "Độ ẩm môi trường (%)";
+                    ws.Cells["F5"].Value = "Tốc độ gió";
+                    ws.Cells["G5"].Value = "Hướng gió";
+                    ws.Cells["H5"].Value = "Áp suất KQ (hPA)";
+                    ws.Cells["I5"].Value = "Lượng mưa (mm)";
+                    ws.Cells["J5"].Value = "Mực nước (m)";
+                    //ws.Row(5).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    //ws.Row(5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
+                    foreach (var item in list)
+                    {
+                        ws.Cells[string.Format("A{0}", rowsStart)].Value = sTT;
+                        ws.Cells[string.Format("B{0}", rowsStart)].Value = item.NameSite;
+                        ws.Cells[string.Format("C{0}", rowsStart)].Value = item.DateCreate.Value.ToString("dd/MM/yyyy HH:mm");
+                        ws.Cells[string.Format("D{0}", rowsStart)].Value = item.BTI;
+                        ws.Cells[string.Format("E{0}", rowsStart)].Value = item.BHU;
+                        ws.Cells[string.Format("F{0}", rowsStart)].Value = item.BWS;
+                        ws.Cells[string.Format("G{0}", rowsStart)].Value = item.BAP;
+                        ws.Cells[string.Format("H{0}", rowsStart)].Value = item.BAV;
+                        ws.Cells[string.Format("I{0}", rowsStart)].Value = item.BAC;
+                        ws.Cells[string.Format("J{0}", rowsStart)].Value = item.BAF;
+
+                        rowsStart++;
+                        sTT++;
+                    }
+                    string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+                    int rowStartAllTable = 5;
+                    SetBorderExportExcel(ws, cellColump, list.Count, rowStartAllTable);
+                }
+
+
+
                 ws.Cells["A:AZ"].AutoFitColumns();
                 ws.Cells["A:A"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 using (var memoryStream = new MemoryStream())
                 {
                     Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                     Response.AddHeader("content-disposition", "attachment; filename=" + "Thống kê Từ ngày " + from.ToString() + " đến ngày " + to.ToString() + ".xlsx");
+                    pck.SaveAs(memoryStream);
+                    memoryStream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
+                }
+            }
+            catch { }
+        }
+        public void ExportExelTheoGio(string title = "", int? areaId = null, string fromDate = "", string toDate = "", int? siteID = null)
+        {
+            try
+            {
+                DateTime from = DateTime.Today;
+                DateTime to = from.AddDays(1);
+                if (fromDate != "")
+                {
+                    try
+                    {
+                        from = Convert.ToDateTime(fromDate);
+                        to = Convert.ToDateTime(toDate);
+                    }
+                    catch { }
+                }
+                int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
+                int groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id.Value;
+                List<DataObservationModel> list = new List<DataObservationModel>();
+                Site tram = new Site();
+                if (!siteID.HasValue)
+                {
+                    List<Site> lstSite = sitesService.GetBygroupId(groupId).ToList();
+                    tram = lstSite.FirstOrDefault();
+                    siteID = tram.Id;
+                }
+                list = cacheBO.GetDataTheoGio(from, to, groupId, siteID);
+
+                ExcelPackage pck = new ExcelPackage();
+                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Report");
+                ws.Cells["A2:F2"].Merge = true;
+                ws.Cells["A3:F3"].Merge = true;
+                ws.Cells["A2"].Value = "THỐNG KÊ QUAN TRẮC";
+                ws.Cells["A3"].Value = "Từ ngày " + from.ToString("dd/MM/yyyy") + " đến ngày " + to.ToString("dd/MM/yyyy");
+                ws.Cells["A5"].Value = "STT";
+                ws.Cells["B5"].Value = "Trạm";
+                ws.Cells["C5"].Value = "Ngày";
+                ws.Cells["D5"].Value = "Thời gian";
+                int typeSite = 0;
+                int rowsStart = 6;
+                int sTT = 1;
+                if (siteID.HasValue)
+                {
+                    typeSite = sitesService.sitesResponsitory.Single(siteID).TypeSiteId;
+                }
+                if (typeSite == 1)
+                {
+                    ws.Cells["E5"].Value = "Nhiệt độ môi trường (oC)";
+                    ws.Cells["F5"].Value = "Độ ẩm môi trường (%)";
+                    ws.Cells["G5"].Value = "Tốc độ gió";
+                    ws.Cells["H5"].Value = "Hướng gió";
+                    ws.Cells["I5"].Value = "Áp suất KQ (hPA)";
+                    ws.Cells["J5"].Value = "Lượng mưa (mm)";
+                    //ws.Row(5).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    //ws.Row(5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
+                    foreach (var item in list)
+                    {
+                        ws.Cells[string.Format("A{0}", rowsStart)].Value = sTT;
+                        ws.Cells[string.Format("B{0}", rowsStart)].Value = item.NameSite;
+                        ws.Cells[string.Format("C{0}", rowsStart)].Value = item.DateCreate.Value.ToString("dd/MM/yyyy");
+                        ws.Cells[string.Format("D{0}", rowsStart)].Value = item.DateCreate.Value.ToString("HH:mm");
+                        ws.Cells[string.Format("E{0}", rowsStart)].Value = item.BTI;
+                        ws.Cells[string.Format("F{0}", rowsStart)].Value = item.BHU;
+                        ws.Cells[string.Format("G{0}", rowsStart)].Value = item.BWS;
+                        ws.Cells[string.Format("H{0}", rowsStart)].Value = item.BAP;
+                        ws.Cells[string.Format("I{0}", rowsStart)].Value = item.BAV;
+                        ws.Cells[string.Format("J{0}", rowsStart)].Value = item.BAC;
+
+                        rowsStart++;
+                        sTT++;
+                    }
+                    string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+                    int rowStartAllTable = 5;
+                    SetBorderExportExcel(ws, cellColump, list.Count, rowStartAllTable);
+                }
+                else if (typeSite == 2)
+                {
+                    ws.Cells["E5"].Value = "Mực nước (m)";
+                    //ws.Row(5).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    //ws.Row(5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
+                    foreach (var item in list)
+                    {
+                        ws.Cells[string.Format("A{0}", rowsStart)].Value = sTT;
+                        ws.Cells[string.Format("B{0}", rowsStart)].Value = item.NameSite;
+                        ws.Cells[string.Format("C{0}", rowsStart)].Value = item.DateCreate.Value.ToString("dd/MM/yyyy");
+                        ws.Cells[string.Format("D{0}", rowsStart)].Value = item.DateCreate.Value.ToString("HH:mm") + " - " + item.DateCreate.Value.AddHours(-1).ToString("HH:mm");
+                        ws.Cells[string.Format("E{0}", rowsStart)].Value = item.BAF;
+
+                        rowsStart++;
+                        sTT++;
+                    }
+                    string[] cellColump = { "A", "B", "C", "D", "E" };
+                    int rowStartAllTable = 5;
+                    SetBorderExportExcel(ws, cellColump, list.Count, rowStartAllTable);
+                }
+                else
+                {
+                    ws.Cells["E5"].Value = "Nhiệt độ môi trường (oC)";
+                    ws.Cells["F5"].Value = "Độ ẩm môi trường (%)";
+                    ws.Cells["G5"].Value = "Tốc độ gió";
+                    ws.Cells["H5"].Value = "Hướng gió";
+                    ws.Cells["I5"].Value = "Áp suất KQ (hPA)";
+                    ws.Cells["J5"].Value = "Lượng mưa (mm)";
+                    ws.Cells["K5"].Value = "Mực nước (m)";
+                    //ws.Row(5).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    //ws.Row(5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
+                    foreach (var item in list)
+                    {
+                        ws.Cells[string.Format("A{0}", rowsStart)].Value = sTT;
+                        ws.Cells[string.Format("B{0}", rowsStart)].Value = item.NameSite;
+                        ws.Cells[string.Format("C{0}", rowsStart)].Value = item.DateCreate.Value.ToString("dd/MM/yyyy");
+                        ws.Cells[string.Format("D{0}", rowsStart)].Value = item.DateCreate.Value.ToString("HH:mm") + " - " + item.DateCreate.Value.AddHours(-1).ToString("HH:mm");
+                        ws.Cells[string.Format("E{0}", rowsStart)].Value = item.BTI;
+                        ws.Cells[string.Format("F{0}", rowsStart)].Value = item.BHU;
+                        ws.Cells[string.Format("G{0}", rowsStart)].Value = item.BWS;
+                        ws.Cells[string.Format("H{0}", rowsStart)].Value = item.BAP;
+                        ws.Cells[string.Format("I{0}", rowsStart)].Value = item.BAV;
+                        ws.Cells[string.Format("J{0}", rowsStart)].Value = item.BAC;
+                        ws.Cells[string.Format("K{0}", rowsStart)].Value = item.BAF;
+
+                        rowsStart++;
+                        sTT++;
+                    }
+                    string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" };
+                    int rowStartAllTable = 5;
+                    SetBorderExportExcel(ws, cellColump, list.Count, rowStartAllTable);
+                }
+
+
+
+                ws.Cells["A:AZ"].AutoFitColumns();
+                ws.Cells["A:A"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                using (var memoryStream = new MemoryStream())
+                {
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", "attachment; filename=" + "Thống kê theo giờ từ ngày " + from.ToString("dd/MM/yyyy") + " đến ngày " + to.ToString("dd/MM/yyyy") + "_" + tram.Name + ".xlsx");
                     pck.SaveAs(memoryStream);
                     memoryStream.WriteTo(Response.OutputStream);
                     Response.Flush();

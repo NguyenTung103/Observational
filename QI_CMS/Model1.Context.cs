@@ -60,5 +60,6 @@ namespace ES_CapDien
         public virtual DbSet<webpages_UsersInRoles> webpages_UsersInRoles { get; set; }
         public virtual DbSet<WT_SystemRules> WT_SystemRules { get; set; }
         public virtual DbSet<Site> Sites { get; set; }
+        public virtual DbSet<ReportDailyBucXaMatTroi> ReportDailyBucXaMatTrois { get; set; }
     }
 }

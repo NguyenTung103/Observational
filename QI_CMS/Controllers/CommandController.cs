@@ -244,6 +244,7 @@ namespace ES_CapDien.Controllers
                 pts.Device_Id = model.Device_Id;
                 pts.GroupId = groupId;
                 pts.CreateDay = DateTime.Now;
+                pts.Status = null;
                 checkSave = commandService.commandResponsitory.Insert(pts);
                 TempData["MessageStatus"] = checkSave;
                 TempData["Message"] = $"Thêm mới lệnh {(checkSave ? "" : "không")} thành công";

@@ -32,6 +32,13 @@ namespace ES_CapDien.MongoDb.Service
             total = Convert.ToInt32(totalRow);
             return list;
         }
+        public List<ES_CapDien.MongoDb.Entity.DataAlarm> GetDataByDatePaging(DateTime fromDate, DateTime toDate, int skip, int limit, int deviceId, out int total)
+        {
+            List<ES_CapDien.MongoDb.Entity.DataAlarm> list = new List<ES_CapDien.MongoDb.Entity.DataAlarm>();
+            list = data.FindPagingOption(i => i.Device_Id == deviceId && i.DateCreate >= fromDate && i.DateCreate <=toDate, limit, skip, out long totalRow).OrderByDescending(i => i.DateCreate).ToList();
+            total = Convert.ToInt32(totalRow);
+            return list;
+        }
         public List<ES_CapDien.MongoDb.Entity.DataAlarm> GetDataOption(int limit, int deviceid)
         {
             List<ES_CapDien.MongoDb.Entity.DataAlarm> list = new List<ES_CapDien.MongoDb.Entity.DataAlarm>();         

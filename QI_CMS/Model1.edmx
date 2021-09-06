@@ -277,6 +277,45 @@
           <Property Name="Distance23" Type="float" />
           <Property Name="Distance24" Type="float" />
         </EntityType>
+        <EntityType Name="ReportDailyBucXaMatTroi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeviceId" Type="int" />
+          <Property Name="ReportTypeCode" Type="nchar" MaxLength="10" />
+          <Property Name="DateReport" Type="date" />
+          <Property Name="ContentReport" Type="text" />
+          <Property Name="DateRequestReport" Type="datetime" />
+          <Property Name="MinValue" Type="float" />
+          <Property Name="MaxValue" Type="float" />
+          <Property Name="TimeMaxValue" Type="datetime" />
+          <Property Name="TimeMinValue" Type="datetime" />
+          <Property Name="Distance1" Type="float" />
+          <Property Name="Distance2" Type="float" />
+          <Property Name="Distance3" Type="float" />
+          <Property Name="Distance4" Type="float" />
+          <Property Name="Distance5" Type="float" />
+          <Property Name="Distance6" Type="float" />
+          <Property Name="Distance7" Type="float" />
+          <Property Name="Distance8" Type="float" />
+          <Property Name="Distance9" Type="float" />
+          <Property Name="Distance10" Type="float" />
+          <Property Name="Distance11" Type="float" />
+          <Property Name="Distance12" Type="float" />
+          <Property Name="Distance13" Type="float" />
+          <Property Name="Distance14" Type="float" />
+          <Property Name="Distance15" Type="float" />
+          <Property Name="Distance16" Type="float" />
+          <Property Name="Distance17" Type="float" />
+          <Property Name="Distance18" Type="float" />
+          <Property Name="Distance19" Type="float" />
+          <Property Name="Distance20" Type="float" />
+          <Property Name="Distance21" Type="float" />
+          <Property Name="Distance22" Type="float" />
+          <Property Name="Distance23" Type="float" />
+          <Property Name="Distance24" Type="float" />
+        </EntityType>
         <EntityType Name="ReportDailyDoAm">
           <Key>
             <PropertyRef Name="Id" />
@@ -813,6 +852,7 @@
           <EntitySet Name="RegionalGroup" EntityType="Self.RegionalGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegisterSMS" EntityType="Self.RegisterSMS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDailyApSuat" EntityType="Self.ReportDailyApSuat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportDailyBucXaMatTroi" EntityType="Self.ReportDailyBucXaMatTroi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDailyDoAm" EntityType="Self.ReportDailyDoAm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDailyHuongGio" EntityType="Self.ReportDailyHuongGio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDailyLuongMua" EntityType="Self.ReportDailyLuongMua" Schema="dbo" store:Type="Tables" />
@@ -1655,6 +1695,7 @@
             <End Role="webpages_Roles" EntitySet="webpages_Roles" />
           </AssociationSet>
           <EntitySet Name="Sites" EntityType="ObservationModel.Site" />
+          <EntitySet Name="ReportDailyBucXaMatTrois" EntityType="ObservationModel.ReportDailyBucXaMatTroi" />
         </EntityContainer>
         <EntityType Name="Site">
           <Key>
@@ -1675,6 +1716,45 @@
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DeviceId" Type="Int32" />
           <Property Name="TypeSiteId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportDailyBucXaMatTroi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeviceId" Type="Int32" />
+          <Property Name="ReportTypeCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DateReport" Type="DateTime" Precision="0" />
+          <Property Name="ContentReport" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DateRequestReport" Type="DateTime" Precision="3" />
+          <Property Name="MinValue" Type="Double" />
+          <Property Name="MaxValue" Type="Double" />
+          <Property Name="TimeMaxValue" Type="DateTime" Precision="3" />
+          <Property Name="TimeMinValue" Type="DateTime" Precision="3" />
+          <Property Name="Distance1" Type="Double" />
+          <Property Name="Distance2" Type="Double" />
+          <Property Name="Distance3" Type="Double" />
+          <Property Name="Distance4" Type="Double" />
+          <Property Name="Distance5" Type="Double" />
+          <Property Name="Distance6" Type="Double" />
+          <Property Name="Distance7" Type="Double" />
+          <Property Name="Distance8" Type="Double" />
+          <Property Name="Distance9" Type="Double" />
+          <Property Name="Distance10" Type="Double" />
+          <Property Name="Distance11" Type="Double" />
+          <Property Name="Distance12" Type="Double" />
+          <Property Name="Distance13" Type="Double" />
+          <Property Name="Distance14" Type="Double" />
+          <Property Name="Distance15" Type="Double" />
+          <Property Name="Distance16" Type="Double" />
+          <Property Name="Distance17" Type="Double" />
+          <Property Name="Distance18" Type="Double" />
+          <Property Name="Distance19" Type="Double" />
+          <Property Name="Distance20" Type="Double" />
+          <Property Name="Distance21" Type="Double" />
+          <Property Name="Distance22" Type="Double" />
+          <Property Name="Distance23" Type="Double" />
+          <Property Name="Distance24" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2432,6 +2512,46 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Group_Id" ColumnName="Group_Id" />
                 <ScalarProperty Name="Area_Id" ColumnName="Area_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportDailyBucXaMatTrois">
+            <EntityTypeMapping TypeName="ObservationModel.ReportDailyBucXaMatTroi">
+              <MappingFragment StoreEntitySet="ReportDailyBucXaMatTroi">
+                <ScalarProperty Name="Distance24" ColumnName="Distance24" />
+                <ScalarProperty Name="Distance23" ColumnName="Distance23" />
+                <ScalarProperty Name="Distance22" ColumnName="Distance22" />
+                <ScalarProperty Name="Distance21" ColumnName="Distance21" />
+                <ScalarProperty Name="Distance20" ColumnName="Distance20" />
+                <ScalarProperty Name="Distance19" ColumnName="Distance19" />
+                <ScalarProperty Name="Distance18" ColumnName="Distance18" />
+                <ScalarProperty Name="Distance17" ColumnName="Distance17" />
+                <ScalarProperty Name="Distance16" ColumnName="Distance16" />
+                <ScalarProperty Name="Distance15" ColumnName="Distance15" />
+                <ScalarProperty Name="Distance14" ColumnName="Distance14" />
+                <ScalarProperty Name="Distance13" ColumnName="Distance13" />
+                <ScalarProperty Name="Distance12" ColumnName="Distance12" />
+                <ScalarProperty Name="Distance11" ColumnName="Distance11" />
+                <ScalarProperty Name="Distance10" ColumnName="Distance10" />
+                <ScalarProperty Name="Distance9" ColumnName="Distance9" />
+                <ScalarProperty Name="Distance8" ColumnName="Distance8" />
+                <ScalarProperty Name="Distance7" ColumnName="Distance7" />
+                <ScalarProperty Name="Distance6" ColumnName="Distance6" />
+                <ScalarProperty Name="Distance5" ColumnName="Distance5" />
+                <ScalarProperty Name="Distance4" ColumnName="Distance4" />
+                <ScalarProperty Name="Distance3" ColumnName="Distance3" />
+                <ScalarProperty Name="Distance2" ColumnName="Distance2" />
+                <ScalarProperty Name="Distance1" ColumnName="Distance1" />
+                <ScalarProperty Name="TimeMinValue" ColumnName="TimeMinValue" />
+                <ScalarProperty Name="TimeMaxValue" ColumnName="TimeMaxValue" />
+                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
+                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
+                <ScalarProperty Name="DateRequestReport" ColumnName="DateRequestReport" />
+                <ScalarProperty Name="ContentReport" ColumnName="ContentReport" />
+                <ScalarProperty Name="DateReport" ColumnName="DateReport" />
+                <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

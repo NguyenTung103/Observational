@@ -32,6 +32,7 @@ namespace ES_CapDien.Models
         public Report_MucNuoc_DailyModel MucNuoc { get; set; }
         public Report_TocDoGio_DailyModel TocDoGio { get; set; }
         public Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel NhietDo { get; set; }
+        public Report_BucXaMatTroi_DailyModel BucXaMaTroi { get; set; }
     }
     /// <summary>
     /// Hiển thị dữ liệu và phân trang

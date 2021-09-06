@@ -520,6 +520,52 @@
             </div>
         </div>
     }
+    @if (Model.BucXaMaTroi != null)
+    {
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-external-link"></i>
+                    Bức xạ mặt trời
+                    <div class="panel-tools">
+                        <a class="btn btn-xs btn-link panel-collapse collapses" href="#">
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="containerRP9"></div>
+                    <div class="center">
+                        Bức xạ mặt trời trong ngày
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info">
+                                Bức xạ mặt trời cao nhất trong ngày: @Model.BucXaMaTroi.MaxValue
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                Bức xạ mặt trời thấp nhất trong ngày: @Model.BucXaMaTroi.MinValue
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info inline">
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.BucXaMaTroi.TimeMaxValue</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                            <div class="label label-info" style="float:right;">
+                                <span class="clip-clock-2"></span><span class="timeDaily">@Model.BucXaMaTroi.TimeMinValue</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 @section PageScripts{
     <script type="text/javascript">
@@ -1124,6 +1170,188 @@
                                 {
                                     name: "23h",
                                     y: parseFloat(@Html.Raw(Model.MucNuoc.Distance24).ToString().Replace(",",".")),
+                                    drilldown: "23h"
+                                }
+                        ]
+                    }
+                ],
+                drilldown: {
+
+                }
+            });
+            });
+        </script>
+    }
+    @if (Model.BucXaMaTroi != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                 Highcharts.chart('container' + '@Html.Raw(Model.BucXaMaTroi.ReportTypeCode)', {
+                    chart: {
+                        type: 'column'
+                    },
+                title: {
+                        text:'@Html.Raw(Model.BucXaMaTroi.ReportTypeName)'
+                },
+                subtitle: {
+                        text: 'Nguồn asm.aks.vn'
+                },
+                accessibility: {
+                        announceNewData: {
+                            enabled: true
+                        }
+                        },
+                xAxis: {
+                        type: 'category'
+                },
+                yAxis: {
+                        title: {
+                            text: '@Html.Raw(Model.BucXaMaTroi.Title)'
+                        }
+
+                        },
+                legend: {
+                        enabled: false
+                },
+                plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                        dataLabels: {
+                                enabled: true,
+                            format: '{point.y:.3f}'
+                        }
+                            }
+                        },
+
+                tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.3f} ' + '@Html.Raw(Model.BucXaMaTroi.Measure)' + '</b>'
+                },
+
+                series: [
+                          {
+                        name: '@Html.Raw(Model.BucXaMaTroi.ReportTypeName)',
+                        colorByPoint: false,
+                        data: [
+                            {
+                                    name: "0h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance1).ToString().Replace(",",".")),
+                                    drilldown: "0h"
+                                },
+                                {
+                                    name: "1h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance2).ToString().Replace(",",".")),
+                                    drilldown: "1h"
+                                },
+                                {
+                                    name: "2h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance3).ToString().Replace(",",".")),
+                                    drilldown: "2h"
+                                },
+                                {
+                                    name: "3h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance4).ToString().Replace(",",".")),
+                                    drilldown: "3h"
+                                },
+                                {
+                                    name: "4h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance5).ToString().Replace(",",".")),
+                                    drilldown: "4h"
+                                },
+                                {
+                                    name: "5h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance6).ToString().Replace(",",".")),
+                                    drilldown: "5h"
+                                },
+                                {
+                                    name: "6h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance7).ToString().Replace(",",".")),
+                                    drilldown: "6h"
+                                },
+                                {
+                                    name: "7h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance8).ToString().Replace(",",".")),
+                                    drilldown: "7h"
+                                },
+                                {
+                                    name: "8h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance9).ToString().Replace(",",".")),
+                                    drilldown: "8h"
+                                },
+                                {
+                                    name: "9h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance10).ToString().Replace(",",".")),
+                                    drilldown: "9h"
+                                },
+                                {
+                                    name: "10h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance11).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "11h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance12).ToString().Replace(",",".")),
+                                    drilldown: "11h"
+                                },
+                                {
+                                    name: "12h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance13).ToString().Replace(",",".")),
+                                    drilldown: "12h"
+                                },
+                                {
+                                    name: "13h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance14).ToString().Replace(",",".")),
+                                    drilldown: "13h"
+                                },
+                                {
+                                    name: "14h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance15).ToString().Replace(",",".")),
+                                    drilldown: "14h"
+                                },
+                                {
+                                    name: "15h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance16).ToString().Replace(",",".")),
+                                    drilldown: "15h"
+                                },
+                                {
+                                    name: "16h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance17).ToString().Replace(",",".")),
+                                    drilldown: "16h"
+                                },
+                                {
+                                    name: "17h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance18).ToString().Replace(",",".")),
+                                    drilldown: "17h"
+                                },
+                                {
+                                    name: "18h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance19).ToString().Replace(",",".")),
+                                    drilldown: "18h"
+                                },
+                                {
+                                    name: "19h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance20).ToString().Replace(",",".")),
+                                    drilldown: "19h"
+                                },
+                                {
+                                    name: "20h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance21).ToString().Replace(",",".")),
+                                    drilldown: "20h"
+                                },
+                                {
+                                    name: "21h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance22).ToString().Replace(",",".")),
+                                    drilldown: "21h"
+                                },
+                                {
+                                    name: "22h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance23).ToString().Replace(",",".")),
+                                    drilldown: "22h"
+                                }
+                                ,
+                                {
+                                    name: "23h",
+                                    y: parseFloat(@Html.Raw(Model.BucXaMaTroi.Distance24).ToString().Replace(",",".")),
                                     drilldown: "23h"
                                 }
                         ]

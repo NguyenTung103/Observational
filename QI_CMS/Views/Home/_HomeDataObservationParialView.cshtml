@@ -14,24 +14,26 @@
             <th class="center">Mực nước (m)</th>
             <th class="center">Tốc độ dòng chảy (m/s)</th>
             <th class="center">Lưu lượng dòng chảy (m3/s)</th>
+            <th class="center">Bức xạ mặt trời (W/m2)</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-<tr>
-    <td class="center">@(Model.ToList().IndexOf(item) + 1)</td>
-    <td class="center">@item.NameSite</td>
-    <td class="center">@item.DateCreate.Value.ToString("HH:mm")</td>
-    <td class="center">@item.BTI</td>
-    <td class="center">@item.BHU</td>
-    <td class="center">@item.BWS</td>
-    <td class="center">@item.BAP</td>
-    <td class="center">@item.BAV</td>
-    <td class="center">@item.BAC</td>
-    <td class="center">@item.BAF</td>
-    <td class="center">@item.BVC</td>
-    <td class="center">@item.BFR</td>
-</tr>}
+        <tr>
+            <td class="center">@(Model.ToList().IndexOf(item) + 1)</td>
+            <td class="center">@item.NameSite</td>
+            <td class="center">@item.DateCreate.Value.ToString("HH:mm")</td>
+            <td class="center">@item.BTI</td>
+            <td class="center">@item.BHU</td>
+            <td class="center">@item.BWS</td>
+            <td class="center">@item.BAP</td>
+            <td class="center">@item.BAV</td>
+            <td class="center">@item.BAC</td>
+            <td class="center">@item.BAF</td>
+            <td class="center">@item.BVC</td>
+            <td class="center">@item.BFR</td>
+            <td class="center">@item.BPR</td>
+        </tr>}
     </tbody>
 </table> 

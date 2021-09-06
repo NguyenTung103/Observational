@@ -4,111 +4,24 @@
 </div>
 <div class='panel panel-default'>
     <div class='panel-body'>
-        <table class="table table-striped table-bordered table-hover table-full-width" id="areas-list">
+        <table class="table table-striped table-bordered table-hover table-full-width">
             <thead>
                 <tr>
-                    <th class="center">Thời gian</th>
-                    <th class="center">F</th>
-                    <th class="center">D</th>
-                    <th class="center">T</th>
-                    <th class="center">A</th>
+                    <th class="center" style="width:80px;">Ngày</th>
+                    <th class="center" style="width:50px;">Giờ</th>
+                    <th class="center">Nội dung</th>                   
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td class="center">@item.TimeSend.ToString("HH:mm:ss")</td>
-                        <td class="hidden-xs">
-                            @if (item.AMAFR.Contains("1-1") == true)
-                            {
-                                <span class="btn btn-danger" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm(''@item.Id'')"></span>                               
-                                <br />
-                            }
-                            else if (item.AMAFR.Contains("0-1") == true)
-                            {
-                                <span class="btn btn-info" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm(''@item.Id'')"></span>                                
-                                <br />
-                            }
-                            else if (item.AMAFR.Contains("1-0") == true)
-                            {
-                                <span class="btn btn-yellow" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm(''@item.Id'')"></span>                                
-                                <br />
-                            }
-                            else if (item.AMAFR.Contains("0-0") == true)
-                            {
-                                <span class="btn btn-success" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
-                                <br />
-                            }
-                        </td>
-                        <td>
-                            @if (item.AMADR.Contains("1-1") == true)
-                            {
-                                <span class="btn btn-danger" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
-                                <br />
-                            }
-                            else if (item.AMADR.Contains("0-1") == true)
-                            {
-                                <span class="btn btn-info" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                               
-                                <br />
-                            }
-                            else if (item.AMADR.Contains("1-0") == true)
-                            {
-                                <span class="btn btn-yellow" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                               
-                                <br />
-                            }
-                            else if (item.AMADR.Contains("0-0") == true)
-                            {
-                                <span class="btn btn-success" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                               
-                                <br />
-                            }
-                        </td>
-                        <td>
-                            @if (item.AMATI.Contains("1-1") == true)
-                            {
-                                <span class="btn btn-danger" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
-                                <br />
-                            }
-                            else if (item.AMATI.Contains("0-1") == true)
-                            {
-                                <span class="btn btn-info" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                               
-                                <br />
-                            }
-                            else if (item.AMATI.Contains("1-0") == true)
-                            {
-                                <span class="btn btn-yellow" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
-                                <br />
-                            }
-                            else if (item.AMATI.Contains("0-0") == true)
-                            {
-                                <span class="btn btn-success" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
-                                <br />
-                            }
-                        </td>
-                        <td>
-                            @if (item.AMIAC.Contains("1-1") == true)
-                            {
-                                <span class="btn btn-danger" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                              
-                                <br />
-                            }
-                            else if (item.AMIAC.Contains("0-1") == true)
-                            {
-                                <span class="btn btn-info" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                               
-                                <br />
-                            }
-                            else if (item.AMIAC.Contains("1-0") == true)
-                            {
-                                <span class="btn btn-yellow" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
-                                <br />
-                            }
-                            else if (item.AMIAC.Contains("0-0") == true)
-                            {
-                                <span class="btn btn-success" style=" width: 100%; height: 27px;" onclick="GetDetailAlarm('@item.Id')"></span>                                
-                                <br />
-                            }
-                        </td>
-                    </tr>
-                }
+                <tr>
+                    <td class="center">@item.TimeSend.ToString("dd/MM/yyyy")</td>
+                    <td class="center">@item.TimeSend.ToString("HH:mm")</td>
+                    <td class="center">
+                        @Html.Raw(item.Content)
+                    </td>                   
+                </tr>}
             </tbody>
         </table>
     </div>

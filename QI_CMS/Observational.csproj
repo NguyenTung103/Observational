@@ -308,6 +308,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\CategoryTypeSiteService.cs" />
+    <Compile Include="AppCode\ReportDailyBucXaMatTroiService.cs" />
     <Compile Include="AppCode\ReportDailyLuuLuongDongChayService.cs" />
     <Compile Include="AppCode\ReportDailyTocDoDongChayService.cs" />
     <Compile Include="AppCode\ReportDailyMucNuocService.cs" />
@@ -423,6 +424,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyApSuat.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDailyBucXaMatTroi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyDoAm.cs">
@@ -4093,6 +4097,8 @@
     <Content Include="Views\Command\_CommandPartialView.cshtml" />
     <Content Include="Views\Home\QuanLyThuyVan.cshtml" />
     <Content Include="Views\Home\_DataTableThuyVanPartialView.cshtml" />
+    <Content Include="Views\Home\_DataAlarmByDatePartialView.cshtml" />
+    <Content Include="Views\Data\ManagementByHours.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4165,7 +4171,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1950</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:57534/</IISUrl>
+          <IISUrl>http://localhost:4564/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

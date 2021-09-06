@@ -4,6 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web;
 
 namespace ES_CapDien.Models
@@ -50,6 +51,11 @@ namespace ES_CapDien.Models
 
         public Nullable<int> GroupId { get; set; }
     }
+    public partial class AlarmViewModel
+    {
+        public string Key { get; set; }
+        public List<DataAlarmMongo> SG { get; set; }
+    }
     public partial class DataObservationModel
     {
         public int Device_Id { get; set; }
@@ -85,7 +91,11 @@ namespace ES_CapDien.Models
         public double BPW { get; set; }
         public Nullable<bool> IsSEQ { get; set; }
         public Nullable<System.DateTime> DateCreate { get; set; }
+        public int Hours { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
         public double BWS { get; set; }
+        //Bức xạ mặt trời
+        public double BPR { get; set; }
         public string NameSite { get; set; }
     }
     public partial class AreaModel
@@ -179,6 +189,7 @@ namespace ES_CapDien.Models
     {
         public string Id { get; set; }
         public int Device_Id { get; set; }
+        public string Content { get; set; }
         public string AMATI { get; set; }
         public string AMIHU { get; set; }
         public string AMADR { get; set; }
@@ -653,5 +664,75 @@ namespace ES_CapDien.Models
         public Nullable<int> HuongGio7 { get; set; }
 
         public Nullable<int> HuongGio8 { get; set; }
+    }
+    public class Report_BucXaMatTroi_DailyModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public Nullable<int> DeviceId { get; set; }
+        public string ReportTypeCode { get; set; }
+        public string ReportTypeName { get; set; }
+        public Nullable<System.DateTime> DateReport { get; set; }
+        public string ContentReport { get; set; }
+        public string Measure { get; set; }
+
+        public Nullable<System.DateTime> DateRequestReport { get; set; }
+
+        public string TimeMaxValue { get; set; }
+
+        public string TimeMinValue { get; set; }
+        public Nullable<double> MaxValue { get; set; }
+
+        public Nullable<double> MinValue { get; set; }
+
+        public Nullable<double> Distance1 { get; set; }
+
+        public Nullable<double> Distance2 { get; set; }
+
+        public Nullable<double> Distance3 { get; set; }
+
+        public Nullable<double> Distance4 { get; set; }
+
+        public Nullable<double> Distance5 { get; set; }
+
+        public Nullable<double> Distance6 { get; set; }
+
+        public Nullable<double> Distance7 { get; set; }
+
+        public Nullable<double> Distance8 { get; set; }
+
+        public Nullable<double> Distance9 { get; set; }
+
+        public Nullable<double> Distance10 { get; set; }
+
+        public Nullable<double> Distance11 { get; set; }
+
+        public Nullable<double> Distance12 { get; set; }
+
+        public Nullable<double> Distance13 { get; set; }
+
+        public Nullable<double> Distance14 { get; set; }
+
+        public Nullable<double> Distance15 { get; set; }
+
+        public Nullable<double> Distance16 { get; set; }
+
+        public Nullable<double> Distance17 { get; set; }
+
+        public Nullable<double> Distance18 { get; set; }
+
+        public Nullable<double> Distance19 { get; set; }
+
+        public Nullable<double> Distance20 { get; set; }
+
+        public Nullable<double> Distance21 { get; set; }
+
+        public Nullable<double> Distance22 { get; set; }
+
+        public Nullable<double> Distance23 { get; set; }
+
+        public Nullable<double> Distance24 { get; set; }
+        public string data { get; }
+        public string series { get; }
     }
 }

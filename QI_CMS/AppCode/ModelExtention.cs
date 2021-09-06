@@ -338,7 +338,7 @@ namespace ES_CapDien.AppCode
                 BT2 = entity.BT2,
                 BV1 = entity.BV1,
                 BVC = entity.BVC,
-                BV2 = entity.BV2,
+                BV2 = entity.BV2,                
                 Device_Id = entity.Device_Id,
                 IsSEQ = entity.IsSEQ
             };

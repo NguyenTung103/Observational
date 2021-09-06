@@ -39,6 +39,7 @@ namespace ES_CapDien.Controllers
         private readonly ReportDailyDoAmService reportDailyDoAmService;
         private readonly ReportDailyTocDoGioService reportDailyTocDoGioService;
         private readonly ReportDailyHuongGioService reportDailyHuongGioService;
+        private readonly ReportDailyBucXaMatTroiService reportDailyBucXaMatTroiService;
 
         public ReportController()
         {
@@ -59,6 +60,7 @@ namespace ES_CapDien.Controllers
             reportDailyLuuLuongDongChayService = new ReportDailyLuuLuongDongChayService();
             reportDailyTocDoDongChayService = new ReportDailyTocDoDongChayService();
             reportDailyHuongGioService = new ReportDailyHuongGioService();
+            reportDailyBucXaMatTroiService = new ReportDailyBucXaMatTroiService();
         }
         /// <summary>
         /// Báo cáo thường ngày
@@ -107,8 +109,9 @@ namespace ES_CapDien.Controllers
             ReportType rp4 = reportTypeService.GetByCode("RP4").FirstOrDefault();
             ReportType rp5 = reportTypeService.GetByCode("RP5").FirstOrDefault();
             ReportType rp6 = reportTypeService.GetByCode("RP6").FirstOrDefault();
-            ReportType rp7 = reportTypeService.GetByCode("RP6").FirstOrDefault();
+            ReportType rp7 = reportTypeService.GetByCode("RP7").FirstOrDefault();
             ReportType rp8 = reportTypeService.GetByCode("RP8").FirstOrDefault();
+            ReportType rp9 = reportTypeService.GetByCode("RP9").FirstOrDefault();
             Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel nhietDo = reportDailyNhietDoService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
             {
                 Distance1 = s.Distance1,
@@ -325,6 +328,41 @@ namespace ES_CapDien.Controllers
                 ReportTypeName = rp5.Description,
                 Title = rp5.Title
             }).FirstOrDefault();
+            Report_BucXaMatTroi_DailyModel bucXaMatTroi = reportDailyBucXaMatTroiService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_BucXaMatTroi_DailyModel
+            {
+                Distance1 = s.Distance1,
+                Distance2 = s.Distance2,
+                Distance3 = s.Distance3,
+                Distance4 = s.Distance4,
+                Distance5 = s.Distance5,
+                Distance6 = s.Distance6,
+                Distance7 = s.Distance7,
+                Distance8 = s.Distance8,
+                Distance9 = s.Distance9,
+                Distance10 = s.Distance10,
+                Distance11 = s.Distance11,
+                Distance12 = s.Distance12,
+                Distance13 = s.Distance13,
+                Distance14 = s.Distance14,
+                Distance15 = s.Distance15,
+                Distance16 = s.Distance16,
+                Distance17 = s.Distance17,
+                Distance18 = s.Distance18,
+                Distance19 = s.Distance19,
+                Distance20 = s.Distance20,
+                Distance21 = s.Distance21,
+                Distance22 = s.Distance22,
+                Distance23 = s.Distance23,
+                Distance24 = s.Distance24,
+                TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                MaxValue = s.MaxValue,
+                MinValue = s.MinValue,
+                Measure = rp9.Measure,
+                ReportTypeCode = s.ReportTypeCode.Trim(),
+                ReportTypeName = rp9.Description,
+                Title = rp9.Title
+            }).FirstOrDefault();
             Report_LuongMuc_DailyModel luongMua = reportDailyLuongMuaService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_LuongMuc_DailyModel
             {
                 Distance1 = s.Distance1,
@@ -445,6 +483,7 @@ namespace ES_CapDien.Controllers
                 TocDoGio = tocDoGio,
                 HuongGio = huongGio,
                 AreaId = areaId,
+                BucXaMaTroi = bucXaMatTroi,
                 GroupId = groupId
             };
             return View(viewModel);

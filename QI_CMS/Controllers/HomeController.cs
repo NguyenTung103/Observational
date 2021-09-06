@@ -65,7 +65,7 @@ namespace ES_CapDien.Controllers
         }
         public ActionResult GetSite(int idArea, int? type = null)
         {
-            int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;            
+            int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
             int? groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id;
             List<Site> sites = sitesService.GetByAreaId(idArea, type, groupId).ToList();
             List<CategoryTypeSite> lstCategoryTypeSites = categoryTypeSiteService.categoryTypeSiteRepository.GetAll().ToList();
@@ -81,6 +81,7 @@ namespace ES_CapDien.Controllers
         public ActionResult GetDataAlarm(int siteId)
         {
             int? deviceId = sitesService.sitesResponsitory.Single(siteId).DeviceId;
+            List<AlarmViewModel> viewModels = new List<AlarmViewModel>();
             List<DataAlarmMongo> dataAlarms = new List<DataAlarmMongo>();
             if (deviceId.HasValue)
             {
@@ -89,13 +90,44 @@ namespace ES_CapDien.Controllers
                 dataAlarms = dataAlarmMongoService.GetDataPaging(from, to, 0, 15, deviceId.Value, out int total).Select(i => new DataAlarmMongo
                 {
                     Id = i._id,
+                    Content = i.Content,
                     AMAFR = i.AMAFR == null ? "" : i.AMAFR,
                     AMADR = i.AMADR == null ? "" : i.AMADR,
                     AMATI = i.AMATI == null ? "" : i.AMATI,
                     AMIAC = i.AMIAC == null ? "" : i.AMIAC,
                     TimeSend = i.DateCreate
-                }).ToList();
+                }).OrderByDescending(i=>i.TimeSend).ToList();
+                var model = (from s in dataAlarms
+                             group s by s.TimeSend.ToString("dd/MM/yyyy") into sg
+                             orderby sg.Key
+                             select new { sg.Key, sg }).ToList();
+                foreach (var item in model)
+                {
+                    AlarmViewModel info = new AlarmViewModel();
+                    info.Key = item.Key;
+                    info.SG = item.sg.Select(i => new DataAlarmMongo
+                    {
+                        Content = i.Content
+                    }).ToList();
+                    viewModels.Add(info);
+                }
             }
+
+            return PartialView("_DataAlarmByDatePartialView", viewModels.OrderByDescending(i=>i.Key));
+        }
+        public ActionResult GetAlarmByDate(string date, int siteId)
+        {
+            List<DataAlarmMongo> dataAlarms = new List<DataAlarmMongo>();
+            Site site = sitesService.sitesResponsitory.Single(siteId);
+            DateTime day = DateTime.Parse(date);
+            DateTime from = day;
+            DateTime to = day.AddDays(1);
+            dataAlarms = dataAlarmMongoService.GetDataByDatePaging(from, to, 0, 15, site.DeviceId.Value, out int total).Select(i => new DataAlarmMongo
+            {
+                Id = i._id,
+                Content = i.Content,                
+                TimeSend = i.DateCreate
+            }).OrderBy(i=>i.TimeSend).ToList();
             return PartialView("_DataAlarmPartialView", dataAlarms);
         }
         public ActionResult GetDataObservation(int deviceId)
@@ -118,6 +150,7 @@ namespace ES_CapDien.Controllers
                 BAC = i.BAC,
                 BVC = i.BVC,
                 BFR = i.BFR,
+                BPR = i.BPR,
             }).ToList();
             if (data.Count() == 0)
             {
@@ -135,12 +168,13 @@ namespace ES_CapDien.Controllers
                     BAC = i.BAC,
                     BVC = i.BVC,
                     BFR = i.BFR,
-                }).ToList();               
-            }            
-                if (site.TypeSiteId == 1)
-                    return PartialView("_DataTableKhiTuongPartialView", data);
-                else
-                    return PartialView("_DataTableThuyVanPartialView", data);
+                    BPR = i.BPR,
+                }).ToList();
+            }
+            if (site.TypeSiteId == 1)
+                return PartialView("_DataTableKhiTuongPartialView", data);
+            else
+                return PartialView("_DataTableThuyVanPartialView", data);
 
         }
         public ActionResult GetDataObservationBieuDo(int siteId, int take)
@@ -167,6 +201,7 @@ namespace ES_CapDien.Controllers
                     BAF = i.BAF,
                     BAC = i.BAC,
                     BVC = i.BVC,
+                    BPR = i.BPR,
                 }).OrderBy(i => i.DateCreate).ToList();
             }
             return Json(new { listData = data }, JsonRequestBehavior.AllowGet);
@@ -315,6 +350,7 @@ namespace ES_CapDien.Controllers
                         BV1 = item.BV1,
                         BVC = item.BVC,
                         BV2 = item.BV2,
+                        BPR = item.BPR,
                         Device_Id = item.Device_Id,
                         IsSEQ = item.IsSEQ,
                         NameSite = tram.Name
@@ -392,6 +428,7 @@ namespace ES_CapDien.Controllers
                         BV1 = item.BV1,
                         BVC = item.BVC,
                         BV2 = item.BV2,
+                        BPR = item.BPR,
                         Device_Id = item.Device_Id,
                         IsSEQ = item.IsSEQ,
                         NameSite = tram.Name
@@ -499,6 +536,7 @@ namespace ES_CapDien.Controllers
                         BV1 = item.BV1,
                         BVC = item.BVC,
                         BV2 = item.BV2,
+                        BPR = item.BPR,
                         Device_Id = item.Device_Id,
                         IsSEQ = item.IsSEQ,
                         NameSite = tram.Name
@@ -576,6 +614,7 @@ namespace ES_CapDien.Controllers
                         BV1 = item.BV1,
                         BVC = item.BVC,
                         BV2 = item.BV2,
+                        BPR = item.BPR,
                         Device_Id = item.Device_Id,
                         IsSEQ = item.IsSEQ,
                         NameSite = tram.Name

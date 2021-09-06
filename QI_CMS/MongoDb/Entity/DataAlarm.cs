@@ -53,5 +53,7 @@ namespace ES_CapDien.MongoDb.Entity
         public string AMIH2 { get; set; }
         [BsonElement("AMIT2")]
         public string AMIT2 { get; set; }
+        [BsonElement("Content")]
+        public string Content { get; set; }
     }
 }
