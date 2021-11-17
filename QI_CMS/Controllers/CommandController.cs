@@ -63,7 +63,7 @@ namespace ES_CapDien.Controllers
                     UserName = userProfileService.userProfileResponsitory.Single(item.CreateBy).FullName,
                     Status = item.Status,
                     GroupName = groupService.groupResponsitory.Single(item.GroupId).Name,
-                    SiteName = sitesService.GetByDeviceId(item.Device_Id).FirstOrDefault().Name
+                    SiteName = sitesService.GetByDeviceId(item.Device_Id).FirstOrDefault()==null?"": sitesService.GetByDeviceId(item.Device_Id).FirstOrDefault().Name
                 }).ToList();
                 totalRows = totalRow;
             }
@@ -79,7 +79,7 @@ namespace ES_CapDien.Controllers
                     UserName = userProfileService.userProfileResponsitory.Single(item.CreateBy).FullName,
                     Status = item.Status,
                     GroupName = groupService.groupResponsitory.Single(item.GroupId).Name,
-                    SiteName = sitesService.GetByDeviceId(item.Device_Id).FirstOrDefault().Name
+                    SiteName = sitesService.GetByDeviceId(item.Device_Id).FirstOrDefault() == null ? "Đã thay đổi thông tin trạm" : sitesService.GetByDeviceId(item.Device_Id).FirstOrDefault().Name
                 }).ToList();
                 totalRows = totalRow;
             }

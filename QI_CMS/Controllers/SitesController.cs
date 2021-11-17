@@ -209,6 +209,7 @@ namespace ES_CapDien.Controllers
                 pts.Longtitude = model.Longtitude;
                 pts.TypeSiteId = model.TypeSiteId;
                 pts.Latitude = model.Latitude;
+                pts.DeviceId = model.DeviceId;
                 checkSave = sitesService.sitesResponsitory.Update(pts);
                 TempData["MessageStatus"] = checkSave;
                 TempData["Message"] = $"Cập nhật điểm {(checkSave ? "" : "không")} thành công";

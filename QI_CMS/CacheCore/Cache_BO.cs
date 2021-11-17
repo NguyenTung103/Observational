@@ -156,6 +156,7 @@ public class Cache_BO
                         BAV = x.BAV,
                         BAC = x.BAC,
                         BAF = x.BAF,
+                        BPR = x.BPR,
                         NameSite = site.Name,
                         DateCreate = x.DateCreate
                     }).ToList());

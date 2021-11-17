@@ -409,6 +409,7 @@ namespace ES_CapDien.Controllers
                     ws.Cells["G5"].Value = "Hướng gió";
                     ws.Cells["H5"].Value = "Áp suất KQ (hPA)";
                     ws.Cells["I5"].Value = "Lượng mưa (mm)";
+                    ws.Cells["J5"].Value = "Bức xạ mặt trời (W/m2)";
                     //ws.Row(5).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                     //ws.Row(5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
                     foreach (var item in list)
@@ -422,11 +423,12 @@ namespace ES_CapDien.Controllers
                         ws.Cells[string.Format("G{0}", rowsStart)].Value = item.BAP;
                         ws.Cells[string.Format("H{0}", rowsStart)].Value = item.BAV;
                         ws.Cells[string.Format("I{0}", rowsStart)].Value = item.BAC;
+                        ws.Cells[string.Format("J{0}", rowsStart)].Value = item.BPR;
 
                         rowsStart++;
                         sTT++;
                     }
-                    string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
+                    string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
                     int rowStartAllTable = 5;
                     SetBorderExportExcel(ws, cellColump, list.Count, rowStartAllTable);
                 }
@@ -458,6 +460,7 @@ namespace ES_CapDien.Controllers
                     ws.Cells["H5"].Value = "Áp suất KQ (hPA)";
                     ws.Cells["I5"].Value = "Lượng mưa (mm)";
                     ws.Cells["J5"].Value = "Mực nước (m)";
+                    ws.Cells["K5"].Value = "Bức xạ mặt trời (W/m2)";
                     //ws.Row(5).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                     //ws.Row(5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
                     foreach (var item in list)
@@ -472,11 +475,12 @@ namespace ES_CapDien.Controllers
                         ws.Cells[string.Format("H{0}", rowsStart)].Value = item.BAV;
                         ws.Cells[string.Format("I{0}", rowsStart)].Value = item.BAC;
                         ws.Cells[string.Format("J{0}", rowsStart)].Value = item.BAF;
+                        ws.Cells[string.Format("K{0}", rowsStart)].Value = item.BPR;
 
                         rowsStart++;
                         sTT++;
                     }
-                    string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+                    string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" };
                     int rowStartAllTable = 5;
                     SetBorderExportExcel(ws, cellColump, list.Count, rowStartAllTable);
                 }
@@ -549,6 +553,7 @@ namespace ES_CapDien.Controllers
                     ws.Cells["H5"].Value = "Hướng gió";
                     ws.Cells["I5"].Value = "Áp suất KQ (hPA)";
                     ws.Cells["J5"].Value = "Lượng mưa (mm)";
+                    ws.Cells["K5"].Value = "Bức xạ mặt trời (W/m2)";
                     //ws.Row(5).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                     //ws.Row(5).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
                     foreach (var item in list)
@@ -563,11 +568,12 @@ namespace ES_CapDien.Controllers
                         ws.Cells[string.Format("H{0}", rowsStart)].Value = item.BAP;
                         ws.Cells[string.Format("I{0}", rowsStart)].Value = item.BAV;
                         ws.Cells[string.Format("J{0}", rowsStart)].Value = item.BAC;
+                        ws.Cells[string.Format("K{0}", rowsStart)].Value = item.BPR;
 
                         rowsStart++;
                         sTT++;
                     }
-                    string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+                    string[] cellColump = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" };
                     int rowStartAllTable = 5;
                     SetBorderExportExcel(ws, cellColump, list.Count, rowStartAllTable);
                 }
