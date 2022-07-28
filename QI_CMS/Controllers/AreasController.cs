@@ -75,7 +75,7 @@ namespace ES_CapDien.Controllers
                     Latitude = item.Latitude,
                     Longtitude = item.Longtitude,
                     CreateDay = item.CreateDay,
-                    NguoiTao = userProfileService.userProfileResponsitory.Single(item.CreateBy).FullName,
+                    NguoiTao = userProfileService.userProfileResponsitory.Single(item.CreateBy)==null?"": userProfileService.userProfileResponsitory.Single(item.CreateBy).FullName,
                     IsActive = item.IsActive,
                     GroupsName = groupService.groupResponsitory.Single(item.Group_Id).Name
                 }).ToList();

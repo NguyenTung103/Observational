@@ -26,6 +26,10 @@ namespace ES_CapDien.Models
         public string Mobile { get; set; }
         public string NguoiTao { get; set; }
         public string Email { get; set; }
+        public string FtpIp { get; set; }
+        public string FtpAccount { get; set; }
+        public string FtpPassword { get; set; }
+        public string FtpDirectory { get; set; }
         public bool IsActive { get; set; }
     }
     public partial class CommandModel

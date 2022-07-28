@@ -210,6 +210,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="Contact" Type="nvarchar" MaxLength="50" />
           <Property Name="Status" Type="bit" />
@@ -221,6 +222,10 @@
           <Property Name="Email" Type="nchar" MaxLength="30" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="IsSendTTTT" Type="bit" />
+          <Property Name="FtpIp" Type="nvarchar" MaxLength="30" />
+          <Property Name="FtpAccount" Type="nvarchar" MaxLength="30" />
+          <Property Name="FtpPassword" Type="nvarchar" MaxLength="30" />
+          <Property Name="FtpDirectory" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="RegisterSMS">
           <Key>
@@ -1091,23 +1096,6 @@
           <Property Name="Hight_Value" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="IsBieuDo" Type="Boolean" />
         </EntityType>
-        <EntityType Name="RegionalGroup">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Contact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Boolean" />
-          <Property Name="CreateDay" Type="DateTime" Precision="3" />
-          <Property Name="UpdateDay" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="Int32" />
-          <Property Name="UpdateBy" Type="Int32" />
-          <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="IsSendTTTT" Type="Boolean" />
-        </EntityType>
         <EntityType Name="RegisterSMS">
           <Key>
             <PropertyRef Name="Id" />
@@ -1657,7 +1645,6 @@
           <EntitySet Name="DataObservations" EntityType="Self.DataObservation" />
           <EntitySet Name="Devices" EntityType="Self.Device" />
           <EntitySet Name="Observations" EntityType="Self.Observation" />
-          <EntitySet Name="RegionalGroups" EntityType="Self.RegionalGroup" />
           <EntitySet Name="RegisterSMS" EntityType="ObservationModel.RegisterSMS" />
           <EntitySet Name="ReportDailyApSuats" EntityType="Self.ReportDailyApSuat" />
           <EntitySet Name="ReportDailyDoAms" EntityType="Self.ReportDailyDoAm" />
@@ -1696,6 +1683,7 @@
           </AssociationSet>
           <EntitySet Name="Sites" EntityType="ObservationModel.Site" />
           <EntitySet Name="ReportDailyBucXaMatTrois" EntityType="ObservationModel.ReportDailyBucXaMatTroi" />
+          <EntitySet Name="RegionalGroups" EntityType="ObservationModel.RegionalGroup" />
         </EntityContainer>
         <EntityType Name="Site">
           <Key>
@@ -1755,6 +1743,28 @@
           <Property Name="Distance22" Type="Double" />
           <Property Name="Distance23" Type="Double" />
           <Property Name="Distance24" Type="Double" />
+        </EntityType>
+        <EntityType Name="RegionalGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="CreateDay" Type="DateTime" Precision="3" />
+          <Property Name="UpdateDay" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="UpdateBy" Type="Int32" />
+          <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsSendTTTT" Type="Boolean" />
+          <Property Name="FtpIp" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="FtpAccount" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="FtpPassword" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="FtpDirectory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1963,24 +1973,6 @@
                 <ScalarProperty Name="Low_Value" ColumnName="Low_Value" />
                 <ScalarProperty Name="Hight_Value" ColumnName="Hight_Value" />
                 <ScalarProperty Name="IsBieuDo" ColumnName="IsBieuDo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RegionalGroups">
-            <EntityTypeMapping TypeName="ObservationModel.RegionalGroup">
-              <MappingFragment StoreEntitySet="RegionalGroup">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Contact" ColumnName="Contact" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreateDay" ColumnName="CreateDay" />
-                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsSendTTTT" ColumnName="IsSendTTTT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2552,6 +2544,29 @@
                 <ScalarProperty Name="DateReport" ColumnName="DateReport" />
                 <ScalarProperty Name="ReportTypeCode" ColumnName="ReportTypeCode" />
                 <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegionalGroups">
+            <EntityTypeMapping TypeName="ObservationModel.RegionalGroup">
+              <MappingFragment StoreEntitySet="RegionalGroup">
+                <ScalarProperty Name="FtpDirectory" ColumnName="FtpDirectory" />
+                <ScalarProperty Name="FtpPassword" ColumnName="FtpPassword" />
+                <ScalarProperty Name="FtpAccount" ColumnName="FtpAccount" />
+                <ScalarProperty Name="FtpIp" ColumnName="FtpIp" />
+                <ScalarProperty Name="IsSendTTTT" ColumnName="IsSendTTTT" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="UpdateDay" ColumnName="UpdateDay" />
+                <ScalarProperty Name="CreateDay" ColumnName="CreateDay" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

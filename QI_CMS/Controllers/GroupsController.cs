@@ -53,8 +53,8 @@ namespace ES_CapDien.Controllers
                 Name = item.Name,
                 Contact = item.Contact,
                 CreateDay = item.CreateDay,
-                NguoiTao = userProfileService.userProfileResponsitory.Single(item.CreateBy).FullName,
-                Email=item.Email
+                NguoiTao = userProfileService.userProfileResponsitory.Single(item.CreateBy) == null ? "" : userProfileService.userProfileResponsitory.Single(item.CreateBy).FullName,
+                Email = item.Email
             }).ToList();
             #endregion
 
@@ -139,7 +139,7 @@ namespace ES_CapDien.Controllers
                 {
                     return RedirectToAction("GroupsManagement");
                 }
-                bool checkSave = false;   
+                bool checkSave = false;
                 pts = model.ToEntity(pts);
                 checkSave = groupService.groupResponsitory.Update(pts);
                 TempData["MessageStatus"] = checkSave;

@@ -740,7 +740,8 @@ namespace ES_CapDien.Controllers
         public void ExportExel(string Date = "", int? deviceId = null)
         {
             try
-            {               
+            {   
+                
                 DateTime date = DateTime.Today;
                 if (Date != "")
                 {
@@ -1344,10 +1345,99 @@ namespace ES_CapDien.Controllers
                     wsHuongGio.Cells["A:A"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 }
                 #endregion
+
+                #region Bức xạ mặt trời
+                ReportType rp9 = reportTypeService.GetByCode("RP9").FirstOrDefault();
+                Report_BucXaMatTroi_DailyModel bucXaMatTroi = reportDailyBucXaMatTroiService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_BucXaMatTroi_DailyModel
+                {
+                    Distance1 = s.Distance1,
+                    Distance2 = s.Distance2,
+                    Distance3 = s.Distance3,
+                    Distance4 = s.Distance4,
+                    Distance5 = s.Distance5,
+                    Distance6 = s.Distance6,
+                    Distance7 = s.Distance7,
+                    Distance8 = s.Distance8,
+                    Distance9 = s.Distance9,
+                    Distance10 = s.Distance10,
+                    Distance11 = s.Distance11,
+                    Distance12 = s.Distance12,
+                    Distance13 = s.Distance13,
+                    Distance14 = s.Distance14,
+                    Distance15 = s.Distance15,
+                    Distance16 = s.Distance16,
+                    Distance17 = s.Distance17,
+                    Distance18 = s.Distance18,
+                    Distance19 = s.Distance19,
+                    Distance20 = s.Distance20,
+                    Distance21 = s.Distance21,
+                    Distance22 = s.Distance22,
+                    Distance23 = s.Distance23,
+                    Distance24 = s.Distance24,
+                    TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                    TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                    MaxValue = s.MaxValue,
+                    MinValue = s.MinValue,
+                    Measure = rp9.Measure,
+                    ReportTypeCode = s.ReportTypeCode.Trim(),
+                    ReportTypeName = rp9.Description,
+                    Title = rp9.Title
+                }).FirstOrDefault();
+                if (bucXaMatTroi != null)
+                {
+                    ExcelWorksheet wsBucXaMatTroi = pck.Workbook.Worksheets.Add("Bức xạ mặt trời");
+                    wsBucXaMatTroi.Cells["B2:F2"].Merge = true;
+                    wsBucXaMatTroi.Cells["B3:F3"].Merge = true;
+                    wsBucXaMatTroi.Cells["B2"].Value = "THỐNG KÊ BỨC XẠ MẶT TRÒI";
+                    wsBucXaMatTroi.Cells["B3"].Value = "Trạm " + sitesService.GetByDeviceId(deviceId).FirstOrDefault().Name.ToString() + "(Ngày " + date.ToString() + ")";
+                    wsBucXaMatTroi.Cells["A4"].Value = "Bức xạ mặt trời cao nhất trong ngày";
+                    wsBucXaMatTroi.Cells["B4"].Value = bucXaMatTroi.MaxValue;
+                    wsBucXaMatTroi.Cells["C4"].Value = "Thời gian: " + bucXaMatTroi.TimeMaxValue.ToString();
+                    wsBucXaMatTroi.Cells["A5"].Value = "Bức xạ mặt trời thấp nhất trong ngày";
+                    wsBucXaMatTroi.Cells["B5"].Value = bucXaMatTroi.MinValue;
+                    wsBucXaMatTroi.Cells["C5"].Value = "Thời gian: " + bucXaMatTroi.TimeMinValue.ToString();
+                    wsBucXaMatTroi.Cells["A7"].Value = "Thời gian";
+                    wsBucXaMatTroi.Cells["B7"].Value = "Giá trị (w/m2)";
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 8)].Value = bucXaMatTroi.Distance1;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 9)].Value = bucXaMatTroi.Distance2;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 10)].Value = bucXaMatTroi.Distance3;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 11)].Value = bucXaMatTroi.Distance4;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 12)].Value = bucXaMatTroi.Distance5;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 13)].Value = bucXaMatTroi.Distance6;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 14)].Value = bucXaMatTroi.Distance7;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 15)].Value = bucXaMatTroi.Distance8;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 16)].Value = bucXaMatTroi.Distance9;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 17)].Value = bucXaMatTroi.Distance10;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 18)].Value = bucXaMatTroi.Distance11;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 19)].Value = bucXaMatTroi.Distance12;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 20)].Value = bucXaMatTroi.Distance13;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 21)].Value = bucXaMatTroi.Distance14;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 22)].Value = bucXaMatTroi.Distance15;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 23)].Value = bucXaMatTroi.Distance16;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 24)].Value = bucXaMatTroi.Distance17;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 25)].Value = bucXaMatTroi.Distance18;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 26)].Value = bucXaMatTroi.Distance19;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 27)].Value = bucXaMatTroi.Distance20;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 28)].Value = bucXaMatTroi.Distance21;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 29)].Value = bucXaMatTroi.Distance22;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 30)].Value = bucXaMatTroi.Distance23;
+                    wsBucXaMatTroi.Cells[string.Format("B{0}", 31)].Value = bucXaMatTroi.Distance24;
+                    int time4 = 0;
+                    for (int i = 8; i < 32; i++)
+                    {
+                        wsBucXaMatTroi.Cells[string.Format("A{0}", i)].Value = time4 + "h - " + (time4 + 1) + "h";
+                        time4++;
+                    }
+                    SetBorderExportExcel(wsBucXaMatTroi, cellColump, 24, rowStartAllTable);
+                    wsBucXaMatTroi.Cells["A:AZ"].AutoFitColumns();
+                    wsBucXaMatTroi.Cells["A:A"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                }
+                #endregion
+
                 using (var memoryStream = new MemoryStream())
                 {
                     Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                    Response.AddHeader("content-disposition", "attachment; filename=" + "THONG_KE_NGAY_" + date.ToString("dd/MM/yyyy") + ".xls");
+                    Response.AddHeader("content-disposition", "attachment; filename=" + "THONG_KE_NGAY_" + date.ToString("dd/MM/yyyy") + ".xlsx");
                     pck.SaveAs(memoryStream);
                     memoryStream.WriteTo(Response.OutputStream);
                     Response.Flush();

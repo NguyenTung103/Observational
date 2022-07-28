@@ -1,4 +1,4 @@
-﻿
+﻿const ApiMapKey = "a";
 
 //validate định dạng file
 var listAlowImgEx = 'jpg, jpeg, gif, png,JPG,JPEG,GIF,PNG';

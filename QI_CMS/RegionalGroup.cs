@@ -15,6 +15,7 @@ namespace ES_CapDien
     public partial class RegionalGroup
     {
         public int Id { get; set; }
+        public string Code { get; set; }
         public string Name { get; set; }
         public string Contact { get; set; }
         public Nullable<bool> Status { get; set; }
@@ -26,5 +27,9 @@ namespace ES_CapDien
         public string Email { get; set; }
         public bool IsActive { get; set; }
         public Nullable<bool> IsSendTTTT { get; set; }
+        public string FtpIp { get; set; }
+        public string FtpAccount { get; set; }
+        public string FtpPassword { get; set; }
+        public string FtpDirectory { get; set; }
     }
 }

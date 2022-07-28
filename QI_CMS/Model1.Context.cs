@@ -38,7 +38,6 @@ namespace ES_CapDien
         public virtual DbSet<DataObservation> DataObservations { get; set; }
         public virtual DbSet<Device> Devices { get; set; }
         public virtual DbSet<Observation> Observations { get; set; }
-        public virtual DbSet<RegionalGroup> RegionalGroups { get; set; }
         public virtual DbSet<RegisterSMS> RegisterSMS { get; set; }
         public virtual DbSet<ReportDailyApSuat> ReportDailyApSuats { get; set; }
         public virtual DbSet<ReportDailyDoAm> ReportDailyDoAms { get; set; }
@@ -61,5 +60,6 @@ namespace ES_CapDien
         public virtual DbSet<WT_SystemRules> WT_SystemRules { get; set; }
         public virtual DbSet<Site> Sites { get; set; }
         public virtual DbSet<ReportDailyBucXaMatTroi> ReportDailyBucXaMatTrois { get; set; }
+        public virtual DbSet<RegionalGroup> RegionalGroups { get; set; }
     }
 }
