@@ -29,7 +29,7 @@ namespace Qi.Data
         /// </summary>
         public MogoRepository()
         {
-            var connection = "mongodb://tecvietnam2020%40:tecvietnam%4012344321aA@14.177.239.150:27017/?authSource=DataObservation&readPreference=primary";
+            var connection = System.Configuration.ConfigurationManager.AppSettings["ConnectionStringMongoDB"];
             var mongoUrl = MongoUrl.Create(connection);
             var client = new MongoClient(mongoUrl);
             mongoDatabase = client.GetDatabase("DataObservation");

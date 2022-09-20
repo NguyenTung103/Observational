@@ -75,7 +75,7 @@ namespace ES_CapDien.Controllers
             ViewBag.MessageStatus = TempData["MessageStatus"];
             ViewBag.Message = TempData["Message"];
             int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
-            string userName = User.Identity.Name;           
+            string userName = User.Identity.Name;
             groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id;
             if (userName == "administrator")
             {
@@ -98,10 +98,11 @@ namespace ES_CapDien.Controllers
                 }
                 catch { }
             }
-            if(!deviceId.HasValue)
+            if (!deviceId.HasValue)
             {
                 deviceId = sitesService.GetBygroupId(groupId).FirstOrDefault().DeviceId;
-            }    
+            }
+            ReportDailyViewModel viewModel = new ReportDailyViewModel();
             ReportType rp0 = reportTypeService.GetByCode("RP0").FirstOrDefault();
             ReportType rp1 = reportTypeService.GetByCode("RP1").FirstOrDefault();
             ReportType rp2 = reportTypeService.GetByCode("RP2").FirstOrDefault();
@@ -112,380 +113,385 @@ namespace ES_CapDien.Controllers
             ReportType rp7 = reportTypeService.GetByCode("RP7").FirstOrDefault();
             ReportType rp8 = reportTypeService.GetByCode("RP8").FirstOrDefault();
             ReportType rp9 = reportTypeService.GetByCode("RP9").FirstOrDefault();
-            Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel nhietDo = reportDailyNhietDoService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
+            try
             {
-                Distance1 = s.Distance1,
-                Distance2 = s.Distance2,
-                Distance3 = s.Distance3,
-                Distance4 = s.Distance4,
-                Distance5 = s.Distance5,
-                Distance6 = s.Distance6,
-                Distance7 = s.Distance7,
-                Distance8 = s.Distance8,
-                Distance9 = s.Distance9,
-                Distance10 = s.Distance10,
-                Distance11 = s.Distance11,
-                Distance12 = s.Distance12,
-                Distance13 = s.Distance13,
-                Distance14 = s.Distance14,
-                Distance15 = s.Distance15,
-                Distance16 = s.Distance16,
-                Distance17 = s.Distance17,
-                Distance18 = s.Distance18,
-                Distance19 = s.Distance19,
-                Distance20 = s.Distance20,
-                Distance21 = s.Distance21,
-                Distance22 = s.Distance22,
-                Distance23 = s.Distance23,
-                Distance24 = s.Distance24,
-                MinValue = s.MinValue,
-                MaxValue = s.MaxValue,
-                TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
-                TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
-                Measure = rp0.Measure,
-                ReportTypeCode = s.ReportTypeCode.Trim(),
-                ReportTypeName = rp0.Description,
-                Title = rp0.Title
-            }).FirstOrDefault();
-            Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel doAm = reportDailyDoAmService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
+                Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel nhietDo = reportDailyNhietDoService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
+                {
+                    Distance1 = s.Distance1,
+                    Distance2 = s.Distance2,
+                    Distance3 = s.Distance3,
+                    Distance4 = s.Distance4,
+                    Distance5 = s.Distance5,
+                    Distance6 = s.Distance6,
+                    Distance7 = s.Distance7,
+                    Distance8 = s.Distance8,
+                    Distance9 = s.Distance9,
+                    Distance10 = s.Distance10,
+                    Distance11 = s.Distance11,
+                    Distance12 = s.Distance12,
+                    Distance13 = s.Distance13,
+                    Distance14 = s.Distance14,
+                    Distance15 = s.Distance15,
+                    Distance16 = s.Distance16,
+                    Distance17 = s.Distance17,
+                    Distance18 = s.Distance18,
+                    Distance19 = s.Distance19,
+                    Distance20 = s.Distance20,
+                    Distance21 = s.Distance21,
+                    Distance22 = s.Distance22,
+                    Distance23 = s.Distance23,
+                    Distance24 = s.Distance24,
+                    MinValue = s.MinValue,
+                    MaxValue = s.MaxValue,
+                    TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                    TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                    Measure = rp0.Measure,
+                    ReportTypeCode = s.ReportTypeCode.Trim(),
+                    ReportTypeName = rp0.Description,
+                    Title = rp0.Title
+                }).FirstOrDefault();
+                Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel doAm = reportDailyDoAmService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
+                {
+                    Distance1 = s.Distance1,
+                    Distance2 = s.Distance2,
+                    Distance3 = s.Distance3,
+                    Distance4 = s.Distance4,
+                    Distance5 = s.Distance5,
+                    Distance6 = s.Distance6,
+                    Distance7 = s.Distance7,
+                    Distance8 = s.Distance8,
+                    Distance9 = s.Distance9,
+                    Distance10 = s.Distance10,
+                    Distance11 = s.Distance11,
+                    Distance12 = s.Distance12,
+                    Distance13 = s.Distance13,
+                    Distance14 = s.Distance14,
+                    Distance15 = s.Distance15,
+                    Distance16 = s.Distance16,
+                    Distance17 = s.Distance17,
+                    Distance18 = s.Distance18,
+                    Distance19 = s.Distance19,
+                    Distance20 = s.Distance20,
+                    Distance21 = s.Distance21,
+                    Distance22 = s.Distance22,
+                    Distance23 = s.Distance23,
+                    Distance24 = s.Distance24,
+                    MinValue = s.MinValue,
+                    MaxValue = s.MaxValue,
+                    TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                    TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                    Measure = rp1.Measure,
+                    ReportTypeCode = s.ReportTypeCode.Trim(),
+                    ReportTypeName = rp1.Description,
+                    Title = rp1.Title
+                }).FirstOrDefault();
+                Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel apSuat = reportDailyApSuatService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
+                {
+                    Distance1 = s.Distance1,
+                    Distance2 = s.Distance2,
+                    Distance3 = s.Distance3,
+                    Distance4 = s.Distance4,
+                    Distance5 = s.Distance5,
+                    Distance6 = s.Distance6,
+                    Distance7 = s.Distance7,
+                    Distance8 = s.Distance8,
+                    Distance9 = s.Distance9,
+                    Distance10 = s.Distance10,
+                    Distance11 = s.Distance11,
+                    Distance12 = s.Distance12,
+                    Distance13 = s.Distance13,
+                    Distance14 = s.Distance14,
+                    Distance15 = s.Distance15,
+                    Distance16 = s.Distance16,
+                    Distance17 = s.Distance17,
+                    Distance18 = s.Distance18,
+                    Distance19 = s.Distance19,
+                    Distance20 = s.Distance20,
+                    Distance21 = s.Distance21,
+                    Distance22 = s.Distance22,
+                    Distance23 = s.Distance23,
+                    Distance24 = s.Distance24,
+                    MinValue = s.MinValue,
+                    MaxValue = s.MaxValue,
+                    Measure = rp2.Measure,
+                    TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                    TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                    Title = rp2.Title,
+                    ReportTypeCode = s.ReportTypeCode.Trim(),
+                    ReportTypeName = rp2.Description,
+                }).FirstOrDefault();
+                Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel tocDoDongChay = reportDailyTocDoDongChayService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
+                {
+                    Distance1 = s.Distance1,
+                    Distance2 = s.Distance2,
+                    Distance3 = s.Distance3,
+                    Distance4 = s.Distance4,
+                    Distance5 = s.Distance5,
+                    Distance6 = s.Distance6,
+                    Distance7 = s.Distance7,
+                    Distance8 = s.Distance8,
+                    Distance9 = s.Distance9,
+                    Distance10 = s.Distance10,
+                    Distance11 = s.Distance11,
+                    Distance12 = s.Distance12,
+                    Distance13 = s.Distance13,
+                    Distance14 = s.Distance14,
+                    Distance15 = s.Distance15,
+                    Distance16 = s.Distance16,
+                    Distance17 = s.Distance17,
+                    Distance18 = s.Distance18,
+                    Distance19 = s.Distance19,
+                    Distance20 = s.Distance20,
+                    Distance21 = s.Distance21,
+                    Distance22 = s.Distance22,
+                    Distance23 = s.Distance23,
+                    Distance24 = s.Distance24,
+                    MinValue = s.MinValue,
+                    MaxValue = s.MaxValue,
+                    TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                    TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                    Measure = rp1.Measure,
+                    ReportTypeCode = s.ReportTypeCode.Trim(),
+                    ReportTypeName = rp1.Description,
+                    Title = rp1.Title
+                }).FirstOrDefault();
+                Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel luuLuongDongChay = reportDailyLuuLuongDongChayService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
+                {
+                    Distance1 = s.Distance1,
+                    Distance2 = s.Distance2,
+                    Distance3 = s.Distance3,
+                    Distance4 = s.Distance4,
+                    Distance5 = s.Distance5,
+                    Distance6 = s.Distance6,
+                    Distance7 = s.Distance7,
+                    Distance8 = s.Distance8,
+                    Distance9 = s.Distance9,
+                    Distance10 = s.Distance10,
+                    Distance11 = s.Distance11,
+                    Distance12 = s.Distance12,
+                    Distance13 = s.Distance13,
+                    Distance14 = s.Distance14,
+                    Distance15 = s.Distance15,
+                    Distance16 = s.Distance16,
+                    Distance17 = s.Distance17,
+                    Distance18 = s.Distance18,
+                    Distance19 = s.Distance19,
+                    Distance20 = s.Distance20,
+                    Distance21 = s.Distance21,
+                    Distance22 = s.Distance22,
+                    Distance23 = s.Distance23,
+                    Distance24 = s.Distance24,
+                    MinValue = s.MinValue,
+                    MaxValue = s.MaxValue,
+                    Measure = rp2.Measure,
+                    TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                    TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                    Title = rp2.Title,
+                    ReportTypeCode = s.ReportTypeCode.Trim(),
+                    ReportTypeName = rp2.Description,
+                }).FirstOrDefault();
+                double minValueApSuat = apSuat == null ? 0 : GetMinValue(apSuat);
+                ViewBag.minValueApSuat = minValueApSuat;
+                ViewBag.minValueNhietDo = nhietDo == null ? 0 : GetMinValue(nhietDo);
+                ViewBag.minValueDoAm = doAm == null ? 0 : GetMinValue(doAm);
+                ViewBag.minTocDoDongChay = tocDoDongChay == null ? 0 : GetMinValue(tocDoDongChay);
+                ViewBag.minLuuLuongDongChay = luuLuongDongChay == null ? 0 : GetMinValue(luuLuongDongChay);
+                Report_MucNuoc_DailyModel mucNuoc = reportDailyMucNuocService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_MucNuoc_DailyModel
+                {
+                    Distance1 = s.Distance1,
+                    Distance2 = s.Distance2,
+                    Distance3 = s.Distance3,
+                    Distance4 = s.Distance4,
+                    Distance5 = s.Distance5,
+                    Distance6 = s.Distance6,
+                    Distance7 = s.Distance7,
+                    Distance8 = s.Distance8,
+                    Distance9 = s.Distance9,
+                    Distance10 = s.Distance10,
+                    Distance11 = s.Distance11,
+                    Distance12 = s.Distance12,
+                    Distance13 = s.Distance13,
+                    Distance14 = s.Distance14,
+                    Distance15 = s.Distance15,
+                    Distance16 = s.Distance16,
+                    Distance17 = s.Distance17,
+                    Distance18 = s.Distance18,
+                    Distance19 = s.Distance19,
+                    Distance20 = s.Distance20,
+                    Distance21 = s.Distance21,
+                    Distance22 = s.Distance22,
+                    Distance23 = s.Distance23,
+                    Distance24 = s.Distance24,
+                    TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                    TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                    MaxValue = s.MaxValue,
+                    MinValue = s.MinValue,
+                    Measure = rp5.Measure,
+                    ReportTypeCode = s.ReportTypeCode.Trim(),
+                    ReportTypeName = rp5.Description,
+                    Title = rp5.Title
+                }).FirstOrDefault();
+                Report_BucXaMatTroi_DailyModel bucXaMatTroi = reportDailyBucXaMatTroiService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_BucXaMatTroi_DailyModel
+                {
+                    Distance1 = s.Distance1,
+                    Distance2 = s.Distance2,
+                    Distance3 = s.Distance3,
+                    Distance4 = s.Distance4,
+                    Distance5 = s.Distance5,
+                    Distance6 = s.Distance6,
+                    Distance7 = s.Distance7,
+                    Distance8 = s.Distance8,
+                    Distance9 = s.Distance9,
+                    Distance10 = s.Distance10,
+                    Distance11 = s.Distance11,
+                    Distance12 = s.Distance12,
+                    Distance13 = s.Distance13,
+                    Distance14 = s.Distance14,
+                    Distance15 = s.Distance15,
+                    Distance16 = s.Distance16,
+                    Distance17 = s.Distance17,
+                    Distance18 = s.Distance18,
+                    Distance19 = s.Distance19,
+                    Distance20 = s.Distance20,
+                    Distance21 = s.Distance21,
+                    Distance22 = s.Distance22,
+                    Distance23 = s.Distance23,
+                    Distance24 = s.Distance24,
+                    TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                    TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                    MaxValue = s.MaxValue,
+                    MinValue = s.MinValue,
+                    Measure = rp9.Measure,
+                    ReportTypeCode = s.ReportTypeCode.Trim(),
+                    ReportTypeName = rp9.Description,
+                    Title = rp9.Title
+                }).FirstOrDefault();
+                Report_LuongMuc_DailyModel luongMua = reportDailyLuongMuaService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_LuongMuc_DailyModel
+                {
+                    Distance1 = s.Distance1,
+                    Distance2 = s.Distance2,
+                    Distance3 = s.Distance3,
+                    Distance4 = s.Distance4,
+                    Distance5 = s.Distance5,
+                    Distance6 = s.Distance6,
+                    Distance7 = s.Distance7,
+                    Distance8 = s.Distance8,
+                    Distance9 = s.Distance9,
+                    Distance10 = s.Distance10,
+                    Distance11 = s.Distance11,
+                    Distance12 = s.Distance12,
+                    Distance13 = s.Distance13,
+                    Distance14 = s.Distance14,
+                    Distance15 = s.Distance15,
+                    Distance16 = s.Distance16,
+                    Distance17 = s.Distance17,
+                    Distance18 = s.Distance18,
+                    Distance19 = s.Distance19,
+                    Distance20 = s.Distance20,
+                    Distance21 = s.Distance21,
+                    Distance22 = s.Distance22,
+                    Distance23 = s.Distance23,
+                    Distance24 = s.Distance24,
+                    TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                    TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                    Measure = rp3.Measure,
+                    TongLuongMua = CheckValueReport(s.TongLuongMua, s.ReportTypeCode),
+                    ReportTypeCode = s.ReportTypeCode.Trim(),
+                    ReportTypeName = rp3.Description,
+                    Title = rp3.Title
+                }).FirstOrDefault();
+                Report_TocDoGio_DailyModel tocDoGio = reportDailyTocDoGioService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_TocDoGio_DailyModel
+                {
+                    Distance1 = s.Distance1,
+                    Distance2 = s.Distance2,
+                    Distance3 = s.Distance3,
+                    Distance4 = s.Distance4,
+                    Distance5 = s.Distance5,
+                    Distance6 = s.Distance6,
+                    Distance7 = s.Distance7,
+                    Distance8 = s.Distance8,
+                    Distance9 = s.Distance9,
+                    Distance10 = s.Distance10,
+                    Distance11 = s.Distance11,
+                    Distance12 = s.Distance12,
+                    Distance13 = s.Distance13,
+                    Distance14 = s.Distance14,
+                    Distance15 = s.Distance15,
+                    Distance16 = s.Distance16,
+                    Distance17 = s.Distance17,
+                    Distance18 = s.Distance18,
+                    Distance19 = s.Distance19,
+                    Distance20 = s.Distance20,
+                    Distance21 = s.Distance21,
+                    Distance22 = s.Distance22,
+                    Distance23 = s.Distance23,
+                    Distance24 = s.Distance24,
+                    TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                    TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                    Measure = rp6.Measure,
+                    HuongGioCuaTocDoLonNhat = s.HuongGioCuaTocDoLonNhat,
+                    HuongGioCuarTocDoNhoNhat = s.HuongGioCuarTocDoNhoNhat,
+                    TocDoGioLonNhat = s.TocDoGioLonNhat.Value,
+                    TocDoGioNhoNhat = s.TocDoGioNhoNhat,
+                    ReportTypeCode = s.ReportTypeCode.Trim(),
+                    ReportTypeName = rp6.Description,
+                    Title = rp6.Title
+                }).FirstOrDefault();
+                Report_HuongGio_DailyModel huongGio = reportDailyHuongGioService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_HuongGio_DailyModel
+                {
+                    Distance1 = s.Distance1,
+                    Distance2 = s.Distance2,
+                    Distance3 = s.Distance3,
+                    Distance4 = s.Distance4,
+                    Distance5 = s.Distance5,
+                    Distance6 = s.Distance6,
+                    Distance7 = s.Distance7,
+                    Distance8 = s.Distance8,
+                    Distance9 = s.Distance9,
+                    Distance10 = s.Distance10,
+                    Distance11 = s.Distance11,
+                    Distance12 = s.Distance12,
+                    Distance13 = s.Distance13,
+                    Distance14 = s.Distance14,
+                    Distance15 = s.Distance15,
+                    Distance16 = s.Distance16,
+                    Distance17 = s.Distance17,
+                    Distance18 = s.Distance18,
+                    Distance19 = s.Distance19,
+                    Distance20 = s.Distance20,
+                    Distance21 = s.Distance21,
+                    Distance22 = s.Distance22,
+                    Distance23 = s.Distance23,
+                    Distance24 = s.Distance24,
+                    TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
+                    TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
+                    Measure = rp4.Measure,
+                    HuongGioDacTrungNhieuNhat = GetTenHuongGio(s.HuongGioDacTrungNhieuNhat),
+                    HuongGioDacTrungNhieuThuHai = GetTenHuongGio(s.HuongGioDacTrungNhieuThuHai),
+                    ReportTypeCode = s.ReportTypeCode.Trim(),
+                    ReportTypeName = rp4.Description,
+                    Title = rp4.Title
+                }).FirstOrDefault();
+                viewModel.Date = date;
+                viewModel.NhietDo = nhietDo;
+                viewModel.DoAm = doAm;
+                viewModel.ApSuat = apSuat;
+                viewModel.MucNuoc = mucNuoc;
+                viewModel.LuongMua = luongMua;
+                viewModel.TocDoDongChay = tocDoDongChay;
+                viewModel.LuuLuongDongChay = luuLuongDongChay;
+                viewModel.DeviceId = deviceId;
+                viewModel.TocDoGio = tocDoGio;
+                viewModel.HuongGio = huongGio;
+                viewModel.AreaId = areaId;
+                viewModel.BucXaMaTroi = bucXaMatTroi;
+                viewModel.GroupId = groupId;
+                return View(viewModel);
+            }
+            catch (Exception)
             {
-                Distance1 = s.Distance1,
-                Distance2 = s.Distance2,
-                Distance3 = s.Distance3,
-                Distance4 = s.Distance4,
-                Distance5 = s.Distance5,
-                Distance6 = s.Distance6,
-                Distance7 = s.Distance7,
-                Distance8 = s.Distance8,
-                Distance9 = s.Distance9,
-                Distance10 = s.Distance10,
-                Distance11 = s.Distance11,
-                Distance12 = s.Distance12,
-                Distance13 = s.Distance13,
-                Distance14 = s.Distance14,
-                Distance15 = s.Distance15,
-                Distance16 = s.Distance16,
-                Distance17 = s.Distance17,
-                Distance18 = s.Distance18,
-                Distance19 = s.Distance19,
-                Distance20 = s.Distance20,
-                Distance21 = s.Distance21,
-                Distance22 = s.Distance22,
-                Distance23 = s.Distance23,
-                Distance24 = s.Distance24,
-                MinValue = s.MinValue,
-                MaxValue = s.MaxValue,
-                TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
-                TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
-                Measure = rp1.Measure,
-                ReportTypeCode = s.ReportTypeCode.Trim(),
-                ReportTypeName = rp1.Description,
-                Title = rp1.Title
-            }).FirstOrDefault();
-            Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel apSuat = reportDailyApSuatService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
-            {
-                Distance1 = s.Distance1,
-                Distance2 = s.Distance2,
-                Distance3 = s.Distance3,
-                Distance4 = s.Distance4,
-                Distance5 = s.Distance5,
-                Distance6 = s.Distance6,
-                Distance7 = s.Distance7,
-                Distance8 = s.Distance8,
-                Distance9 = s.Distance9,
-                Distance10 = s.Distance10,
-                Distance11 = s.Distance11,
-                Distance12 = s.Distance12,
-                Distance13 = s.Distance13,
-                Distance14 = s.Distance14,
-                Distance15 = s.Distance15,
-                Distance16 = s.Distance16,
-                Distance17 = s.Distance17,
-                Distance18 = s.Distance18,
-                Distance19 = s.Distance19,
-                Distance20 = s.Distance20,
-                Distance21 = s.Distance21,
-                Distance22 = s.Distance22,
-                Distance23 = s.Distance23,
-                Distance24 = s.Distance24,
-                MinValue = s.MinValue,
-                MaxValue = s.MaxValue,
-                Measure = rp2.Measure,
-                TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
-                TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
-                Title = rp2.Title,
-                ReportTypeCode = s.ReportTypeCode.Trim(),
-                ReportTypeName = rp2.Description,
-            }).FirstOrDefault();
-            Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel tocDoDongChay = reportDailyTocDoDongChayService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
-            {
-                Distance1 = s.Distance1,
-                Distance2 = s.Distance2,
-                Distance3 = s.Distance3,
-                Distance4 = s.Distance4,
-                Distance5 = s.Distance5,
-                Distance6 = s.Distance6,
-                Distance7 = s.Distance7,
-                Distance8 = s.Distance8,
-                Distance9 = s.Distance9,
-                Distance10 = s.Distance10,
-                Distance11 = s.Distance11,
-                Distance12 = s.Distance12,
-                Distance13 = s.Distance13,
-                Distance14 = s.Distance14,
-                Distance15 = s.Distance15,
-                Distance16 = s.Distance16,
-                Distance17 = s.Distance17,
-                Distance18 = s.Distance18,
-                Distance19 = s.Distance19,
-                Distance20 = s.Distance20,
-                Distance21 = s.Distance21,
-                Distance22 = s.Distance22,
-                Distance23 = s.Distance23,
-                Distance24 = s.Distance24,
-                MinValue = s.MinValue,
-                MaxValue = s.MaxValue,
-                TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
-                TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
-                Measure = rp1.Measure,
-                ReportTypeCode = s.ReportTypeCode.Trim(),
-                ReportTypeName = rp1.Description,
-                Title = rp1.Title
-            }).FirstOrDefault();
-            Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel luuLuongDongChay = reportDailyLuuLuongDongChayService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel
-            {
-                Distance1 = s.Distance1,
-                Distance2 = s.Distance2,
-                Distance3 = s.Distance3,
-                Distance4 = s.Distance4,
-                Distance5 = s.Distance5,
-                Distance6 = s.Distance6,
-                Distance7 = s.Distance7,
-                Distance8 = s.Distance8,
-                Distance9 = s.Distance9,
-                Distance10 = s.Distance10,
-                Distance11 = s.Distance11,
-                Distance12 = s.Distance12,
-                Distance13 = s.Distance13,
-                Distance14 = s.Distance14,
-                Distance15 = s.Distance15,
-                Distance16 = s.Distance16,
-                Distance17 = s.Distance17,
-                Distance18 = s.Distance18,
-                Distance19 = s.Distance19,
-                Distance20 = s.Distance20,
-                Distance21 = s.Distance21,
-                Distance22 = s.Distance22,
-                Distance23 = s.Distance23,
-                Distance24 = s.Distance24,
-                MinValue = s.MinValue,
-                MaxValue = s.MaxValue,
-                Measure = rp2.Measure,
-                TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
-                TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
-                Title = rp2.Title,
-                ReportTypeCode = s.ReportTypeCode.Trim(),
-                ReportTypeName = rp2.Description,
-            }).FirstOrDefault();
-            double minValueApSuat = GetMinValue(apSuat);
-            ViewBag.minValueApSuat = minValueApSuat;
-            ViewBag.minValueNhietDo = GetMinValue(nhietDo);
-            ViewBag.minValueDoAm = GetMinValue(doAm);
-            ViewBag.minTocDoDongChay = GetMinValue(tocDoDongChay);
-            ViewBag.minLuuLuongDongChay = GetMinValue(luuLuongDongChay);
-            Report_MucNuoc_DailyModel mucNuoc = reportDailyMucNuocService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_MucNuoc_DailyModel
-            {
-                Distance1 = s.Distance1,
-                Distance2 = s.Distance2,
-                Distance3 = s.Distance3,
-                Distance4 = s.Distance4,
-                Distance5 = s.Distance5,
-                Distance6 = s.Distance6,
-                Distance7 = s.Distance7,
-                Distance8 = s.Distance8,
-                Distance9 = s.Distance9,
-                Distance10 = s.Distance10,
-                Distance11 = s.Distance11,
-                Distance12 = s.Distance12,
-                Distance13 = s.Distance13,
-                Distance14 = s.Distance14,
-                Distance15 = s.Distance15,
-                Distance16 = s.Distance16,
-                Distance17 = s.Distance17,
-                Distance18 = s.Distance18,
-                Distance19 = s.Distance19,
-                Distance20 = s.Distance20,
-                Distance21 = s.Distance21,
-                Distance22 = s.Distance22,
-                Distance23 = s.Distance23,
-                Distance24 = s.Distance24,
-                TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
-                TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
-                MaxValue = s.MaxValue,
-                MinValue=s.MinValue,
-                Measure = rp5.Measure,
-                ReportTypeCode = s.ReportTypeCode.Trim(),
-                ReportTypeName = rp5.Description,
-                Title = rp5.Title
-            }).FirstOrDefault();
-            Report_BucXaMatTroi_DailyModel bucXaMatTroi = reportDailyBucXaMatTroiService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_BucXaMatTroi_DailyModel
-            {
-                Distance1 = s.Distance1,
-                Distance2 = s.Distance2,
-                Distance3 = s.Distance3,
-                Distance4 = s.Distance4,
-                Distance5 = s.Distance5,
-                Distance6 = s.Distance6,
-                Distance7 = s.Distance7,
-                Distance8 = s.Distance8,
-                Distance9 = s.Distance9,
-                Distance10 = s.Distance10,
-                Distance11 = s.Distance11,
-                Distance12 = s.Distance12,
-                Distance13 = s.Distance13,
-                Distance14 = s.Distance14,
-                Distance15 = s.Distance15,
-                Distance16 = s.Distance16,
-                Distance17 = s.Distance17,
-                Distance18 = s.Distance18,
-                Distance19 = s.Distance19,
-                Distance20 = s.Distance20,
-                Distance21 = s.Distance21,
-                Distance22 = s.Distance22,
-                Distance23 = s.Distance23,
-                Distance24 = s.Distance24,
-                TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
-                TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
-                MaxValue = s.MaxValue,
-                MinValue = s.MinValue,
-                Measure = rp9.Measure,
-                ReportTypeCode = s.ReportTypeCode.Trim(),
-                ReportTypeName = rp9.Description,
-                Title = rp9.Title
-            }).FirstOrDefault();
-            Report_LuongMuc_DailyModel luongMua = reportDailyLuongMuaService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_LuongMuc_DailyModel
-            {
-                Distance1 = s.Distance1,
-                Distance2 = s.Distance2,
-                Distance3 = s.Distance3,
-                Distance4 = s.Distance4,
-                Distance5 = s.Distance5,
-                Distance6 = s.Distance6,
-                Distance7 = s.Distance7,
-                Distance8 = s.Distance8,
-                Distance9 = s.Distance9,
-                Distance10 = s.Distance10,
-                Distance11 = s.Distance11,
-                Distance12 = s.Distance12,
-                Distance13 = s.Distance13,
-                Distance14 = s.Distance14,
-                Distance15 = s.Distance15,
-                Distance16 = s.Distance16,
-                Distance17 = s.Distance17,
-                Distance18 = s.Distance18,
-                Distance19 = s.Distance19,
-                Distance20 = s.Distance20,
-                Distance21 = s.Distance21,
-                Distance22 = s.Distance22,
-                Distance23 = s.Distance23,
-                Distance24 = s.Distance24,
-                TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
-                TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
-                Measure = rp3.Measure,
-                TongLuongMua = CheckValueReport(s.TongLuongMua, s.ReportTypeCode),
-                ReportTypeCode = s.ReportTypeCode.Trim(),
-                ReportTypeName = rp3.Description,
-                Title = rp3.Title
-            }).FirstOrDefault();
-            Report_TocDoGio_DailyModel tocDoGio = reportDailyTocDoGioService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_TocDoGio_DailyModel
-            {
-                Distance1 = s.Distance1,
-                Distance2 = s.Distance2,
-                Distance3 = s.Distance3,
-                Distance4 = s.Distance4,
-                Distance5 = s.Distance5,
-                Distance6 = s.Distance6,
-                Distance7 = s.Distance7,
-                Distance8 = s.Distance8,
-                Distance9 = s.Distance9,
-                Distance10 = s.Distance10,
-                Distance11 = s.Distance11,
-                Distance12 = s.Distance12,
-                Distance13 = s.Distance13,
-                Distance14 = s.Distance14,
-                Distance15 = s.Distance15,
-                Distance16 = s.Distance16,
-                Distance17 = s.Distance17,
-                Distance18 = s.Distance18,
-                Distance19 = s.Distance19,
-                Distance20 = s.Distance20,
-                Distance21 = s.Distance21,
-                Distance22 = s.Distance22,
-                Distance23 = s.Distance23,
-                Distance24 = s.Distance24,
-                TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
-                TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
-                Measure = rp6.Measure,
-                HuongGioCuaTocDoLonNhat = s.HuongGioCuaTocDoLonNhat,
-                HuongGioCuarTocDoNhoNhat = s.HuongGioCuarTocDoNhoNhat,
-                TocDoGioLonNhat = s.TocDoGioLonNhat.Value,
-                TocDoGioNhoNhat = s.TocDoGioNhoNhat,
-                ReportTypeCode = s.ReportTypeCode.Trim(),
-                ReportTypeName = rp6.Description,
-                Title = rp6.Title
-            }).FirstOrDefault();
-            Report_HuongGio_DailyModel huongGio = reportDailyHuongGioService.GetByDeviceIdAndDate(date, deviceId).AsEnumerable().Select(s => new Report_HuongGio_DailyModel
-            {
-                Distance1 = s.Distance1,
-                Distance2 = s.Distance2,
-                Distance3 = s.Distance3,
-                Distance4 = s.Distance4,
-                Distance5 = s.Distance5,
-                Distance6 = s.Distance6,
-                Distance7 = s.Distance7,
-                Distance8 = s.Distance8,
-                Distance9 = s.Distance9,
-                Distance10 = s.Distance10,
-                Distance11 = s.Distance11,
-                Distance12 = s.Distance12,
-                Distance13 = s.Distance13,
-                Distance14 = s.Distance14,
-                Distance15 = s.Distance15,
-                Distance16 = s.Distance16,
-                Distance17 = s.Distance17,
-                Distance18 = s.Distance18,
-                Distance19 = s.Distance19,
-                Distance20 = s.Distance20,
-                Distance21 = s.Distance21,
-                Distance22 = s.Distance22,
-                Distance23 = s.Distance23,
-                Distance24 = s.Distance24,
-                TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
-                TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
-                Measure = rp4.Measure,
-                HuongGioDacTrungNhieuNhat = GetTenHuongGio(s.HuongGioDacTrungNhieuNhat),
-                HuongGioDacTrungNhieuThuHai = GetTenHuongGio(s.HuongGioDacTrungNhieuThuHai),
-                ReportTypeCode = s.ReportTypeCode.Trim(),
-                ReportTypeName = rp4.Description,
-                Title = rp4.Title
-            }).FirstOrDefault();
-            ReportDailyViewModel viewModel = new ReportDailyViewModel
-            {
-                Date = date,
-                NhietDo = nhietDo,
-                DoAm = doAm,
-                ApSuat = apSuat,
-                MucNuoc = mucNuoc,
-                LuongMua = luongMua,
-                TocDoDongChay = tocDoDongChay,
-                LuuLuongDongChay = luuLuongDongChay,
-                DeviceId = deviceId,
-                TocDoGio = tocDoGio,
-                HuongGio = huongGio,
-                AreaId = areaId,
-                BucXaMaTroi = bucXaMatTroi,
-                GroupId = groupId
-            };
+
+            }
             return View(viewModel);
         }
         /// <summary>
@@ -740,8 +746,8 @@ namespace ES_CapDien.Controllers
         public void ExportExel(string Date = "", int? deviceId = null)
         {
             try
-            {   
-                
+            {
+
                 DateTime date = DateTime.Today;
                 if (Date != "")
                 {
@@ -800,7 +806,7 @@ namespace ES_CapDien.Controllers
                     int time1 = 0;
                     for (int i = 8; i < 32; i++)
                     {
-                        wsNhietDo.Cells[string.Format("A{0}", i)].Value = time1 + "h - " + (time1+1)+ "h";
+                        wsNhietDo.Cells[string.Format("A{0}", i)].Value = time1 + "h - " + (time1 + 1) + "h";
                         time1++;
                     }
                     SetBorderExportExcel(wsNhietDo, cellColump, 24, rowStartAllTable);
@@ -811,10 +817,10 @@ namespace ES_CapDien.Controllers
                     wsNhietDo.Cells["B2"].Value = "THỐNG KÊ NHIỆT ĐỘ";
                     wsNhietDo.Cells["B3"].Value = "Trạm " + sitesService.GetByDeviceId(deviceId).FirstOrDefault().Name.ToString() + "(Ngày " + date.ToString() + ")";
                     wsNhietDo.Cells["A4"].Value = "Nhiệt độ lớn nhất";
-                    wsNhietDo.Cells["B4"].Value = nhietDo.MaxValue+ " °C";
+                    wsNhietDo.Cells["B4"].Value = nhietDo.MaxValue + " °C";
                     wsNhietDo.Cells["C4"].Value = "Thời gian: " + nhietDo.TimeMaxValue.ToString();
                     wsNhietDo.Cells["A5"].Value = "Nhiệt độ nhỏ nhất";
-                    wsNhietDo.Cells["B5"].Value = nhietDo.MinValue+ " °C";
+                    wsNhietDo.Cells["B5"].Value = nhietDo.MinValue + " °C";
                     wsNhietDo.Cells["C5"].Value = "Thời gian: " + nhietDo.TimeMinValue.ToString();
                     wsNhietDo.Cells["A7"].Value = "Thời gian";
                     wsNhietDo.Cells["B7"].Value = "Giá trị (°C)";
@@ -885,10 +891,10 @@ namespace ES_CapDien.Controllers
                     wsDoAm.Cells["B2"].Value = "THỐNG KÊ ĐỘ ẨM";
                     wsDoAm.Cells["B3"].Value = "Trạm " + sitesService.GetByDeviceId(deviceId).FirstOrDefault().Name.ToString() + "(Ngày " + date.ToString() + ")";
                     wsDoAm.Cells["A4"].Value = "Độ ẩm lớn nhất";
-                    wsDoAm.Cells["B4"].Value = doAm.MaxValue+ " %";
+                    wsDoAm.Cells["B4"].Value = doAm.MaxValue + " %";
                     wsDoAm.Cells["C4"].Value = "Thời gian: " + doAm.TimeMaxValue.ToString();
                     wsDoAm.Cells["A5"].Value = "Độ ẩm nhỏ nhất";
-                    wsDoAm.Cells["B5"].Value = doAm.MinValue+ " %";
+                    wsDoAm.Cells["B5"].Value = doAm.MinValue + " %";
                     wsDoAm.Cells["C5"].Value = "Thời gian: " + doAm.TimeMinValue.ToString();
                     wsDoAm.Cells["A7"].Value = "Thời gian";
                     wsDoAm.Cells["B7"].Value = "Giá trị (%)";
@@ -919,7 +925,7 @@ namespace ES_CapDien.Controllers
                     int time2 = 0;
                     for (int i = 8; i < 32; i++)
                     {
-                        wsDoAm.Cells[string.Format("A{0}", i)].Value = time2 + "h - " + (time2+1)+ "h";
+                        wsDoAm.Cells[string.Format("A{0}", i)].Value = time2 + "h - " + (time2 + 1) + "h";
                         time2++;
                     }
                     SetBorderExportExcel(wsDoAm, cellColump, 24, rowStartAllTable);
@@ -968,7 +974,7 @@ namespace ES_CapDien.Controllers
                     wsApSuat.Cells["B2"].Value = "THỐNG KÊ ÁP SUẤT";
                     wsApSuat.Cells["B3"].Value = "Trạm " + sitesService.GetByDeviceId(deviceId).FirstOrDefault().Name.ToString() + "(Ngày " + date.ToString() + ")";
                     wsApSuat.Cells["A4"].Value = "Áp suất lớn nhất";
-                    wsApSuat.Cells["B4"].Value = apSuat.MaxValue+ " hPA";
+                    wsApSuat.Cells["B4"].Value = apSuat.MaxValue + " hPA";
                     wsApSuat.Cells["C4"].Value = "Thời gian: " + apSuat.TimeMaxValue.ToString();
                     wsApSuat.Cells["A5"].Value = "Áp suất nhỏ nhất";
                     wsApSuat.Cells["B5"].Value = apSuat.MinValue + " hPA";
@@ -1002,7 +1008,7 @@ namespace ES_CapDien.Controllers
                     int time3 = 0;
                     for (int i = 8; i < 32; i++)
                     {
-                        wsApSuat.Cells[string.Format("A{0}", i)].Value = time3 + "h - " + (time3 +1) +"h";
+                        wsApSuat.Cells[string.Format("A{0}", i)].Value = time3 + "h - " + (time3 + 1) + "h";
                         time3++;
                     }
                     SetBorderExportExcel(wsApSuat, cellColump, 24, rowStartAllTable);
@@ -1037,7 +1043,7 @@ namespace ES_CapDien.Controllers
                     Distance21 = s.Distance21,
                     Distance22 = s.Distance22,
                     Distance23 = s.Distance23,
-                    Distance24 = s.Distance24,            
+                    Distance24 = s.Distance24,
                     MaxValue = s.MaxValue,
                     MinValue = s.MinValue,
                     TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
@@ -1085,7 +1091,7 @@ namespace ES_CapDien.Controllers
                     int time4 = 0;
                     for (int i = 6; i < 30; i++)
                     {
-                        wsMucNuoc.Cells[string.Format("A{0}", i)].Value = time4 + "h - " + (time4+1) + "h";
+                        wsMucNuoc.Cells[string.Format("A{0}", i)].Value = time4 + "h - " + (time4 + 1) + "h";
                         time4++;
                     }
                     SetBorderExportExcel(wsMucNuoc, cellColump, 24, 5);
@@ -1120,7 +1126,7 @@ namespace ES_CapDien.Controllers
                     Distance21 = s.Distance21,
                     Distance22 = s.Distance22,
                     Distance23 = s.Distance23,
-                    MaxValue=s.TongLuongMua,
+                    MaxValue = s.TongLuongMua,
                     Distance24 = s.Distance24,
                     TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
                     TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
@@ -1134,9 +1140,9 @@ namespace ES_CapDien.Controllers
                     wsLuongMua.Cells["B2"].Value = "THỐNG KÊ LƯỢNG MƯA";
                     wsLuongMua.Cells["B3"].Value = "Trạm " + sitesService.GetByDeviceId(deviceId).FirstOrDefault().Name.ToString() + "(Ngày " + date.ToString() + ")";
                     wsLuongMua.Cells["A4"].Value = "Tổng lượng mưa";
-                    wsLuongMua.Cells["B4"].Value = luongMua.MaxValue+ " mm";
+                    wsLuongMua.Cells["B4"].Value = luongMua.MaxValue + " mm";
                     wsLuongMua.Cells["C4"].Value = "Thời gian: " + luongMua.TimeMaxValue.ToString();
-                   
+
                     wsLuongMua.Cells["A7"].Value = "Thời gian";
                     wsLuongMua.Cells["B7"].Value = "Giá trị (mm)";
                     wsLuongMua.Cells[string.Format("B{0}", 8)].Value = luongMua.Distance1;
@@ -1166,7 +1172,7 @@ namespace ES_CapDien.Controllers
                     int time5 = 0;
                     for (int i = 8; i < 32; i++)
                     {
-                        wsLuongMua.Cells[string.Format("A{0}", i)].Value = time5 + "h - " + (time5+1) + "h";
+                        wsLuongMua.Cells[string.Format("A{0}", i)].Value = time5 + "h - " + (time5 + 1) + "h";
                         time5++;
                     }
 
@@ -1203,7 +1209,7 @@ namespace ES_CapDien.Controllers
                     Distance22 = s.Distance22,
                     Distance23 = s.Distance23,
                     Distance24 = s.Distance24,
-                    MaxValue=s.TocDoGioLonNhat,
+                    MaxValue = s.TocDoGioLonNhat,
                     MinValue = s.TocDoGioNhoNhat,
                     TimeMaxValue = s.TimeMaxValue == null ? "" : s.TimeMaxValue.Value.ToString("HH:mm"),
                     TimeMinValue = s.TimeMinValue == null ? "" : s.TimeMinValue.Value.ToString("HH:mm"),
@@ -1216,7 +1222,7 @@ namespace ES_CapDien.Controllers
                     wsTocDoGio.Cells["B2"].Value = "THỐNG KÊ TỐC ĐỘ GIÓ";
                     wsTocDoGio.Cells["B3"].Value = "Trạm " + sitesService.GetByDeviceId(deviceId).FirstOrDefault().Name.ToString() + "(Ngày " + date.ToString() + ")";
                     wsTocDoGio.Cells["A4"].Value = "Tốc độ gió lớn nhất trong 2s";
-                    wsTocDoGio.Cells["B4"].Value = tocDoGio.MaxValue+ " m/s";
+                    wsTocDoGio.Cells["B4"].Value = tocDoGio.MaxValue + " m/s";
                     wsTocDoGio.Cells["C4"].Value = "Thời gian: " + tocDoGio.TimeMaxValue.ToString();
                     wsTocDoGio.Cells["A5"].Value = "Tốc độ gió lớn nhất trong 2m";
                     wsTocDoGio.Cells["B5"].Value = tocDoGio.MinValue + " m/s";
@@ -1250,7 +1256,7 @@ namespace ES_CapDien.Controllers
                     int time6 = 0;
                     for (int i = 8; i < 32; i++)
                     {
-                        wsTocDoGio.Cells[string.Format("A{0}", i)].Value = time6 + "h - " + (time6+1)+ "h";
+                        wsTocDoGio.Cells[string.Format("A{0}", i)].Value = time6 + "h - " + (time6 + 1) + "h";
                         time6++;
                     }
                     SetBorderExportExcel(wsTocDoGio, cellColump, 24, rowStartAllTable);
@@ -1297,7 +1303,7 @@ namespace ES_CapDien.Controllers
                     wsHuongGio.Cells["B2:F2"].Merge = true;
                     wsHuongGio.Cells["B3:F3"].Merge = true;
                     wsHuongGio.Cells["B2"].Value = "THỐNG KÊ HƯỚNG GIÓ";
-                    wsHuongGio.Cells["B3"].Value = "Trạm " + sitesService.GetByDeviceId(deviceId).FirstOrDefault().Name.ToString() + "(Ngày " + date.ToString()+")";
+                    wsHuongGio.Cells["B3"].Value = "Trạm " + sitesService.GetByDeviceId(deviceId).FirstOrDefault().Name.ToString() + "(Ngày " + date.ToString() + ")";
                     wsHuongGio.Cells["A4"].Value = "Hướng gió đặc trưng trong ngày";
                     wsHuongGio.Cells["B4"].Value = GetTenHuongGio(huongGio.MaxValue);
                     wsHuongGio.Cells["C4"].Value = "Thời gian: " + huongGio.TimeMaxValue.ToString();
@@ -1464,11 +1470,11 @@ namespace ES_CapDien.Controllers
         }
         private double GetMinValue(Report_NhietDo_DoAm_ApSuat_DongChay_DailyModel model)
         {
-            double result = 0;           
-            if(model != null)
+            double result = 0;
+            if (model != null)
             {
                 result = model.Distance1.Value;
-                if (model.Distance2.Value< result)
+                if (model.Distance2.Value < result)
                 {
                     result = model.Distance2.Value;
                 }
@@ -1551,9 +1557,9 @@ namespace ES_CapDien.Controllers
                 if (model.Distance23.Value < result)
                 {
                     result = model.Distance23.Value;
-                }                
+                }
             }
             return result;
-        }        
+        }
     }
 }

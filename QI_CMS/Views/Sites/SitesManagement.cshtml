@@ -108,7 +108,7 @@
                                         @if (ViewBag.LstCategoryTypeSite != null)
                                         {
                                             foreach (var type in ViewBag.LstCategoryTypeSite)
-                                            {                                                
+                                            {
                                                 if (type.Id.ToString() == Request.Params["type"])
                                                 {
                                                     <option value="@type.Id" selected="selected">@type.Name</option>
@@ -119,11 +119,11 @@
                                                 }
 
                                             }
-                                        }                                        
+                                        }
                                     </select>
                                 </div>
                             </div>
-                        </div>    
+                        </div>
                         <div class="col-md-3 form-horizontal">
                             <button class="btn btn-primary fill-data-cus" type="submit" id="btn_Submit">
                                 <i class="clip-search-2"></i>Lọc dữ liệu
@@ -154,40 +154,43 @@
                 <tbody>
                     @foreach (var item in Model.Sites)
                     {
-                    <tr>
-                        <td align="center">
-                            <div class="checkbox-table" id="parentt">
-                                <label>
-                                    <input type="checkbox" value='@item.Id' class="flat-grey checkboxGroups" id="check_@item.Id">
-                                </label>
-                            </div>
-                        </td>
-                        <td class="center">@(Model.Sites.ToList().IndexOf(item) + 1)</td>
-                        <td>@item.Name</td>
-                        <td>@item.DeviceId</td>
-                        <td>@item.NameTypeSite</td>
-                        <td>@item.CreateDay</td>
-                        <td>@item.UpdateDay</td>
-                        <td>@item.NguoiTao</td>
-                        <td>@item.Address</td>
-                        <td>@item.Longtitude</td>
-                        <td>@item.Latitude</td>
-                        <td>@item.AreasName</td>
-                        <td>@item.IsActive</td>
-                        <td width="90px;">
-                            <div>
-                                <a href="@Url.Action("Update","Sites", new { id = item.Id, page  = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"]})" class="btn btn-xs btn-teal tooltips" data-placement="top" data-original-title="Sửa"><i class="fa fa-edit"></i></a>
-                                <a href="#" onclick="deleteVtu(@item.Id)" class="btn btn-xs btn-bricky tooltips"><i class="fa fa-times fa fa-white"></i></a>
-                                <div style="display: none;">
-                                    @using (Html.BeginForm("Delete", "Sites", new { id = item.Id, page = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"] }))
-                                    {
-                    @Html.AntiForgeryToken()
-                                        <input id="Page_@item.Id" class="btn btn-xs btn-bricky tooltips" type="submit" value="Delete" />}
+                        <tr>
+                            <td align="center">
+                                <div class="checkbox-table" id="parentt">
+                                    <label>
+                                        <input type="checkbox" value='@item.Id' class="flat-grey checkboxGroups" id="check_@item.Id">
+                                    </label>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-}
+                            </td>
+                            <td class="center">@(Model.Sites.ToList().IndexOf(item) + 1)</td>
+                            <td>@item.Name</td>
+                            <td>@item.DeviceId</td>
+                            <td>@item.NameTypeSite</td>
+                            <td>@item.CreateDay</td>
+                            <td>@item.UpdateDay</td>
+                            <td>@item.NguoiTao</td>
+                            <td>@item.Address</td>
+                            <td>@item.Longtitude</td>
+                            <td>@item.Latitude</td>
+                            <td>@item.AreasName</td>
+                            <td>
+                                @if (item.IsActive == true)
+                                {<span class="label label-sm label-success">Hoạt động</span>}
+                            </td>
+                            <td width="90px;">
+                                <div>
+                                    <a href="@Url.Action("Update","Sites", new { id = item.Id, page  = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"]})" class="btn btn-xs btn-teal tooltips" data-placement="top" data-original-title="Sửa"><i class="fa fa-edit"></i></a>
+                                    <a href="#" onclick="deleteVtu(@item.Id)" class="btn btn-xs btn-bricky tooltips"><i class="fa fa-times fa fa-white"></i></a>
+                                    <div style="display: none;">
+                                        @using (Html.BeginForm("Delete", "Sites", new { id = item.Id, page = Request.Params["page"], pageSize = Request.Params["pageSize"], title = Request.Params["title"] }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input id="Page_@item.Id" class="btn btn-xs btn-bricky tooltips" type="submit" value="Delete" />}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
             <div class="row">
@@ -200,13 +203,13 @@
                                 {
                                     if (item.ToString() == Request.Params["pageSize"])
                                     {
-                    <option value="@item" selected="selected">@item</option>
- }
-                else
-                {
-<option value="@item">@item</option>
-}
-}
+                                        <option value="@item" selected="selected">@item</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                }
                             </select>
                             dòng
                         </label>

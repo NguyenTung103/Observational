@@ -63,7 +63,7 @@ namespace ES_CapDien.Controllers
             ViewBag.LstCategoryTypeSite = lstCategoryTypeSites;
             return View(model);
         }
-        public ActionResult GetSite(int idArea, int? type = null)
+        public ActionResult GetSite(int? idArea = null, int? type = null)
         {
             int CurrentUserId = WebMatrix.WebData.WebSecurity.CurrentUserId;
             int? groupId = userProfileService.userProfileResponsitory.Single(CurrentUserId).Group_Id;
@@ -96,7 +96,7 @@ namespace ES_CapDien.Controllers
                     AMATI = i.AMATI == null ? "" : i.AMATI,
                     AMIAC = i.AMIAC == null ? "" : i.AMIAC,
                     TimeSend = i.DateCreate
-                }).OrderByDescending(i=>i.TimeSend).ToList();
+                }).OrderByDescending(i => i.TimeSend).ToList();
                 var model = (from s in dataAlarms
                              group s by s.TimeSend.ToString("dd/MM/yyyy") into sg
                              orderby sg.Key
@@ -113,7 +113,7 @@ namespace ES_CapDien.Controllers
                 }
             }
 
-            return PartialView("_DataAlarmByDatePartialView", viewModels.OrderByDescending(i=>i.Key));
+            return PartialView("_DataAlarmByDatePartialView", viewModels.OrderByDescending(i => i.Key));
         }
         public ActionResult GetAlarmByDate(string date, int siteId)
         {
@@ -125,9 +125,9 @@ namespace ES_CapDien.Controllers
             dataAlarms = dataAlarmMongoService.GetDataByDatePaging(from, to, 0, 15, site.DeviceId.Value, out int total).Select(i => new DataAlarmMongo
             {
                 Id = i._id,
-                Content = i.Content,                
+                Content = i.Content,
                 TimeSend = i.DateCreate
-            }).OrderBy(i=>i.TimeSend).ToList();
+            }).OrderBy(i => i.TimeSend).ToList();
             return PartialView("_DataAlarmPartialView", dataAlarms);
         }
         public ActionResult GetDataObservation(int deviceId)
@@ -171,7 +171,7 @@ namespace ES_CapDien.Controllers
                     BPR = i.BPR,
                 }).ToList();
             }
-            if (site.TypeSiteId == 1)
+            if (site.TypeSiteId != 2)
                 return PartialView("_DataTableKhiTuongPartialView", data);
             else
                 return PartialView("_DataTableThuyVanPartialView", data);
@@ -275,7 +275,7 @@ namespace ES_CapDien.Controllers
                     }
                 }
             }
-            if (type == 1)
+            if (type != 2)
                 return PartialView("_DataTableKhiTuongPartialView", list);
             else
                 return PartialView("_DataTableThuyVanPartialView", list);

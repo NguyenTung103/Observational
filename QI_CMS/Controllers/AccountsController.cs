@@ -125,13 +125,13 @@ namespace ES_CapDien.Controllers
             UserProfile Adv = usersProfileService.userProfileRepository.Single(Id);           
             webpages_Membership member = membershipService.webpages_MembershipResponsitory.Single(Id);
             member.IsConfirmed = false;
-            bool checkDeleteMember = false, checkDelete=false;
+            bool checkDeleteMember = false;
             if (Adv != null)
             {                
                 checkDeleteMember = membershipService.webpages_MembershipResponsitory.Update(member);
             }            
             TempData["MessageStatus"] = checkDeleteMember;
-            TempData["Message"] = $"Xóa tài khoản {(checkDelete ? "" : "không")} thành công";
+            TempData["Message"] = $"Xóa tài khoản {(checkDeleteMember ? "" : "không")} thành công";
             return RedirectToAction("Management", new { page = Request.Params["page"], pageSize = Request.Params["pageSize"] });
         }
     }

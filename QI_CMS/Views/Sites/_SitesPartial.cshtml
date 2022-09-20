@@ -21,10 +21,12 @@
                         {
                             if (item.Id == Model.Group_Id)
                             {
-        <option value="@item.Id" selected="selected">@item.Name</option> }
+                                <option value="@item.Id" selected="selected">@item.Name</option>
+ }
                             else
                             {
-        <option value="@item.Id">@item.Name</option>}
+                                <option value="@item.Id">@item.Name</option>
+}
                         }
                     }
                 </select>
@@ -42,10 +44,12 @@
                         {
                             if (item.Id == Model.Area_Id)
                             {
-        <option value="@item.Id" selected="selected">@item.Name</option> }
+                                <option value="@item.Id" selected="selected">@item.Name</option>
+ }
                             else
                             {
-        <option value="@item.Id">@item.Name</option>}
+                                <option value="@item.Id">@item.Name</option>
+}
                         }
                     }
                 </select>
@@ -78,14 +82,14 @@
                         {
                             if (type.Id == Model.TypeSiteId)
                             {
-            <option value="@type.Id" selected="selected">@type.Name</option>
- }
-                                else
-                                {
-            <option value="@type.Id">@type.Name</option>
-}
-    }
-}
+                                <option value="@type.Id" selected="selected">@type.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@type.Id">@type.Name</option>
+                            }
+                        }
+                    }
                 </select>
                 @Html.ValidationMessageFor(item => item.TypeSiteId)
             </div>

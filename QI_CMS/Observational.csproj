@@ -322,19 +322,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administrator_Menu.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Administrator_Notifications.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Administrator_Pages.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Administrator_RoleGroups.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Alarm.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="AppCode\CategoryTypeSiteService.cs" />
     <Compile Include="AppCode\ReportDailyBucXaMatTroiService.cs" />
@@ -356,15 +356,15 @@
     <Compile Include="AppCode\UsersProfileService.cs" />
     <Compile Include="App_Start\AttributeRoutingConfig.cs" />
     <Compile Include="Area.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="CacheCore\Cache_BO.cs" />
     <Compile Include="CacheCore\Cache_Provider.cs" />
     <Compile Include="CategoryTypeSite.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Command.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\AuthorizeController.cs" />
@@ -374,31 +374,16 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SMSServerController.cs" />
     <Compile Include="C__MigrationHistory.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="DataAlarm.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="DataObservation.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Device.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="MongoDb\Entity\DataAlarm.cs" />
     <Compile Include="MongoDb\Interface\IDataAlarmService.cs" />
@@ -438,7 +423,22 @@
     <Compile Include="MongoDb\Service\DataAlarmMongoService.cs" />
     <Compile Include="MongoDb\Service\DataObservationMongoService.cs" />
     <Compile Include="Observation.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ObservationEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ObservationEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ObservationEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ObservationEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ObservationEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -447,43 +447,46 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="RegionalGroup.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="RegisterSMS.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyApSuat.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyBucXaMatTroi.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyDoAm.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyHuongGio.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyLuongMua.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyLuuLuongDongChay.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyMucNuoc.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyNhietDo.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyTocDoDongChay.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportDailyTocDoGio.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportS10.cs">
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Repository\BaseController.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
@@ -497,34 +500,34 @@
     <Compile Include="Repository\UnitOfWork.cs" />
     <Compile Include="Repository\UserActionLogInfo.cs" />
     <Compile Include="Site.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="SiteAdminLog.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="SmsServer.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="UserProfile.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="UserWebsite_Category.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="webpages_Membership.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="webpages_OAuthMembership.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="webpages_Roles.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="webpages_UsersInRoles.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="WT_SystemRules.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>ObservationEntities.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -3766,15 +3769,15 @@
     <Content Include="Images\place_grey.png" />
     <Content Include="Images\thongbao.png" />
     <Content Include="Images\tải xuống.png" />
-    <Content Include="Model1.Context.tt">
+    <Content Include="ObservationEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+      <DependentUpon>ObservationEntities.edmx</DependentUpon>
+      <LastGenOutput>ObservationEntities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Model1.tt">
+    <Content Include="ObservationEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
+      <DependentUpon>ObservationEntities.edmx</DependentUpon>
+      <LastGenOutput>ObservationEntities.cs</LastGenOutput>
     </Content>
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -3786,12 +3789,12 @@
     <Content Include="Scripts\chromagallery-master\fonts\chroma-ui\chroma-ui.ttf" />
     <Content Include="Scripts\chromagallery-master\fonts\chroma-ui\chroma-ui.woff" />
     <Content Include="bin\ES_CapDien.dll.config" />
-    <EntityDeploy Include="Model1.edmx">
+    <EntityDeploy Include="ObservationEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+      <LastGenOutput>ObservationEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
+    <Content Include="ObservationEntities.edmx.diagram">
+      <DependentUpon>ObservationEntities.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />

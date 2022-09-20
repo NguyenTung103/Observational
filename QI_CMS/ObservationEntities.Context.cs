@@ -38,8 +38,10 @@ namespace ES_CapDien
         public virtual DbSet<DataObservation> DataObservations { get; set; }
         public virtual DbSet<Device> Devices { get; set; }
         public virtual DbSet<Observation> Observations { get; set; }
+        public virtual DbSet<RegionalGroup> RegionalGroups { get; set; }
         public virtual DbSet<RegisterSMS> RegisterSMS { get; set; }
         public virtual DbSet<ReportDailyApSuat> ReportDailyApSuats { get; set; }
+        public virtual DbSet<ReportDailyBucXaMatTroi> ReportDailyBucXaMatTrois { get; set; }
         public virtual DbSet<ReportDailyDoAm> ReportDailyDoAms { get; set; }
         public virtual DbSet<ReportDailyHuongGio> ReportDailyHuongGios { get; set; }
         public virtual DbSet<ReportDailyLuongMua> ReportDailyLuongMuas { get; set; }
@@ -48,7 +50,9 @@ namespace ES_CapDien
         public virtual DbSet<ReportDailyNhietDo> ReportDailyNhietDoes { get; set; }
         public virtual DbSet<ReportDailyTocDoDongChay> ReportDailyTocDoDongChays { get; set; }
         public virtual DbSet<ReportDailyTocDoGio> ReportDailyTocDoGios { get; set; }
+        public virtual DbSet<ReportS10> ReportS10 { get; set; }
         public virtual DbSet<ReportType> ReportTypes { get; set; }
+        public virtual DbSet<Site> Sites { get; set; }
         public virtual DbSet<SiteAdminLog> SiteAdminLogs { get; set; }
         public virtual DbSet<SmsServer> SmsServers { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
@@ -58,8 +62,5 @@ namespace ES_CapDien
         public virtual DbSet<webpages_Roles> webpages_Roles { get; set; }
         public virtual DbSet<webpages_UsersInRoles> webpages_UsersInRoles { get; set; }
         public virtual DbSet<WT_SystemRules> WT_SystemRules { get; set; }
-        public virtual DbSet<Site> Sites { get; set; }
-        public virtual DbSet<ReportDailyBucXaMatTroi> ReportDailyBucXaMatTrois { get; set; }
-        public virtual DbSet<RegionalGroup> RegionalGroups { get; set; }
     }
 }
